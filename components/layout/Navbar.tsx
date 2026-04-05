@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { defaultTenant } from '@/types/tenant'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 const navLinks = [
   { href: '/',          label: 'Home' },
@@ -76,6 +77,8 @@ export function Navbar() {
 
           {/* Right CTA */}
           <div className="flex items-center gap-3">
+            <ThemeToggle className="hidden md:flex" />
+
             <Link
               href="/portal"
               className="hidden md:flex items-center gap-1 font-sans text-[13px] tracking-[0.02em] text-white border border-white rounded-[2px] px-4 transition-all duration-200 hover:bg-white hover:text-ink"

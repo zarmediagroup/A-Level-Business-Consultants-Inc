@@ -7,6 +7,7 @@ import {
 } from 'next/font/google'
 import './globals.css'
 import { defaultTenant } from '@/types/tenant'
+import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -92,14 +93,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable}`}
     >
       <head>
+        {/* Anti-flash: apply saved theme before first paint */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');})();` }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className="bg-ink text-white font-sans antialiased">
-        <a href="#main-content" className="skip-link">Skip to main content</a>
-        <main id="main-content">{children}</main>
+        <ThemeProvider>
+          <a href="#main-content" className="skip-link">Skip to main content</a>
+          <main id="main-content">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   )

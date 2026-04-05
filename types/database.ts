@@ -1,38 +1,116 @@
+export type UserRole = 'admin' | 'client'
+
+export type DocumentCategory =
+  | 'Bank Statement'
+  | 'Invoice'
+  | 'Tax Certificate'
+  | 'ID Document'
+  | 'AFS'
+  | 'Management Accounts'
+  | 'SARS Returns'
+  | 'Payroll'
+  | 'Other'
+
+export type DocumentStatus = 'Received' | 'Under Review' | 'Processed' | 'Requires Action'
+
+export interface Profile {
+  id: string
+  email: string
+  full_name: string
+  role: UserRole
+  phone?: string
+  company?: string
+  service_category?: string
+  last_login?: string
+  created_at: string
+  updated_at: string
+}
+
 export interface Document {
   id: string
-  tenant_id: string
-  name: string
-  category: 'AFS' | 'Management Accounts' | 'SARS Returns' | 'Bank Statements' | 'Payroll' | 'Invoices'
+  client_id: string
   uploaded_by: string
-  period: string
-  date: string
-  url: string
-  size_mb: number
-}
-
-export interface FinancialReport {
-  id: string
-  tenant_id: string
-  period: string
-  report_type: string
-  status: 'DRAFT' | 'FINAL' | 'SIGNED OFF'
+  name: string
+  file_path: string
+  file_type: string
+  file_size: number
+  category: DocumentCategory
+  year: number
+  status: DocumentStatus
+  is_resubmission: boolean
+  original_doc_id?: string
   created_at: string
-  url?: string
+  updated_at: string
+  // Joined
+  client?: Profile
+  uploader?: Profile
+  comments?: DocumentComment[]
 }
 
-export interface Deadline {
+export interface DocumentComment {
   id: string
-  tenant_id: string
-  date: string
-  description: string
-  status: 'DUE SOON' | 'COMPLETE' | 'UPCOMING' | 'OVERDUE'
+  document_id: string
+  author_id: string
+  content: string
+  created_at: string
+  author?: Profile
 }
 
-export interface Message {
+export interface Notification {
   id: string
-  tenant_id: string
-  sender: string
-  preview: string
-  timestamp: string
+  user_id: string
+  type: string
+  title: string
+  body: string
   read: boolean
+  link?: string
+  metadata?: Record<string, unknown>
+  created_at: string
+}
+
+export interface AuditLog {
+  id: string
+  actor_id?: string
+  actor_email?: string
+  action: string
+  resource_type: string
+  resource_id?: string
+  metadata?: Record<string, unknown>
+  created_at: string
+  actor?: Profile
+}
+
+export interface ClientNote {
+  id: string
+  client_id: string
+  created_by: string
+  content: string
+  created_at: string
+  author?: Profile
+}
+
+export const DOCUMENT_CATEGORIES: DocumentCategory[] = [
+  'Bank Statement',
+  'Invoice',
+  'Tax Certificate',
+  'ID Document',
+  'AFS',
+  'Management Accounts',
+  'SARS Returns',
+  'Payroll',
+  'Other',
+]
+
+export const DOCUMENT_STATUSES: DocumentStatus[] = [
+  'Received',
+  'Under Review',
+  'Processed',
+  'Requires Action',
+]
+
+export const STATUS_COLORS: Record<DocumentStatus, string> = {
+  'Received':        'var(--muted)',
+  'Under Review':    'var(--pending)',
+  'Processed':       'var(--profit)',
+  'Requires Action': 'var(--loss)',
 }

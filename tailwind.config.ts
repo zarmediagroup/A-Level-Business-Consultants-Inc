@@ -10,14 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink:       '#080808',
-        obsidian:  '#101010',
-        carbon:    '#181818',
-        graphite:  '#282828',
-        ash:       '#363636',
-        'off-white': '#F0F0EE',
-        muted:     '#888888',
-        faint:     '#404040',
+        white:     'var(--white)',
+        ink:       'var(--ink)',
+        obsidian:  'var(--obsidian)',
+        carbon:    'var(--carbon)',
+        graphite:  'var(--graphite)',
+        ash:       'var(--ash)',
+        'off-white': 'var(--off-white)',
+        muted:     'var(--muted)',
+        faint:     'var(--faint)',
         profit:    '#16A34A',
         loss:      '#DC2626',
         pending:   '#D97706',

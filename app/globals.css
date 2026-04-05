@@ -21,6 +21,20 @@
   --container: min(84vw, 1300px);
 }
 
+html.light {
+  --ink:       #F5F5F3;
+  --obsidian:  #EAEAE8;
+  --carbon:    #E0E0DE;
+  --graphite:  #CCCCCA;
+  --ash:       #AFAFAD;
+  --white:     #0C0C0C;
+  --off-white: #1C1C1A;
+  --muted:     #5A5A5A;
+  --faint:     #BBBBBB;
+  --rule:      rgba(0,0,0,0.07);
+  --rule-mid:  rgba(0,0,0,0.14);
+}
+
 
 * {
   box-sizing: border-box;
@@ -30,6 +44,15 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+body {
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
 body {

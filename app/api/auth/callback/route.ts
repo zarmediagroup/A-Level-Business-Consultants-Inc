@@ -8,7 +8,16 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createSupabaseServerClient()
-    await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+    // If this is a first-time invite acceptance, always go to set-password
+    if (!error && data.session) {
+      const isInvite = !data.session.user.last_sign_in_at ||
+        data.session.user.last_sign_in_at === data.session.user.created_at
+      if (isInvite && next !== '/reset-password') {
+        return NextResponse.redirect(`${origin}/reset-password`)
+      }
+    }
   }
 
   return NextResponse.redirect(`${origin}${next}`)

@@ -47,6 +47,26 @@ function baseHtml(body: string) {
 </html>`
 }
 
+export async function sendInvitationEmail(opts: {
+  clientEmail: string
+  clientName: string
+  inviteUrl: string
+}) {
+  await transporter.sendMail({
+    from: FROM,
+    to: opts.clientEmail,
+    subject: 'You have been invited to the A Level Business Consultants portal',
+    html: baseHtml(`
+      <h2>Welcome, ${opts.clientName}</h2>
+      <p>Adrian Quina CA(SA) has invited you to access the A Level Business Consultants client portal.</p>
+      <p>Click the button below to verify your email and set your password. This link expires in 24 hours.</p>
+      <br/>
+      <a class="btn" href="${opts.inviteUrl}">Accept Invitation →</a>
+      <p class="meta" style="margin-top:24px;">If you were not expecting this invitation, you can safely ignore this email.</p>
+    `),
+  })
+}
+
 export async function sendDocumentUploadAdminEmail(opts: {
   clientName: string
   clientEmail: string

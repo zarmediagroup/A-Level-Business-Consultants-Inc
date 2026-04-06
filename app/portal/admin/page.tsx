@@ -5,7 +5,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { DashboardWidget } from '@/components/portal/DashboardWidget'
 import { StatusBadge } from '@/components/portal/StatusBadge'
-import type { Document, Notification, AuditLog } from '@/types/database'
+import { useNotifications } from '@/contexts/NotificationContext'
+import type { Document, AuditLog } from '@/types/database'
 
 const variants = {
   hidden:  { opacity: 0, y: 16 },
@@ -27,21 +28,19 @@ const ACTION_LABELS: Record<string, string> = {
 }
 
 export default function AdminOverviewPage() {
+  const { unreadCount } = useNotifications()
   const [docs,    setDocs]    = useState<Document[]>([])
-  const [notifs,  setNotifs]  = useState<Notification[]>([])
   const [audit,   setAudit]   = useState<AuditLog[]>([])
   const [clients, setClients] = useState<unknown[]>([])
 
   useEffect(() => {
     async function load() {
-      const [dr, nr, ar, cr] = await Promise.all([
+      const [dr, ar, cr] = await Promise.all([
         fetch('/api/admin/documents'),
-        fetch('/api/notifications'),
         fetch('/api/admin/audit?limit=10'),
         fetch('/api/admin/clients'),
       ])
       if (dr.ok) setDocs(await dr.json())
-      if (nr.ok) setNotifs(await nr.json())
       if (ar.ok) { const j = await ar.json(); setAudit(j.data ?? []) }
       if (cr.ok) setClients(await cr.json())
     }
@@ -53,7 +52,7 @@ export default function AdminOverviewPage() {
     { label: 'Total Documents',  value: docs.length,                                                         href: '/portal/admin/documents' },
     { label: 'Pending Review',   value: docs.filter(d => d.status === 'Under Review').length,                href: '/portal/admin/documents' },
     { label: 'Open Queries',     value: docs.filter(d => d.status === 'Requires Action').length,             href: '/portal/admin/documents' },
-    { label: 'Unread Alerts',    value: notifs.filter(n => !n.read).length,                                  href: '/portal/notifications' },
+    { label: 'Unread Alerts',    value: unreadCount,                                                         href: '/portal/notifications' },
   ]
 
   return (

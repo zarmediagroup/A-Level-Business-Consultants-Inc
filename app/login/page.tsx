@@ -32,7 +32,22 @@ function LoginForm() {
       return
     }
 
-    router.push(redirect)
+    // Determine correct portal based on role
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+      if (profile?.role === 'admin') {
+        router.push('/portal/admin')
+      } else {
+        router.push(redirect)
+      }
+    } else {
+      router.push(redirect)
+    }
     router.refresh()
   }
 

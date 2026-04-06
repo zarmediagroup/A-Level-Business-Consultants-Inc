@@ -1,19 +1,24 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useTheme } from '@/components/layout/ThemeProvider'
 
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggle } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   return (
     <button
       onClick={toggle}
-      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label="Toggle theme"
       className={`w-8 h-8 flex items-center justify-center rounded-[1px] border transition-colors duration-200 hover:border-white ${className ?? ''}`}
       style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
     >
-      {theme === 'dark' ? (
-        // Sun icon
+      {/* Render nothing until mounted to avoid hydration mismatch */}
+      {mounted ? (theme === 'dark' ? (
+        // Sun icon — shown in dark mode (click to go light)
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="5" />
           <line x1="12" y1="1" x2="12" y2="3" />
@@ -26,11 +31,11 @@ export function ThemeToggle({ className }: { className?: string }) {
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
       ) : (
-        // Moon icon
+        // Moon icon — shown in light mode (click to go dark)
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
-      )}
+      )) : null}
     </button>
   )
 }

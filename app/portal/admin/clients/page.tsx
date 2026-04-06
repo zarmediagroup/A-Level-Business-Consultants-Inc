@@ -13,11 +13,13 @@ export default function AdminClientsPage() {
   const [search,   setSearch]   = useState('')
   const [showForm, setShowForm] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
-  const [saving,   setSaving]   = useState(false)
-  const [formError, setFormError] = useState('')
+  const [saving,      setSaving]      = useState(false)
+  const [formError,   setFormError]   = useState('')
+  const [inviteSent,  setInviteSent]  = useState('')
+  const [resending,   setResending]   = useState<string | null>(null)
 
   const [form, setForm] = useState({
-    full_name: '', email: '', password: '',
+    full_name: '', email: '',
     phone: '', company: '', service_category: '',
   })
 
@@ -41,9 +43,19 @@ export default function AdminClientsPage() {
     })
     setSaving(false)
     if (!res.ok) { const j = await res.json(); setFormError(j.error); return }
+    const sentTo = form.email
     setShowForm(false)
-    setForm({ full_name: '', email: '', password: '', phone: '', company: '', service_category: '' })
+    setForm({ full_name: '', email: '', phone: '', company: '', service_category: '' })
+    setInviteSent(sentTo)
     load()
+  }
+
+  async function handleResendInvite(id: string) {
+    setResending(id)
+    const res = await fetch(`/api/admin/clients/${id}/resend-invite`, { method: 'POST' })
+    setResending(null)
+    if (!res.ok) { const j = await res.json(); alert(j.error); return }
+    alert('Invitation resent.')
   }
 
   async function handleDelete(id: string) {
@@ -68,6 +80,17 @@ export default function AdminClientsPage() {
           </button>
         }
       >
+        {/* Invite sent banner */}
+        {inviteSent && (
+          <div
+            className="flex items-center justify-between mb-5 px-4 py-3 rounded-[1px] font-mono text-[0.72rem]"
+            style={{ backgroundColor: 'rgba(22,163,74,0.1)', border: '1px solid rgba(22,163,74,0.3)', color: '#4ade80' }}
+          >
+            <span>Invitation sent to <strong>{inviteSent}</strong></span>
+            <button onClick={() => setInviteSent('')} className="ml-4 opacity-60 hover:opacity-100">×</button>
+          </div>
+        )}
+
         {/* Search */}
         <div className="mb-5">
           <input
@@ -86,7 +109,7 @@ export default function AdminClientsPage() {
             <table className="w-full">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--rule)' }}>
-                  {['Name', 'Email', 'Company', 'Service', 'Documents', 'Last Login', 'Actions'].map(h => (
+                  {['Name', 'Email', 'Company', 'Service', 'Documents', 'Status', 'Actions'].map(h => (
                     <th key={h} className="text-left pb-3 font-mono text-[0.6rem] tracking-[0.14em] uppercase pr-4" style={{ color: 'var(--faint)' }}>{h}</th>
                   ))}
                 </tr>
@@ -101,8 +124,19 @@ export default function AdminClientsPage() {
                     <td className="py-3 pr-4 font-sans text-sm" style={{ color: 'var(--muted)' }}>{c.company ?? '—'}</td>
                     <td className="py-3 pr-4 font-sans text-sm" style={{ color: 'var(--muted)' }}>{c.service_category ?? '—'}</td>
                     <td className="py-3 pr-4 font-mono text-sm text-white">{c.document_count}</td>
-                    <td className="py-3 pr-4 font-mono text-[0.75rem]" style={{ color: 'var(--faint)' }}>
-                      {c.last_login ? new Date(c.last_login).toLocaleDateString('en-ZA') : 'Never'}
+                    <td className="py-3 pr-4">
+                      {c.last_login ? (
+                        <span className="font-mono text-[0.72rem]" style={{ color: 'var(--faint)' }}>
+                          {new Date(c.last_login).toLocaleDateString('en-ZA')}
+                        </span>
+                      ) : (
+                        <span
+                          className="font-mono text-[0.6rem] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[1px]"
+                          style={{ backgroundColor: 'rgba(217,119,6,0.15)', color: '#fbbf24', border: '1px solid rgba(217,119,6,0.3)' }}
+                        >
+                          Invited
+                        </span>
+                      )}
                     </td>
                     <td className="py-3">
                       <div className="flex items-center gap-2">
@@ -113,6 +147,16 @@ export default function AdminClientsPage() {
                         >
                           View
                         </Link>
+                        {!c.last_login && (
+                          <button
+                            onClick={() => handleResendInvite(c.id)}
+                            disabled={resending === c.id}
+                            className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-2 py-1 border rounded-[1px] transition-colors hover:border-white hover:text-white disabled:opacity-40"
+                            style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                          >
+                            {resending === c.id ? '…' : 'Resend'}
+                          </button>
+                        )}
                         <button
                           onClick={() => setDeleteId(c.id)}
                           className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-2 py-1 border rounded-[1px] transition-colors hover:border-white"
@@ -137,10 +181,13 @@ export default function AdminClientsPage() {
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
           <div className="w-full max-w-lg rounded-[1px] p-8" style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-playfair text-white text-xl">Create Client Account</h2>
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-playfair text-white text-xl">Invite Client</h2>
               <button onClick={() => setShowForm(false)} className="font-mono text-xl text-white">×</button>
             </div>
+            <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)' }}>
+              An invitation email will be sent. The client clicks the link to verify their email and set their own password.
+            </p>
             <form onSubmit={handleCreate} className="flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -150,10 +197,6 @@ export default function AdminClientsPage() {
                 <div>
                   <label className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-1.5" style={{ color: 'var(--muted)' }}>Email *</label>
                   <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className={inputClass} required />
-                </div>
-                <div>
-                  <label className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-1.5" style={{ color: 'var(--muted)' }}>Password *</label>
-                  <input type="password" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} className={inputClass} required minLength={8} />
                 </div>
                 <div>
                   <label className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-1.5" style={{ color: 'var(--muted)' }}>Phone</label>
@@ -182,7 +225,7 @@ export default function AdminClientsPage() {
                   disabled={saving}
                   className="flex-1 h-11 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors disabled:opacity-60"
                 >
-                  {saving ? 'Creating…' : 'Create Account'}
+                  {saving ? 'Sending…' : 'Send Invitation'}
                 </button>
                 <button
                   type="button"

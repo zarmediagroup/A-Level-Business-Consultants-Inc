@@ -119,8 +119,43 @@ create table if not exists public.client_notes (
 -- ---------------------------------------------------------------
 -- STORAGE BUCKET
 -- ---------------------------------------------------------------
--- Run this after creating the above tables:
--- insert into storage.buckets (id, name, public) values ('documents', 'documents', false);
+insert into storage.buckets (id, name, public)
+values ('documents', 'documents', false)
+on conflict (id) do nothing;
+
+-- Storage policies (service-role key bypasses these, but anon/signed URLs need them)
+create policy "Authenticated users can upload their own documents"
+  on storage.objects for insert
+  to authenticated
+  with check (
+    bucket_id = 'documents' and
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+create policy "Users can read their own documents"
+  on storage.objects for select
+  to authenticated
+  using (
+    bucket_id = 'documents' and
+    (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or exists (
+        select 1 from public.profiles
+        where id = auth.uid() and role = 'admin'
+      )
+    )
+  );
+
+create policy "Admin can delete documents"
+  on storage.objects for delete
+  to authenticated
+  using (
+    bucket_id = 'documents' and
+    exists (
+      select 1 from public.profiles
+      where id = auth.uid() and role = 'admin'
+    )
+  );
 
 -- ---------------------------------------------------------------
 -- ROW LEVEL SECURITY

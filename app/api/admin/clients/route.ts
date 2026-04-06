@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient, createSupabaseAdmin } from '@/lib/supabase-server'
+import { sendInvitationEmail } from '@/lib/email'
 
 /** GET /api/admin/clients — list all client profiles */
 export async function GET(request: NextRequest) {
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(withCounts)
 }
 
-/** POST /api/admin/clients — create a new client account */
+/** POST /api/admin/clients — invite a new client via email */
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServerClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -49,33 +50,45 @@ export async function POST(request: NextRequest) {
   if (actorProfile?.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const body = await request.json()
-  const { email, full_name, password, phone, company, service_category } = body
+  const { email, full_name, phone, company, service_category } = body
 
-  if (!email || !full_name || !password) {
-    return NextResponse.json({ error: 'email, full_name and password are required' }, { status: 400 })
+  if (!email || !full_name) {
+    return NextResponse.json({ error: 'email and full_name are required' }, { status: 400 })
   }
 
   const supabaseAdmin = createSupabaseAdmin()
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
-  // Create auth user
-  const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+  // Generate the invite link without sending via Supabase (avoids their rate limit).
+  // We send the email ourselves through our own SMTP.
+  const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+    type: 'invite',
     email,
-    password,
-    email_confirm: true,
-    user_metadata: { full_name, role: 'client' },
+    options: {
+      redirectTo: `${appUrl}/api/auth/callback?next=/reset-password`,
+      data: { full_name, role: 'client' },
+    },
   })
 
-  if (authError) return NextResponse.json({ error: authError.message }, { status: 400 })
+  if (linkError) return NextResponse.json({ error: linkError.message }, { status: 400 })
 
-  // Upsert profile (trigger should auto-create, but ensure fields are set)
+  const authData = linkData
+
+  await sendInvitationEmail({
+    clientEmail: email,
+    clientName:  full_name,
+    inviteUrl:   linkData.properties.action_link,
+  })
+
+  // Upsert profile with extra fields (trigger auto-creates id/email/full_name/role)
   await supabaseAdmin.from('profiles').upsert({
     id:               authData.user.id,
     email,
     full_name,
     role:             'client',
-    phone,
-    company,
-    service_category,
+    phone:            phone || null,
+    company:          company || null,
+    service_category: service_category || null,
   })
 
   await supabaseAdmin.from('audit_log').insert({
@@ -84,7 +97,7 @@ export async function POST(request: NextRequest) {
     action:        'client.create',
     resource_type: 'profile',
     resource_id:   authData.user.id,
-    metadata:      { email, full_name },
+    metadata:      { email, full_name, invited: true },
   })
 
   return NextResponse.json({ id: authData.user.id }, { status: 201 })

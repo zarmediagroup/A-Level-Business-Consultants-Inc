@@ -91,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable}`}
+      suppressHydrationWarning
     >
       <head>
         {/* Anti-flash: apply saved theme before first paint */}

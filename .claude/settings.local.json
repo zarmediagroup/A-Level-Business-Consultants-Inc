@@ -5,7 +5,9 @@
       "Bash(mkdir -p /c/Users/User/Documents/clients/A-Level-Business-Consultants-Inc/app/api/documents/\\\\[id\\\\]/comments)",
       "Bash(mkdir -p /c/Users/User/Documents/clients/A-Level-Business-Consultants-Inc/app/api/documents/\\\\[id\\\\]/status)",
       "Bash(mkdir -p /c/Users/User/Documents/clients/A-Level-Business-Consultants-Inc/app/api/admin/clients/\\\\[id\\\\]/notes)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(grep -E \"\\\\.tsx$\")",
+      "Bash(xargs -I {} find {} -type f -name \"*.ts\")"
     ]
   }
 }

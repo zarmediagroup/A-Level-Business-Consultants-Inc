@@ -2,9 +2,10 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useAuth } from '@/contexts/AuthContext'
+import { useNotifications } from '@/contexts/NotificationContext'
 
 const pageTitles: Record<string, string> = {
   '/portal':                    'Dashboard',
@@ -22,21 +23,8 @@ export function PortalHeader() {
   const { isAdmin } = useAuth()
   const title       = pageTitles[pathname] ?? 'Portal'
 
-  const [unread, setUnread] = useState(0)
+  const { unreadCount: unread } = useNotifications()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
-
-  useEffect(() => {
-    async function loadUnread() {
-      const res = await fetch('/api/notifications')
-      if (res.ok) {
-        const notifs: Array<{ read: boolean }> = await res.json()
-        setUnread(notifs.filter(n => !n.read).length)
-      }
-    }
-    loadUnread()
-    const interval = setInterval(loadUnread, 60_000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <header

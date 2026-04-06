@@ -2,13 +2,25 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
 
 export default function ResetPasswordPage() {
   const router   = useRouter()
   const supabase = getSupabaseBrowser()
+  const [isFirstTime, setIsFirstTime] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return
+      const createdAt = user.created_at
+      const lastSignIn = user.last_sign_in_at
+      // No prior sign-in or sign-in is the same as creation → first time (invite)
+      setIsFirstTime(!lastSignIn || lastSignIn === createdAt)
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [password,  setPassword]  = useState('')
   const [confirm,   setConfirm]   = useState('')
   const [loading,   setLoading]   = useState(false)
@@ -50,14 +62,25 @@ export default function ResetPasswordPage() {
         <div className="rounded-[1px] p-8" style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}>
           {done ? (
             <div>
-              <h1 className="font-playfair text-white text-2xl mb-4">Password Updated</h1>
+              <h1 className="font-playfair text-white text-2xl mb-4">
+                {isFirstTime ? 'Welcome Aboard' : 'Password Updated'}
+              </h1>
               <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                Your password has been updated. Redirecting you to the portal…
+                {isFirstTime
+                  ? 'Your account is active. Redirecting you to the portal…'
+                  : 'Your password has been updated. Redirecting you to the portal…'}
               </p>
             </div>
           ) : (
             <>
-              <h1 className="font-playfair text-white text-2xl mb-8">Set New Password</h1>
+              <h1 className="font-playfair text-white text-2xl mb-3">
+                {isFirstTime ? 'Welcome — Set Your Password' : 'Set New Password'}
+              </h1>
+              {isFirstTime && (
+                <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)' }}>
+                  Your email has been verified. Choose a password to activate your account.
+                </p>
+              )}
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div>
                   <label htmlFor="new-password" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
@@ -97,7 +120,7 @@ export default function ResetPasswordPage() {
                   disabled={loading}
                   className="w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors disabled:opacity-60"
                 >
-                  {loading ? 'Updating...' : 'Update Password'}
+                  {loading ? 'Saving…' : isFirstTime ? 'Activate Account' : 'Update Password'}
                 </button>
               </form>
             </>

@@ -1,13 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import { useNotifications } from '@/contexts/NotificationContext'
 import { DashboardWidget } from '@/components/portal/DashboardWidget'
 import { DocumentRow } from '@/components/portal/DocumentRow'
 import { UploadZone } from '@/components/portal/UploadZone'
-import type { Document, Notification } from '@/types/database'
+import type { Document } from '@/types/database'
 
 const widgetVariants = {
   hidden:  { opacity: 0, y: 16 },
@@ -17,141 +19,17 @@ const widgetVariants = {
   }),
 }
 
-// ─── Admin dashboard ──────────────────────────────────────────────────────────
-function AdminDashboard() {
-  const [stats, setStats] = useState({
-    totalClients: 0,
-    recentUploads: 0,
-    pendingReview: 0,
-    openQueries: 0,
-    unreadNotifs: 0,
-  })
-  const [recentDocs, setRecentDocs] = useState<Document[]>([])
-  const [notifications, setNotifications] = useState<Notification[]>([])
-
-  useEffect(() => {
-    async function load() {
-      const [docsRes, notifsRes, clientsRes] = await Promise.all([
-        fetch('/api/admin/documents'),
-        fetch('/api/notifications'),
-        fetch('/api/admin/clients'),
-      ])
-      const docs: Document[]      = docsRes.ok    ? await docsRes.json()    : []
-      const notifs: Notification[] = notifsRes.ok ? await notifsRes.json()  : []
-      const clients: unknown[]     = clientsRes.ok ? await clientsRes.json() : []
-
-      setRecentDocs(docs.slice(0, 5))
-      setNotifications(notifs.slice(0, 5))
-      setStats({
-        totalClients:  clients.length,
-        recentUploads: docs.filter(d => {
-          const age = Date.now() - new Date(d.created_at).getTime()
-          return age < 7 * 24 * 60 * 60 * 1000
-        }).length,
-        pendingReview: docs.filter(d => d.status === 'Under Review').length,
-        openQueries:   docs.filter(d => d.status === 'Requires Action').length,
-        unreadNotifs:  notifs.filter(n => !n.read).length,
-      })
-    }
-    load()
-  }, [])
-
-  const statCards = [
-    { label: 'Total Clients',   value: stats.totalClients,  href: '/portal/admin/clients' },
-    { label: 'Uploads (7d)',    value: stats.recentUploads, href: '/portal/admin/documents' },
-    { label: 'Pending Review',  value: stats.pendingReview, href: '/portal/admin/documents?status=Under+Review' },
-    { label: 'Open Queries',    value: stats.openQueries,   href: '/portal/admin/documents?status=Requires+Action' },
-  ]
-
-  return (
-    <div className="grid grid-cols-12 gap-5">
-      {/* Stat cards */}
-      {statCards.map((card, i) => (
-        <motion.div
-          key={card.label}
-          custom={i} variants={widgetVariants} initial="hidden" animate="visible"
-          className="col-span-6 lg:col-span-3"
-        >
-          <Link href={card.href}>
-            <div
-              className="rounded-[1px] p-6 transition-colors hover:border-white cursor-pointer"
-              style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
-            >
-              <p className="font-mono text-[0.6rem] tracking-[0.14em] uppercase mb-3" style={{ color: 'var(--faint)' }}>
-                {card.label}
-              </p>
-              <p className="font-bebas text-white" style={{ fontSize: '2.5rem', lineHeight: 1 }}>
-                {card.value}
-              </p>
-            </div>
-          </Link>
-        </motion.div>
-      ))}
-
-      {/* Recent uploads */}
-      <motion.div custom={4} variants={widgetVariants} initial="hidden" animate="visible" className="col-span-12 lg:col-span-7">
-        <DashboardWidget
-          label="Recent Uploads"
-          action={<Link href="/portal/admin/documents" className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-3 py-1 border rounded-[1px] transition-colors hover:border-white hover:text-white" style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}>View All →</Link>}
-        >
-          {recentDocs.length === 0 ? (
-            <p className="font-sans text-sm" style={{ color: 'var(--faint)' }}>No recent uploads.</p>
-          ) : (
-            <div>
-              {recentDocs.map(doc => (
-                <DocumentRow key={doc.id} name={doc.name} date={doc.created_at.slice(0, 10)} />
-              ))}
-            </div>
-          )}
-        </DashboardWidget>
-      </motion.div>
-
-      {/* Activity feed */}
-      <motion.div custom={5} variants={widgetVariants} initial="hidden" animate="visible" className="col-span-12 lg:col-span-5">
-        <DashboardWidget label="Activity Feed">
-          {notifications.length === 0 ? (
-            <p className="font-sans text-sm" style={{ color: 'var(--faint)' }}>No recent activity.</p>
-          ) : (
-            <div className="flex flex-col gap-0">
-              {notifications.map((n, i) => (
-                <div
-                  key={n.id}
-                  className="py-3"
-                  style={{ borderBottom: i < notifications.length - 1 ? '1px solid var(--rule)' : 'none' }}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <p className="font-sans text-sm text-white">{n.title}</p>
-                    {!n.read && <span className="w-2 h-2 rounded-full bg-white shrink-0 mt-1.5" />}
-                  </div>
-                  <p className="font-sans text-[0.8rem] mt-0.5" style={{ color: 'var(--muted)' }}>{n.body}</p>
-                  <p className="font-mono text-[0.65rem] mt-1" style={{ color: 'var(--faint)' }}>
-                    {new Date(n.created_at).toLocaleDateString('en-ZA')}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </DashboardWidget>
-      </motion.div>
-    </div>
-  )
-}
-
 // ─── Client dashboard ─────────────────────────────────────────────────────────
 function ClientDashboard() {
   const { profile } = useAuth()
+  const { notifications, refresh: refreshNotifications } = useNotifications()
   const [documents, setDocuments] = useState<Document[]>([])
-  const [notifications, setNotifications] = useState<Notification[]>([])
   const [uploadKey, setUploadKey] = useState(0)
 
   useEffect(() => {
     async function load() {
-      const [docsRes, notifsRes] = await Promise.all([
-        fetch('/api/documents'),
-        fetch('/api/notifications'),
-      ])
-      if (docsRes.ok)   setDocuments(await docsRes.json())
-      if (notifsRes.ok) setNotifications(await notifsRes.json())
+      const res = await fetch('/api/documents')
+      if (res.ok) setDocuments(await res.json())
     }
     load()
   }, [uploadKey])
@@ -212,7 +90,7 @@ function ClientDashboard() {
       {/* Upload */}
       <motion.div custom={2} variants={widgetVariants} initial="hidden" animate="visible" className="col-span-12 lg:col-span-6">
         <DashboardWidget label="Upload Documents">
-          <UploadZone onSuccess={() => setUploadKey(k => k + 1)} />
+          <UploadZone onSuccess={() => { setUploadKey(k => k + 1); refreshNotifications() }} />
         </DashboardWidget>
       </motion.div>
 
@@ -272,8 +150,15 @@ function ClientDashboard() {
 // ─── Root ─────────────────────────────────────────────────────────────────────
 export default function PortalDashboard() {
   const { profile, loading } = useAuth()
+  const router = useRouter()
 
-  if (loading) {
+  useEffect(() => {
+    if (!loading && profile?.role === 'admin') {
+      router.replace('/portal/admin')
+    }
+  }, [loading, profile, router])
+
+  if (loading || profile?.role === 'admin') {
     return (
       <div className="flex items-center justify-center min-h-[40vh]">
         <p className="font-mono text-[0.65rem] tracking-[0.1em] uppercase" style={{ color: 'var(--faint)' }}>
@@ -283,5 +168,5 @@ export default function PortalDashboard() {
     )
   }
 
-  return profile?.role === 'admin' ? <AdminDashboard /> : <ClientDashboard />
+  return <ClientDashboard />
 }

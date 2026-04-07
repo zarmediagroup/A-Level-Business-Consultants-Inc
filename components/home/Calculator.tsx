@@ -35,16 +35,35 @@ export function Calculator() {
     setResult({ cost, optimised: Math.round(cost * 0.62), saving: Math.round(cost * 0.38) })
   }
 
-  const inputClass =
-    'w-full h-12 px-4 font-sans text-sm rounded-[1px] bg-ink border border-graphite text-white placeholder-faint focus:outline-none focus:border-white transition-colors duration-200'
-  const selectClass =
-    'w-full h-12 px-4 font-sans text-sm rounded-[1px] bg-ink border border-graphite text-white focus:outline-none focus:border-white transition-colors duration-200 appearance-none cursor-pointer'
-  const labelClass = 'font-mono text-[0.65rem] tracking-[0.14em] uppercase text-muted mb-1.5 block'
+  const fieldStyle = {
+    border: '2px solid var(--white)',
+    backgroundColor: 'var(--ink)',
+    color: 'var(--white)',
+    height: '48px',
+    padding: '0 1rem',
+    fontFamily: 'var(--font-dm-sans)',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    width: '100%',
+    appearance: 'none' as const,
+    outline: 'none',
+  }
+
+  const labelStyle = {
+    fontFamily: 'var(--font-ibm-mono)',
+    fontSize: '0.65rem',
+    letterSpacing: '0.18em',
+    textTransform: 'uppercase' as const,
+    fontWeight: '700',
+    color: 'var(--white)',
+    display: 'block',
+    marginBottom: '8px',
+  }
 
   return (
     <section
       className="section-pad"
-      style={{ backgroundColor: 'var(--obsidian)' }}
+      style={{ backgroundColor: 'var(--obsidian)', borderTop: '2px solid var(--white)', borderBottom: '2px solid var(--white)' }}
       aria-labelledby="calculator-heading"
     >
       <div className="container-main">
@@ -52,28 +71,51 @@ export function Calculator() {
 
           {/* Left */}
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5" style={{ color: 'var(--muted)' }}>
-              Bookkeeping Health Check
-            </p>
+            <div
+              className="inline-flex items-center mb-6"
+            >
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{
+                  backgroundColor: 'var(--accent)',
+                  color: '#0A0A08',
+                  border: '2px solid #0A0A08',
+                }}
+              >
+                Bookkeeping Health Check
+              </span>
+            </div>
             <h2
               id="calculator-heading"
-              className="font-playfair text-white mb-6"
-              style={{ fontSize: '2.25rem', lineHeight: 1.15 }}
+              className="font-bebas mb-5"
+              style={{
+                fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+                lineHeight: 1.05,
+                color: 'var(--white)',
+                letterSpacing: '0.02em',
+              }}
             >
               Is Your Bookkeeping Costing You Money?
             </h2>
-            <p className="font-sans leading-[1.8] mb-8" style={{ color: 'var(--muted)', fontSize: '0.9375rem' }}>
+            <p className="font-sans leading-[1.7] mb-8 font-medium" style={{ color: 'var(--muted)', fontSize: '0.9375rem' }}>
               Most SMEs in South Africa spend 40% more on their annual audit than necessary
               due to disorganised records and missed reconciliations.
             </p>
-            <div>
+            <div
+              className="p-6"
+              style={{
+                border: '2px solid var(--accent)',
+                boxShadow: 'var(--neo-shadow)',
+                backgroundColor: 'var(--carbon)',
+              }}
+            >
               <p
                 className="font-bebas leading-none"
-                style={{ fontSize: '5rem', color: 'var(--white)' }}
+                style={{ fontSize: '5rem', color: 'var(--accent)' }}
               >
                 40%
               </p>
-              <p className="font-mono text-[0.75rem] tracking-[0.1em] uppercase mt-1" style={{ color: 'var(--muted)' }}>
+              <p className="font-mono text-[0.75rem] tracking-[0.12em] uppercase mt-1 font-bold" style={{ color: 'var(--muted)' }}>
                 average bookkeeping inefficiency
               </p>
             </div>
@@ -82,116 +124,151 @@ export function Calculator() {
           {/* Right — Calculator */}
           <FadeUp delay={0.12}>
             <div
-              className="rounded-[1px] p-8"
-              style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+              style={{
+                backgroundColor: 'var(--carbon)',
+                border: '2px solid var(--white)',
+                boxShadow: 'var(--neo-shadow)',
+              }}
             >
-              <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-8" style={{ color: 'var(--muted)' }}>
-                Estimate Your Accounting Costs
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-                <div>
-                  <label htmlFor="turnover" className={labelClass}>Annual Turnover (R)</label>
-                  <input
-                    id="turnover"
-                    type="number"
-                    placeholder="e.g. 2 500 000"
-                    value={turnover}
-                    onChange={e => setTurnover(e.target.value)}
-                    className={inputClass}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="employees" className={labelClass}>Number of Employees</label>
-                  <input
-                    id="employees"
-                    type="number"
-                    placeholder="e.g. 12"
-                    value={employees}
-                    onChange={e => setEmployees(e.target.value)}
-                    className={inputClass}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="transactions" className={labelClass}>Transactions per Month</label>
-                  <select
-                    id="transactions"
-                    value={transactions}
-                    onChange={e => setTransactions(e.target.value as TransactionKey)}
-                    className={selectClass}
-                  >
-                    <option value="<50">&lt;50</option>
-                    <option value="50–200">50–200</option>
-                    <option value="200–500">200–500</option>
-                    <option value="500+">500+</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="software" className={labelClass}>Current Accounting Software</label>
-                  <select
-                    id="software"
-                    value={software}
-                    onChange={e => setSoftware(e.target.value as SoftwareKey)}
-                    className={selectClass}
-                  >
-                    {(['None', 'Excel', 'Xero', 'Sage', 'QuickBooks', 'Other'] as SoftwareKey[]).map(s => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* Header */}
+              <div
+                className="px-8 py-4"
+                style={{
+                  borderBottom: '2px solid var(--white)',
+                  backgroundColor: 'var(--graphite)',
+                }}
+              >
+                <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent)' }}>
+                  Estimate Your Accounting Costs
+                </p>
               </div>
 
-              <button
-                onClick={calculate}
-                className="w-full h-12 bg-white text-ink font-sans text-sm tracking-wide rounded-[1px] hover:bg-off-white transition-colors duration-200 mb-6"
-              >
-                Calculate
-              </button>
-
-              <AnimatePresence>
-                {result && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="rounded-[1px] p-6"
-                    style={{ border: '1px solid var(--rule)', backgroundColor: 'var(--ink)' }}
-                  >
-                    <div style={{ borderBottom: '1px solid var(--rule)' }} className="pb-4 mb-4 flex flex-col gap-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                          Estimated annual accounting cost:
-                        </span>
-                        <span className="font-mono text-sm text-white">{fmt(result.cost)}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                          With optimised bookkeeping:
-                        </span>
-                        <span className="font-mono text-sm" style={{ color: 'var(--profit)' }}>{fmt(result.optimised)}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="font-sans text-sm text-white">Potential annual saving:</span>
-                      <span className="font-bebas text-white" style={{ fontSize: '1.75rem' }}>
-                        {fmt(result.saving)}
-                      </span>
-                    </div>
-                    <p className="font-mono text-[0.65rem] tracking-[0.08em] mb-5" style={{ color: 'var(--faint)' }}>
-                      Based on SAICA benchmarks for your turnover bracket and transaction volume.
-                    </p>
-                    <a
-                      href={tenant.calendly_url ?? '/contact'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-center w-full py-3 border border-white text-white text-sm font-sans rounded-[1px] hover:bg-white hover:text-ink transition-all duration-200"
+              <div className="p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label htmlFor="turnover" style={labelStyle}>Annual Turnover (R)</label>
+                    <input
+                      id="turnover"
+                      type="number"
+                      placeholder="e.g. 2 500 000"
+                      value={turnover}
+                      onChange={e => setTurnover(e.target.value)}
+                      style={fieldStyle}
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="employees" style={labelStyle}>Number of Employees</label>
+                    <input
+                      id="employees"
+                      type="number"
+                      placeholder="e.g. 12"
+                      value={employees}
+                      onChange={e => setEmployees(e.target.value)}
+                      style={fieldStyle}
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="transactions" style={labelStyle}>Transactions per Month</label>
+                    <select
+                      id="transactions"
+                      value={transactions}
+                      onChange={e => setTransactions(e.target.value as TransactionKey)}
+                      style={fieldStyle}
                     >
-                      Book a Free Accounting Review →
-                    </a>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <option value="<50">&lt;50</option>
+                      <option value="50–200">50–200</option>
+                      <option value="200–500">200–500</option>
+                      <option value="500+">500+</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="software" style={labelStyle}>Current Accounting Software</label>
+                    <select
+                      id="software"
+                      value={software}
+                      onChange={e => setSoftware(e.target.value as SoftwareKey)}
+                      style={fieldStyle}
+                    >
+                      {(['None', 'Excel', 'Xero', 'Sage', 'QuickBooks', 'Other'] as SoftwareKey[]).map(s => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  onClick={calculate}
+                  className="w-full h-12 neo-btn-primary font-sans text-sm mb-6"
+                >
+                  Calculate →
+                </button>
+
+                <AnimatePresence>
+                  {result && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{
+                        border: '2px solid var(--white)',
+                        backgroundColor: 'var(--ink)',
+                        boxShadow: 'var(--neo-shadow-sm)',
+                      }}
+                    >
+                      <div
+                        className="p-5 flex flex-col gap-3"
+                        style={{ borderBottom: '2px solid var(--rule-mid)' }}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                            Estimated annual cost:
+                          </span>
+                          <span className="font-mono text-sm font-bold" style={{ color: 'var(--white)' }}>
+                            {fmt(result.cost)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                            With optimised bookkeeping:
+                          </span>
+                          <span className="font-mono text-sm font-bold" style={{ color: 'var(--profit)' }}>
+                            {fmt(result.optimised)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <div className="flex justify-between items-center mb-4">
+                          <span className="font-sans text-sm font-bold" style={{ color: 'var(--white)' }}>
+                            Potential annual saving:
+                          </span>
+                          <span
+                            className="font-bebas"
+                            style={{ fontSize: '1.75rem', color: 'var(--accent)' }}
+                          >
+                            {fmt(result.saving)}
+                          </span>
+                        </div>
+                        <p className="font-mono text-[0.6rem] tracking-[0.08em] mb-5 font-medium" style={{ color: 'var(--faint)' }}>
+                          Based on SAICA benchmarks for your turnover bracket and transaction volume.
+                        </p>
+                        <a
+                          href={tenant.calendly_url ?? '/contact'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-center w-full py-3 font-sans font-bold text-sm neo-btn-primary"
+                        >
+                          Book a Free Accounting Review →
+                        </a>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </FadeUp>
         </div>

@@ -58,9 +58,30 @@ export default function ContactPage() {
     setFormData(prev => ({ ...prev, submitted: true }))
   }
 
-  const inputClass = 'w-full h-12 px-4 font-sans text-sm rounded-[1px] bg-ink border border-graphite text-white placeholder-faint focus:outline-none focus:border-white transition-colors duration-200'
-  const selectClass = 'w-full h-12 px-4 font-sans text-sm rounded-[1px] bg-ink border border-graphite text-white focus:outline-none focus:border-white transition-colors duration-200 appearance-none'
-  const labelClass = 'font-mono text-[0.65rem] tracking-[0.14em] uppercase text-muted mb-2 block'
+  const fieldStyle: React.CSSProperties = {
+    width: '100%',
+    height: '48px',
+    padding: '0 1rem',
+    fontFamily: 'var(--font-dm-sans)',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    border: '2px solid var(--white)',
+    backgroundColor: 'var(--ink)',
+    color: 'var(--white)',
+    outline: 'none',
+    appearance: 'none',
+  }
+
+  const labelStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-ibm-mono)',
+    fontSize: '0.65rem',
+    letterSpacing: '0.18em',
+    textTransform: 'uppercase',
+    fontWeight: '700',
+    color: 'var(--white)',
+    display: 'block',
+    marginBottom: '8px',
+  }
 
   return (
     <>
@@ -69,18 +90,24 @@ export default function ContactPage() {
       {/* Hero */}
       <section
         className="pt-40 pb-16"
-        style={{ backgroundColor: 'var(--ink)', borderBottom: '1px solid var(--rule)' }}
+        style={{ backgroundColor: 'var(--ink)', borderBottom: '2px solid var(--white)' }}
       >
         <div className="container-main">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-6" style={{ color: 'var(--muted)' }}>
-              Contact Us
-            </p>
+            <div className="inline-flex items-center mb-6">
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                Contact Us
+              </span>
+            </div>
             <h1
-              className="font-playfair text-white"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.08 }}
+              className="font-bebas"
+              style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 1.0, color: 'var(--white)', letterSpacing: '0.02em' }}
             >
-              Let&apos;s Talk Numbers
+              Let&apos;s Talk{' '}
+              <span style={{ color: 'var(--accent)' }}>Numbers</span>
             </h1>
           </FadeUp>
         </div>
@@ -94,183 +121,228 @@ export default function ContactPage() {
             {/* Form */}
             <FadeUp>
               <div
-                className="rounded-[1px] p-8 md:p-10"
-                style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+                style={{
+                  backgroundColor: 'var(--carbon)',
+                  border: '2px solid var(--white)',
+                  boxShadow: 'var(--neo-shadow)',
+                }}
               >
-                {/* Progress steps */}
-                <div className="flex items-center gap-0 mb-10">
-                  {steps.map((s, i) => (
-                    <div key={s.num} className="flex items-center flex-1">
-                      <button
-                        onClick={() => s.num <= step && setStep(s.num)}
-                        className="flex items-center gap-2"
-                        aria-current={s.num === step ? 'step' : undefined}
-                      >
-                        <div
-                          className="w-6 h-6 rounded-[1px] flex items-center justify-center font-mono text-[0.6rem] border transition-all duration-200"
-                          style={{
-                            backgroundColor: s.num <= step ? 'var(--white)' : 'transparent',
-                            borderColor: s.num <= step ? 'var(--white)' : 'var(--graphite)',
-                            color: s.num <= step ? 'var(--ink)' : 'var(--muted)',
-                          }}
+                {/* Form header */}
+                <div
+                  className="px-8 py-4"
+                  style={{ borderBottom: '2px solid var(--white)', backgroundColor: 'var(--graphite)' }}
+                >
+                  {/* Progress steps */}
+                  <div className="flex items-center gap-0">
+                    {steps.map((s, i) => (
+                      <div key={s.num} className="flex items-center flex-1">
+                        <button
+                          onClick={() => s.num <= step && setStep(s.num)}
+                          className="flex items-center gap-2"
+                          aria-current={s.num === step ? 'step' : undefined}
                         >
-                          {s.num}
-                        </div>
-                        <span
-                          className="hidden sm:block font-mono text-[0.6rem] tracking-[0.1em] uppercase"
-                          style={{ color: s.num <= step ? 'var(--white)' : 'var(--muted)' }}
-                        >
-                          {s.label}
-                        </span>
-                      </button>
-                      {i < steps.length - 1 && (
-                        <div
-                          className="flex-1 h-px mx-3 transition-colors duration-300"
-                          style={{ backgroundColor: s.num < step ? 'var(--white)' : 'var(--graphite)' }}
-                        />
-                      )}
-                    </div>
-                  ))}
+                          <div
+                            className="w-7 h-7 flex items-center justify-center font-mono text-[0.65rem] font-bold transition-all duration-100"
+                            style={{
+                              backgroundColor: s.num <= step ? 'var(--accent)' : 'transparent',
+                              border: '2px solid',
+                              borderColor: s.num <= step ? '#0A0A08' : 'var(--graphite)',
+                              color: s.num <= step ? '#0A0A08' : 'var(--muted)',
+                            }}
+                          >
+                            {s.num}
+                          </div>
+                          <span
+                            className="hidden sm:block font-mono text-[0.6rem] tracking-[0.1em] uppercase font-bold"
+                            style={{ color: s.num <= step ? 'var(--accent)' : 'var(--muted)' }}
+                          >
+                            {s.label}
+                          </span>
+                        </button>
+                        {i < steps.length - 1 && (
+                          <div
+                            className="flex-1 h-[2px] mx-3 transition-colors duration-200"
+                            style={{ backgroundColor: s.num < step ? 'var(--accent)' : 'var(--graphite)' }}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {formData.submitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center py-12"
-                  >
-                    <p className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mb-4" style={{ color: 'var(--profit)' }}>
-                      ✓ Message Received
-                    </p>
-                    <h3 className="font-playfair text-white text-2xl mb-3">Thank you, {formData.name.split(' ')[0]}.</h3>
-                    <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                      Adrian will be in touch within 1 business day.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <AnimatePresence mode="wait">
-                      {step === 1 && (
-                        <motion.div key="step1" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
-                          <h3 className="font-playfair text-white text-xl mb-8">What can we help you with?</h3>
-                          <div className="mb-6">
-                            <label htmlFor="service" className={labelClass}>Service Needed</label>
-                            <select
-                              id="service"
-                              value={formData.service}
-                              onChange={e => setFormData(p => ({ ...p, service: e.target.value }))}
-                              className={selectClass}
-                              required
+                <div className="p-8">
+                  {formData.submitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center py-12"
+                    >
+                      <div
+                        className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.14em] uppercase font-bold px-3 py-1.5 mb-6"
+                        style={{ backgroundColor: 'var(--profit)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+                      >
+                        ✓ Message Received
+                      </div>
+                      <h3
+                        className="font-bebas mb-3"
+                        style={{ fontSize: '2.5rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+                      >
+                        Thank you, {formData.name.split(' ')[0]}.
+                      </h3>
+                      <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                        Adrian will be in touch within 1 business day.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <form onSubmit={handleSubmit}>
+                      <AnimatePresence mode="wait">
+                        {step === 1 && (
+                          <motion.div key="step1" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
+                            <h3
+                              className="font-bebas mb-8"
+                              style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
                             >
-                              <option value="">Select a service...</option>
-                              <option>Annual Financial Statements</option>
-                              <option>Independent Audit & Review</option>
-                              <option>Bookkeeping & Management Accounts</option>
-                              <option>Tax Compliance</option>
-                              <option>Company Secretarial</option>
-                              <option>Business Advisory</option>
-                              <option>Company Registration</option>
-                              <option>VAT/PAYE Registration</option>
-                              <option>Other</option>
-                            </select>
-                          </div>
-                          <button type="button" onClick={() => setStep(2)} className="w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors">
-                            Continue →
-                          </button>
-                        </motion.div>
-                      )}
-
-                      {step === 2 && (
-                        <motion.div key="step2" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
-                          <h3 className="font-playfair text-white text-xl mb-8">Tell us about your business</h3>
-                          <div className="mb-6">
-                            <label htmlFor="structure" className={labelClass}>Business Structure</label>
-                            <select
-                              id="structure"
-                              value={formData.structure}
-                              onChange={e => setFormData(p => ({ ...p, structure: e.target.value }))}
-                              className={selectClass}
-                              required
-                            >
-                              <option value="">Select structure...</option>
-                              <option>Sole Trader / Freelancer</option>
-                              <option>Private Company (Pty) Ltd</option>
-                              <option>Close Corporation</option>
-                              <option>Trust</option>
-                              <option>Non-Profit Organisation</option>
-                              <option>Partnership</option>
-                            </select>
-                          </div>
-                          <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(1)} className="flex-1 h-12 border border-graphite text-white font-sans text-sm rounded-[1px] hover:border-white transition-colors">
-                              ← Back
-                            </button>
-                            <button type="button" onClick={() => setStep(3)} className="flex-1 h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors">
+                              What can we help you with?
+                            </h3>
+                            <div className="mb-6">
+                              <label htmlFor="service" style={labelStyle}>Service Needed</label>
+                              <select
+                                id="service"
+                                value={formData.service}
+                                onChange={e => setFormData(p => ({ ...p, service: e.target.value }))}
+                                style={fieldStyle}
+                                required
+                              >
+                                <option value="">Select a service...</option>
+                                <option>Annual Financial Statements</option>
+                                <option>Independent Audit &amp; Review</option>
+                                <option>Bookkeeping &amp; Management Accounts</option>
+                                <option>Tax Compliance</option>
+                                <option>Company Secretarial</option>
+                                <option>Business Advisory</option>
+                                <option>Company Registration</option>
+                                <option>VAT/PAYE Registration</option>
+                                <option>Other</option>
+                              </select>
+                            </div>
+                            <button type="button" onClick={() => setStep(2)} className="neo-btn-primary w-full h-12 font-sans text-sm">
                               Continue →
                             </button>
-                          </div>
-                        </motion.div>
-                      )}
+                          </motion.div>
+                        )}
 
-                      {step === 3 && (
-                        <motion.div key="step3" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
-                          <h3 className="font-playfair text-white text-xl mb-8">Describe your situation</h3>
-                          <div className="mb-6">
-                            <label htmlFor="details" className={labelClass}>Additional Information</label>
-                            <textarea
-                              id="details"
-                              rows={5}
-                              placeholder="Provide some information about your business and the assistance required..."
-                              value={formData.details}
-                              onChange={e => setFormData(p => ({ ...p, details: e.target.value }))}
-                              className="w-full px-4 py-3 font-sans text-sm rounded-[1px] bg-ink border border-graphite text-white placeholder-faint focus:outline-none focus:border-white transition-colors resize-none"
-                              required
-                            />
-                          </div>
-                          <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(2)} className="flex-1 h-12 border border-graphite text-white font-sans text-sm rounded-[1px] hover:border-white transition-colors">
-                              ← Back
-                            </button>
-                            <button type="button" onClick={() => setStep(4)} className="flex-1 h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors">
-                              Continue →
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
+                        {step === 2 && (
+                          <motion.div key="step2" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
+                            <h3
+                              className="font-bebas mb-8"
+                              style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+                            >
+                              Tell us about your business
+                            </h3>
+                            <div className="mb-6">
+                              <label htmlFor="structure" style={labelStyle}>Business Structure</label>
+                              <select
+                                id="structure"
+                                value={formData.structure}
+                                onChange={e => setFormData(p => ({ ...p, structure: e.target.value }))}
+                                style={fieldStyle}
+                                required
+                              >
+                                <option value="">Select structure...</option>
+                                <option>Sole Trader / Freelancer</option>
+                                <option>Private Company (Pty) Ltd</option>
+                                <option>Close Corporation</option>
+                                <option>Trust</option>
+                                <option>Non-Profit Organisation</option>
+                                <option>Partnership</option>
+                              </select>
+                            </div>
+                            <div className="flex gap-3">
+                              <button type="button" onClick={() => setStep(1)} className="neo-btn-outline flex-1 h-12 font-sans text-sm">
+                                ← Back
+                              </button>
+                              <button type="button" onClick={() => setStep(3)} className="neo-btn-primary flex-1 h-12 font-sans text-sm">
+                                Continue →
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
 
-                      {step === 4 && (
-                        <motion.div key="step4" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
-                          <h3 className="font-playfair text-white text-xl mb-8">Your contact details</h3>
-                          <div className="flex flex-col gap-5 mb-6">
-                            <div>
-                              <label htmlFor="name" className={labelClass}>Full Name</label>
-                              <input id="name" type="text" placeholder="Your name" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} className={inputClass} required />
+                        {step === 3 && (
+                          <motion.div key="step3" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
+                            <h3
+                              className="font-bebas mb-8"
+                              style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+                            >
+                              Describe your situation
+                            </h3>
+                            <div className="mb-6">
+                              <label htmlFor="details" style={labelStyle}>Additional Information</label>
+                              <textarea
+                                id="details"
+                                rows={5}
+                                placeholder="Provide some information about your business and the assistance required..."
+                                value={formData.details}
+                                onChange={e => setFormData(p => ({ ...p, details: e.target.value }))}
+                                style={{
+                                  ...fieldStyle,
+                                  height: 'auto',
+                                  padding: '0.75rem 1rem',
+                                  resize: 'none',
+                                }}
+                                required
+                              />
                             </div>
-                            <div>
-                              <label htmlFor="email" className={labelClass}>Email Address</label>
-                              <input id="email" type="email" placeholder="your@email.co.za" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className={inputClass} required />
+                            <div className="flex gap-3">
+                              <button type="button" onClick={() => setStep(2)} className="neo-btn-outline flex-1 h-12 font-sans text-sm">
+                                ← Back
+                              </button>
+                              <button type="button" onClick={() => setStep(4)} className="neo-btn-primary flex-1 h-12 font-sans text-sm">
+                                Continue →
+                              </button>
                             </div>
-                            <div>
-                              <label htmlFor="phone" className={labelClass}>Contact Number</label>
-                              <input id="phone" type="tel" placeholder="e.g. 063 304 1942" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className={inputClass} />
+                          </motion.div>
+                        )}
+
+                        {step === 4 && (
+                          <motion.div key="step4" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
+                            <h3
+                              className="font-bebas mb-8"
+                              style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+                            >
+                              Your contact details
+                            </h3>
+                            <div className="flex flex-col gap-5 mb-6">
+                              <div>
+                                <label htmlFor="name" style={labelStyle}>Full Name</label>
+                                <input id="name" type="text" placeholder="Your name" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} style={fieldStyle} required />
+                              </div>
+                              <div>
+                                <label htmlFor="email" style={labelStyle}>Email Address</label>
+                                <input id="email" type="email" placeholder="your@email.co.za" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} style={fieldStyle} required />
+                              </div>
+                              <div>
+                                <label htmlFor="phone" style={labelStyle}>Contact Number</label>
+                                <input id="phone" type="tel" placeholder="e.g. 063 304 1942" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} style={fieldStyle} />
+                              </div>
                             </div>
-                          </div>
-                          <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(3)} className="flex-1 h-12 border border-graphite text-white font-sans text-sm rounded-[1px] hover:border-white transition-colors">
-                              ← Back
-                            </button>
-                            <button type="submit" className="flex-1 h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors">
-                              Submit →
-                            </button>
-                          </div>
-                          <p className="font-mono text-[0.62rem] tracking-[0.08em] mt-4 text-center" style={{ color: 'var(--faint)' }}>
-                            🔒 Information shared is protected under POPIA and professional confidentiality.
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </form>
-                )}
+                            <div className="flex gap-3">
+                              <button type="button" onClick={() => setStep(3)} className="neo-btn-outline flex-1 h-12 font-sans text-sm">
+                                ← Back
+                              </button>
+                              <button type="submit" className="neo-btn-primary flex-1 h-12 font-sans text-sm">
+                                Submit →
+                              </button>
+                            </div>
+                            <p className="font-mono text-[0.62rem] tracking-[0.08em] mt-4 text-center font-medium" style={{ color: 'var(--faint)' }}>
+                              Protected under POPIA · SAICA professional confidentiality
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </form>
+                  )}
+                </div>
               </div>
             </FadeUp>
 
@@ -278,7 +350,10 @@ export default function ContactPage() {
             <FadeUp delay={0.12}>
               <div className="flex flex-col gap-8">
                 <div>
-                  <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--faint)' }}>
+                  <p
+                    className="font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-6 font-bold"
+                    style={{ color: 'var(--accent)' }}
+                  >
                     Office
                   </p>
                   <div className="flex flex-col gap-6">
@@ -289,15 +364,15 @@ export default function ContactPage() {
                       { label: 'Email', value: tenant.email ?? '', href: `mailto:${tenant.email}` },
                     ].map(item => (
                       <div key={item.label}>
-                        <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1" style={{ color: 'var(--faint)' }}>
+                        <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>
                           {item.label}
                         </p>
                         {item.href ? (
-                          <a href={item.href} className="font-sans text-sm hover:text-white transition-colors" style={{ color: 'var(--muted)' }}>
+                          <a href={item.href} className="font-sans text-sm font-bold transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>
                             {item.value}
                           </a>
                         ) : (
-                          <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>{item.value}</p>
+                          <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>{item.value}</p>
                         )}
                       </div>
                     ))}
@@ -306,20 +381,24 @@ export default function ContactPage() {
 
                 {/* Calendly CTA */}
                 <div
-                  className="rounded-[1px] p-6"
-                  style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+                  style={{
+                    backgroundColor: 'var(--accent)',
+                    border: '2px solid #0A0A08',
+                    boxShadow: '4px 4px 0px #0A0A08',
+                    padding: '1.5rem',
+                  }}
                 >
-                  <p className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mb-3" style={{ color: 'var(--muted)' }}>
+                  <p className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mb-2 font-bold" style={{ color: '#3A3A30' }}>
                     Prefer to schedule directly?
                   </p>
-                  <p className="font-sans text-sm mb-5" style={{ color: 'var(--muted)' }}>
+                  <p className="font-sans text-sm font-medium mb-5" style={{ color: '#3A3A30' }}>
                     Book a free 30-minute consultation with Adrian via Calendly.
                   </p>
                   <a
                     href={tenant.calendly_url ?? '/contact'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-center w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors flex items-center justify-center"
+                    className="neo-btn-dark flex items-center justify-center w-full h-12 font-sans text-sm"
                   >
                     Book via Calendly →
                   </a>
@@ -327,15 +406,22 @@ export default function ContactPage() {
 
                 {/* FAQs */}
                 <div>
-                  <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--faint)' }}>
+                  <p
+                    className="font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-6 font-bold"
+                    style={{ color: 'var(--accent)' }}
+                  >
                     Frequently Asked Questions
                   </p>
-                  <div className="flex flex-col gap-0" style={{ border: '1px solid var(--rule)' }}>
+                  <div
+                    style={{
+                      border: '2px solid var(--white)',
+                    }}
+                  >
                     {faqs.map((faq, i) => (
                       <details
                         key={i}
                         className="group"
-                        style={{ borderBottom: i < faqs.length - 1 ? '1px solid var(--rule)' : 'none' }}
+                        style={{ borderBottom: i < faqs.length - 1 ? '2px solid var(--rule-mid)' : 'none' }}
                         open={openFaq === i}
                         onToggle={(e) => {
                           if ((e.target as HTMLDetailsElement).open) setOpenFaq(i)
@@ -343,13 +429,16 @@ export default function ContactPage() {
                         }}
                       >
                         <summary className="flex justify-between items-center gap-3 px-5 py-4 cursor-pointer list-none">
-                          <span className="font-sans text-sm text-white">{faq.q}</span>
-                          <span className="font-mono text-sm shrink-0" style={{ color: 'var(--muted)' }}>
+                          <span className="font-sans text-sm font-bold" style={{ color: 'var(--white)' }}>{faq.q}</span>
+                          <span
+                            className="font-bebas text-lg shrink-0"
+                            style={{ color: 'var(--accent)', fontSize: '1.25rem' }}
+                          >
                             {openFaq === i ? '−' : '+'}
                           </span>
                         </summary>
-                        <div className="px-5 pb-4">
-                          <p className="font-sans text-sm leading-[1.8]" style={{ color: 'var(--muted)' }}>{faq.a}</p>
+                        <div className="px-5 pb-5" style={{ borderTop: '1px solid var(--rule-mid)' }}>
+                          <p className="font-sans text-sm leading-[1.8] font-medium pt-3" style={{ color: 'var(--muted)' }}>{faq.a}</p>
                         </div>
                       </details>
                     ))}

@@ -2,40 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════
+   NEOBRUTALISM — A-Level Business Consultants
+   Dark mode default · Cream mode via .light
+═══════════════════════════════════════════ */
+
 :root {
-  --ink:       #080808;
-  --obsidian:  #101010;
-  --carbon:    #181818;
-  --graphite:  #282828;
-  --ash:       #363636;
-  --white:     #FFFFFF;
-  --off-white: #F0F0EE;
-  --muted:     #888888;
-  --faint:     #404040;
-  --rule:      rgba(255,255,255,0.06);
-  --rule-mid:  rgba(255,255,255,0.12);
-  --profit:    #16A34A;
-  --loss:      #DC2626;
-  --pending:   #D97706;
-  --neutral:   #525252;
-  --container: min(84vw, 1300px);
+  /* ── Dark Neobrutalism (default) ── */
+  --ink:       #0C0C08;
+  --obsidian:  #161610;
+  --carbon:    #201E18;
+  --graphite:  #2C2A22;
+  --ash:       #3A3830;
+  --white:     #FAFAE8;
+  --off-white: #D8D8C0;
+  --muted:     #8A8A78;
+  --faint:     #4A4A3C;
+  --rule:      rgba(250,250,232,0.12);
+  --rule-mid:  rgba(250,250,232,0.22);
+
+  /* Status colours */
+  --profit:    #00C853;
+  --loss:      #FF3D3D;
+  --pending:   #FF9500;
+  --neutral:   #7A7A68;
+
+  /* Neobrutalism accent */
+  --accent:    #FF6B00;
+  --accent-2:  #4D88FF;
+
+  /* Offset shadows (yellow on dark) */
+  --neo-shadow:    4px 4px 0px var(--accent);
+  --neo-shadow-sm: 2px 2px 0px var(--accent);
+  --neo-shadow-lg: 6px 6px 0px var(--accent);
+
+  --container: min(88vw, 1300px);
 }
 
 html.light {
-  --ink:       #F5F5F3;
-  --obsidian:  #EAEAE8;
-  --carbon:    #E0E0DE;
-  --graphite:  #CCCCCA;
-  --ash:       #AFAFAD;
-  --white:     #0C0C0C;
-  --off-white: #1C1C1A;
-  --muted:     #5A5A5A;
-  --faint:     #BBBBBB;
-  --rule:      rgba(0,0,0,0.07);
-  --rule-mid:  rgba(0,0,0,0.14);
+  /* ── Cream Neobrutalism ── */
+  --ink:       #FAFAE8;
+  --obsidian:  #F0F0D8;
+  --carbon:    #FFFFFF;
+  --graphite:  #D8D8C0;
+  --ash:       #F0E8C0;
+  --white:     #0A0A08;
+  --off-white: #1A1A12;
+  --muted:     #595950;
+  --faint:     #8A8A78;
+  --rule:      rgba(10,10,8,0.12);
+  --rule-mid:  rgba(10,10,8,0.25);
+
+  /* Offset shadows (black on cream) */
+  --neo-shadow:    4px 4px 0px #0A0A08;
+  --neo-shadow-sm: 2px 2px 0px #0A0A08;
+  --neo-shadow-lg: 6px 6px 0px #0A0A08;
 }
 
-
+/* ── Reset ── */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -52,72 +76,75 @@ html.light {
 }
 
 body {
-  transition: background-color 240ms ease, color 240ms ease;
-}
-
-body {
   background-color: var(--ink);
   color: var(--white);
   font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 120ms ease, color 120ms ease;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: var(--graphite); border-radius: 1px; }
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 0;
+}
 
-/* Focus rings — WCAG AA */
+/* ── Focus ring ── */
 :focus-visible {
-  outline: 2px solid #FFFFFF;
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Skip to content */
+/* ── Skip link ── */
 .skip-link {
   position: absolute;
   top: -999px;
   left: -999px;
   z-index: 9999;
   padding: 0.5rem 1rem;
-  background: var(--white);
-  color: var(--ink);
+  background: var(--accent);
+  color: #0A0A08;
   font-family: var(--font-dm-sans);
   font-size: 0.875rem;
+  font-weight: 800;
+  border: 2px solid #0A0A08;
 }
 .skip-link:focus {
   top: 1rem;
   left: 1rem;
 }
 
-/* Typography utilities */
+/* ── Typography utilities ── */
 .font-playfair { font-family: var(--font-playfair), Georgia, serif; }
 .font-mono     { font-family: var(--font-ibm-mono), monospace; }
 .font-sans     { font-family: var(--font-dm-sans), system-ui, sans-serif; }
 .font-bebas    { font-family: var(--font-bebas), sans-serif; }
 
-/* Ledger lines */
+/* ── Ledger lines ── */
 .ledger-line {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 2px solid var(--rule-mid);
 }
 .ledger-line-mid {
-  border-bottom: 1px solid var(--rule-mid);
+  border-bottom: 2px solid var(--rule-mid);
 }
 
-/* Section padding */
+/* ── Section padding ── */
 .section-pad {
-  padding: clamp(6rem, 11vw, 10rem) 0;
+  padding: clamp(5rem, 10vw, 9rem) 0;
 }
 
-/* Container */
+/* ── Container ── */
 .container-main {
   width: var(--container);
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Marquee */
+/* ── Marquee ── */
 .marquee-track {
   display: flex;
   width: max-content;
@@ -130,69 +157,147 @@ body {
 }
 
 @keyframes pulseDown {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50%       { transform: translateY(8px); opacity: 1; }
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%       { transform: translateY(10px); opacity: 1; }
 }
 
-/* Reduced motion */
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee-track {
-    animation: none;
-  }
+  .marquee-track { animation: none; }
 }
 
-/* Progress bar */
+/* ════════════════════════════════
+   NEOBRUTALISM COMPONENT CLASSES
+════════════════════════════════ */
+
+/* Neo card — heavy border + offset shadow */
+.neo-card {
+  border: 2px solid var(--white);
+  box-shadow: var(--neo-shadow);
+  background-color: var(--carbon);
+}
+
+/* Neo card with hover press effect */
+.neo-card-hover {
+  border: 2px solid var(--white);
+  box-shadow: var(--neo-shadow);
+  background-color: var(--carbon);
+  transition: box-shadow 80ms ease, transform 80ms ease;
+}
+.neo-card-hover:hover {
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+/* Neo button — primary (yellow, always dark text) */
+.neo-btn-primary {
+  background-color: var(--accent);
+  color: #0A0A08;
+  border: 2px solid #0A0A08;
+  box-shadow: 4px 4px 0px #0A0A08;
+  font-weight: 700;
+  transition: box-shadow 80ms ease, transform 80ms ease;
+}
+.neo-btn-primary:hover:not(:disabled) {
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+/* Neo button — dark (for use on accent/yellow backgrounds) */
+.neo-btn-dark {
+  background-color: #0A0A08;
+  color: var(--accent);
+  border: 2px solid #0A0A08;
+  box-shadow: 4px 4px 0px #3A3A30;
+  font-weight: 700;
+  transition: box-shadow 80ms ease, transform 80ms ease;
+}
+.neo-btn-dark:hover:not(:disabled) {
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+/* Neo button — outline (theme-aware) */
+.neo-btn-outline {
+  background-color: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+  box-shadow: var(--neo-shadow);
+  font-weight: 700;
+  transition: box-shadow 80ms ease, transform 80ms ease, background-color 80ms ease, color 80ms ease;
+}
+.neo-btn-outline:hover:not(:disabled) {
+  background-color: var(--white);
+  color: var(--ink);
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+/* Neo input */
+.neo-input {
+  border: 2px solid var(--white);
+  background-color: var(--ink);
+  color: var(--white);
+  transition: box-shadow 80ms ease;
+}
+.neo-input:focus {
+  outline: none;
+  box-shadow: var(--neo-shadow-sm);
+}
+
+/* ── Progress bar ── */
 .score-bar-track {
-  height: 6px;
+  height: 8px;
   background: var(--graphite);
-  border-radius: 1px;
+  border: 1px solid var(--white);
   overflow: hidden;
 }
 .score-bar-fill {
   height: 100%;
-  background: var(--white);
-  border-radius: 1px;
+  background: var(--accent);
   transition: width 0.8s ease;
 }
 
-/* Portal sidebar active state */
+/* ── Portal sidebar active state ── */
 .sidebar-active {
   color: var(--white);
-  border-left: 2px solid var(--white);
-  padding-left: calc(1.5rem - 2px);
+  background: var(--graphite);
+  border-left: 3px solid var(--accent);
+  padding-left: calc(0.75rem - 3px);
+  font-weight: 700;
 }
 
-/* Upload zone */
+/* ── Upload zone ── */
 .upload-zone {
-  border: 2px dashed var(--graphite);
-  border-radius: 1px;
+  border: 2px dashed var(--white);
   background: var(--ink);
-  transition: border-color 200ms ease, background 200ms ease;
+  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
   cursor: pointer;
 }
 .upload-zone:hover,
 .upload-zone.dragover {
-  border-color: var(--white);
+  border-style: solid;
+  border-color: var(--accent);
+  box-shadow: var(--neo-shadow-sm);
   background: var(--carbon);
 }
 
-/* Card hover */
+/* ── Service card (neobrutalism grid card) ── */
 .service-card {
-  border: 1px solid var(--rule);
-  border-left: 1px solid transparent;
-  transition: border-color 200ms ease, transform 200ms ease, border-left-color 200ms ease;
+  border: 2px solid var(--white);
+  box-shadow: var(--neo-shadow);
+  transition: box-shadow 80ms ease, transform 80ms ease;
 }
 .service-card:hover {
-  border-color: rgba(255,255,255,0.20);
-  border-left-color: var(--white);
-  transform: translateY(-3px);
+  box-shadow: none;
+  transform: translate(4px, 4px);
 }
 
-/* Accordion */
+/* ── Accordion ── */
 details > summary { list-style: none; cursor: pointer; }
 details > summary::-webkit-details-marker { display: none; }

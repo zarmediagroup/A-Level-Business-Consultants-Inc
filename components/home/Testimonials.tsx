@@ -37,50 +37,90 @@ export function Testimonials() {
   return (
     <section
       className="section-pad overflow-hidden"
-      style={{ backgroundColor: 'var(--ink)' }}
+      style={{ backgroundColor: 'var(--ink)', borderTop: '2px solid var(--white)' }}
       aria-labelledby="testimonials-heading"
     >
       <div className="container-main relative">
-        {/* Decorative quote */}
+        {/* Decorative accent block */}
         <div
-          className="absolute -top-4 -left-6 font-playfair leading-none select-none pointer-events-none"
-          style={{ fontSize: '12rem', color: 'var(--rule)', lineHeight: 1 }}
+          className="absolute -top-8 -right-8 pointer-events-none"
+          style={{
+            width: '120px',
+            height: '120px',
+            backgroundColor: 'var(--accent)',
+            opacity: 0.2,
+          }}
           aria-hidden="true"
-        >
-          "
-        </div>
+        />
 
         <FadeUp>
-          <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5 relative z-10" style={{ color: 'var(--muted)' }}>
-            Client Testimonials
-          </p>
+          <div className="inline-flex items-center mb-6">
+            <span
+              className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: '#0A0A08',
+                border: '2px solid #0A0A08',
+              }}
+            >
+              Client Testimonials
+            </span>
+          </div>
           <h2
             id="testimonials-heading"
-            className="font-playfair text-white mb-16 relative z-10"
-            style={{ fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', lineHeight: 1.12 }}
+            className="font-bebas mb-16 relative z-10"
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 5rem)',
+              lineHeight: 1.05,
+              color: 'var(--white)',
+              letterSpacing: '0.02em',
+            }}
           >
-            Trusted by South African Businesses
+            Trusted by South African{' '}
+            <span style={{ color: 'var(--accent)' }}>Businesses</span>
           </h2>
         </FadeUp>
 
-        {/* Desktop: 3-col grid */}
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ border: '1px solid var(--rule)' }}>
+        {/* Desktop: grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((t, i) => (
             <FadeUp key={i} delay={i * 0.09}>
-              <div className="p-8 h-full flex flex-col" style={{ backgroundColor: 'var(--carbon)' }}>
-                <blockquote className="font-playfair italic leading-[1.85] flex-1 mb-8" style={{ fontSize: '0.9375rem', color: 'var(--off-white)' }}>
-                  &ldquo;{t.quote}&rdquo;
+              <div
+                className="p-7 h-full flex flex-col"
+                style={{
+                  backgroundColor: 'var(--carbon)',
+                  border: '2px solid var(--white)',
+                  boxShadow: 'var(--neo-shadow)',
+                }}
+              >
+                {/* Big quote mark */}
+                <div
+                  className="font-bebas leading-none mb-4 select-none"
+                  style={{ fontSize: '3rem', color: 'var(--accent)' }}
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </div>
+                <blockquote
+                  className="font-sans leading-[1.75] flex-1 mb-8 font-medium"
+                  style={{ fontSize: '0.875rem', color: 'var(--off-white)' }}
+                >
+                  {t.quote}
                 </blockquote>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3" style={{ borderTop: '2px solid var(--rule-mid)', paddingTop: '1rem' }}>
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-[0.7rem] border shrink-0"
-                    style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                    className="w-10 h-10 flex items-center justify-center font-mono text-[0.65rem] font-bold shrink-0"
+                    style={{
+                      border: '2px solid var(--accent)',
+                      color: 'var(--accent)',
+                      backgroundColor: 'var(--graphite)',
+                    }}
                   >
                     {t.monogram}
                   </div>
                   <div>
-                    <p className="font-sans font-semibold text-sm text-white">{t.name}</p>
-                    <p className="font-sans text-[0.8rem]" style={{ color: 'var(--muted)' }}>{t.role}</p>
+                    <p className="font-sans font-bold text-sm" style={{ color: 'var(--white)' }}>{t.name}</p>
+                    <p className="font-sans text-[0.75rem] font-medium" style={{ color: 'var(--muted)' }}>{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -96,36 +136,57 @@ export function Testimonials() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-              className="p-8 rounded-[1px]"
-              style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+              transition={{ duration: 0.2 }}
+              className="p-7"
+              style={{
+                backgroundColor: 'var(--carbon)',
+                border: '2px solid var(--white)',
+                boxShadow: 'var(--neo-shadow)',
+              }}
             >
-              <blockquote className="font-playfair italic leading-[1.85] mb-8" style={{ fontSize: '0.9375rem', color: 'var(--off-white)' }}>
-                &ldquo;{testimonials[active].quote}&rdquo;
+              <div
+                className="font-bebas leading-none mb-4 select-none"
+                style={{ fontSize: '3rem', color: 'var(--accent)' }}
+                aria-hidden="true"
+              >
+                &ldquo;
+              </div>
+              <blockquote
+                className="font-sans leading-[1.75] mb-8 font-medium"
+                style={{ fontSize: '0.9375rem', color: 'var(--off-white)' }}
+              >
+                {testimonials[active].quote}
               </blockquote>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" style={{ borderTop: '2px solid var(--rule-mid)', paddingTop: '1rem' }}>
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-[0.7rem] border shrink-0"
-                  style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                  className="w-10 h-10 flex items-center justify-center font-mono text-[0.65rem] font-bold shrink-0"
+                  style={{
+                    border: '2px solid var(--accent)',
+                    color: 'var(--accent)',
+                    backgroundColor: 'var(--graphite)',
+                  }}
                 >
                   {testimonials[active].monogram}
                 </div>
                 <div>
-                  <p className="font-sans font-semibold text-sm text-white">{testimonials[active].name}</p>
-                  <p className="font-sans text-[0.8rem]" style={{ color: 'var(--muted)' }}>{testimonials[active].role}</p>
+                  <p className="font-sans font-bold text-sm" style={{ color: 'var(--white)' }}>{testimonials[active].name}</p>
+                  <p className="font-sans text-[0.8rem] font-medium" style={{ color: 'var(--muted)' }}>{testimonials[active].role}</p>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Dots */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-3 mt-6">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className="w-6 h-px transition-colors duration-200"
-                style={{ backgroundColor: i === active ? 'var(--white)' : 'var(--graphite)' }}
+                className="h-[3px] transition-all duration-150"
+                style={{
+                  width: i === active ? '32px' : '16px',
+                  backgroundColor: i === active ? 'var(--accent)' : 'var(--graphite)',
+                }}
                 aria-label={`Go to testimonial ${i + 1}`}
               />
             ))}

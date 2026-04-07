@@ -132,20 +132,26 @@ export default function PackagesPage() {
       {/* Hero */}
       <section
         className="pt-40 pb-24"
-        style={{ backgroundColor: 'var(--ink)', borderBottom: '1px solid var(--rule)' }}
+        style={{ backgroundColor: 'var(--ink)', borderBottom: '2px solid var(--white)' }}
       >
         <div className="container-main">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-6" style={{ color: 'var(--muted)' }}>
-              Packages & Pricing
-            </p>
+            <div className="inline-flex items-center mb-6">
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                Packages &amp; Pricing
+              </span>
+            </div>
             <h1
-              className="font-playfair text-white mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.08 }}
+              className="font-bebas mb-6"
+              style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 1.0, color: 'var(--white)', letterSpacing: '0.02em' }}
             >
-              Transparent Pricing.<br />No Surprises.
+              Transparent Pricing.{' '}
+              <span style={{ color: 'var(--accent)' }}>No Surprises.</span>
             </h1>
-            <p className="font-sans max-w-lg leading-[1.8]" style={{ color: 'var(--muted)', fontSize: '1.0625rem' }}>
+            <p className="font-sans max-w-lg leading-[1.8] font-medium" style={{ color: 'var(--muted)', fontSize: '1.0625rem' }}>
               Fixed monthly fees so you always know what you&apos;re paying. Choose the package that fits your business stage.
             </p>
           </FadeUp>
@@ -153,15 +159,25 @@ export default function PackagesPage() {
       </section>
 
       {/* Individual packages */}
-      <section className="section-pad" style={{ backgroundColor: 'var(--obsidian)' }}>
+      <section className="section-pad" style={{ backgroundColor: 'var(--obsidian)', borderBottom: '2px solid var(--white)' }}>
         <div className="container-main">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--muted)' }}>
-              Individual / Sole Proprietor
-            </p>
-            <h2 className="font-playfair text-white text-3xl mb-16">Personal Tax Packages</h2>
+            <div className="inline-flex items-center mb-4">
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                Individual / Sole Proprietor
+              </span>
+            </div>
+            <h2
+              className="font-bebas mb-16"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
+            >
+              Personal Tax Packages
+            </h2>
           </FadeUp>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {individualPackages.map((pkg, i) => (
               <FadeUp key={pkg.tier} delay={i * 0.09}>
                 <PackageCard pkg={pkg} />
@@ -172,15 +188,25 @@ export default function PackagesPage() {
       </section>
 
       {/* Company packages */}
-      <section className="section-pad" style={{ backgroundColor: 'var(--ink)' }}>
+      <section className="section-pad" style={{ backgroundColor: 'var(--ink)', borderBottom: '2px solid var(--white)' }}>
         <div className="container-main">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--muted)' }}>
-              Company
-            </p>
-            <h2 className="font-playfair text-white text-3xl mb-16">Business Accounting Packages</h2>
+            <div className="inline-flex items-center mb-4">
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                Company
+              </span>
+            </div>
+            <h2
+              className="font-bebas mb-16"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
+            >
+              Business Accounting Packages
+            </h2>
           </FadeUp>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {companyPackages.map((pkg, i) => (
               <FadeUp key={pkg.tier} delay={i * 0.09}>
                 <PackageCard pkg={pkg} />
@@ -193,24 +219,32 @@ export default function PackagesPage() {
       {/* Custom CTA */}
       <section
         className="py-20"
-        style={{ backgroundColor: 'var(--obsidian)', borderTop: '1px solid var(--rule)' }}
+        style={{ backgroundColor: 'var(--accent)', borderTop: '2px solid #0A0A08' }}
       >
         <div className="container-main text-center">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5" style={{ color: 'var(--muted)' }}>
+            <p
+              className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5 font-bold"
+              style={{ color: '#3A3A30' }}
+            >
               Not sure which package?
             </p>
-            <h2 className="font-playfair text-white text-3xl mb-5">Let Adrian Help You Choose</h2>
-            <p className="font-sans mb-8 max-w-sm mx-auto" style={{ color: 'var(--muted)' }}>
+            <h2
+              className="font-bebas mb-5"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: '#0A0A08', letterSpacing: '0.02em', lineHeight: 1.0 }}
+            >
+              Let Adrian Help You Choose
+            </h2>
+            <p className="font-sans mb-8 max-w-sm mx-auto font-medium" style={{ color: '#3A3A30' }}>
               Book a free 30-minute consultation. No obligation.
             </p>
             <a
               href="https://calendly.com/adrian-abcinc/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center h-14 px-10 bg-white text-ink font-sans text-sm rounded-[2px] hover:bg-off-white transition-colors min-w-[240px]"
+              className="neo-btn-dark inline-flex items-center justify-center h-14 px-10 font-sans text-sm min-w-[240px]"
             >
-              Book Free Consultation
+              Book Free Consultation →
             </a>
           </FadeUp>
         </div>

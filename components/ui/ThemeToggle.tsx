@@ -13,8 +13,20 @@ export function ThemeToggle({ className }: { className?: string }) {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      className={`w-8 h-8 flex items-center justify-center rounded-[1px] border transition-colors duration-200 hover:border-white ${className ?? ''}`}
-      style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+      className={`w-9 h-9 flex items-center justify-center font-bold transition-all duration-80 hover:text-[var(--accent)] ${className ?? ''}`}
+      style={{
+        border: '2px solid var(--white)',
+        color: 'var(--muted)',
+        boxShadow: 'var(--neo-shadow-sm)',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.boxShadow = 'none'
+        ;(e.currentTarget as HTMLElement).style.transform = 'translate(2px, 2px)'
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.boxShadow = 'var(--neo-shadow-sm)'
+        ;(e.currentTarget as HTMLElement).style.transform = 'translate(0, 0)'
+      }}
     >
       {/* Render nothing until mounted to avoid hydration mismatch */}
       {mounted ? (theme === 'dark' ? (

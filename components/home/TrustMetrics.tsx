@@ -39,21 +39,24 @@ function CountUpMetric({ target, suffix, unit, label, sublabel, isLast }: Metric
     <div
       ref={ref}
       className="flex flex-col items-center text-center py-12 px-8"
-      style={!isLast ? { borderRight: '1px solid var(--rule)' } : {}}
+      style={!isLast ? { borderRight: '2px solid var(--white)' } : {}}
     >
-      <div className="flex items-baseline gap-1 mb-3">
+      <div className="flex items-baseline gap-1 mb-4">
         <span
-          className="font-bebas text-white leading-none"
-          style={{ fontSize: 'clamp(4rem, 7vw, 6rem)' }}
+          className="font-bebas leading-none"
+          style={{
+            fontSize: 'clamp(4rem, 7vw, 6rem)',
+            color: 'var(--accent)',
+          }}
         >
-          {unit && <span className="font-playfair italic text-2xl text-muted mr-1">{unit}</span>}
+          {unit && <span className="font-bebas text-3xl mr-1" style={{ color: 'var(--muted)' }}>{unit}</span>}
           {value}{suffix}
         </span>
       </div>
-      <p className="font-sans text-[0.8rem] uppercase tracking-[0.12em] mb-1" style={{ color: 'var(--muted)' }}>
+      <p className="font-mono text-[0.75rem] uppercase tracking-[0.15em] mb-1 font-bold" style={{ color: 'var(--white)' }}>
         {label}
       </p>
-      <p className="font-mono text-[0.7rem] tracking-[0.08em]" style={{ color: 'var(--faint)' }}>
+      <p className="font-mono text-[0.65rem] tracking-[0.08em] font-medium" style={{ color: 'var(--muted)' }}>
         {sublabel}
       </p>
     </div>
@@ -63,11 +66,10 @@ function CountUpMetric({ target, suffix, unit, label, sublabel, isLast }: Metric
 export function TrustMetrics() {
   return (
     <section
-      className=""
       style={{
         backgroundColor: 'var(--obsidian)',
-        borderTop: '1px solid var(--rule)',
-        borderBottom: '1px solid var(--rule)',
+        borderTop: '2px solid var(--white)',
+        borderBottom: '2px solid var(--white)',
       }}
       aria-label="Trust metrics"
     >

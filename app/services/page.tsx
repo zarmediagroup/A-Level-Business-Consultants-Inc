@@ -105,18 +105,24 @@ export default function ServicesPage() {
       {/* Hero */}
       <section
         className="pt-40 pb-24"
-        style={{ backgroundColor: 'var(--ink)', borderBottom: '1px solid var(--rule)' }}
+        style={{ backgroundColor: 'var(--ink)', borderBottom: '2px solid var(--white)' }}
       >
         <div className="container-main">
           <FadeUp>
-            <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-6" style={{ color: 'var(--muted)' }}>
-              Our Services
-            </p>
+            <div className="inline-flex items-center mb-6">
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                Our Services
+              </span>
+            </div>
             <h1
-              className="font-playfair text-white"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', lineHeight: 1.08 }}
+              className="font-bebas"
+              style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 1.0, color: 'var(--white)', letterSpacing: '0.02em' }}
             >
-              Complete Financial Compliance,<br />Handled.
+              Complete Financial Compliance,{' '}
+              <span style={{ color: 'var(--accent)' }}>Handled.</span>
             </h1>
           </FadeUp>
         </div>
@@ -127,56 +133,82 @@ export default function ServicesPage() {
         <section
           key={service.num}
           className="section-pad"
-          style={{ backgroundColor: i % 2 === 0 ? 'var(--obsidian)' : 'var(--ink)', borderBottom: '1px solid var(--rule)' }}
+          style={{
+            backgroundColor: i % 2 === 0 ? 'var(--obsidian)' : 'var(--ink)',
+            borderBottom: '2px solid var(--white)',
+          }}
           id={`service-${service.num}`}
         >
           <div className="container-main">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-12 lg:gap-16 items-start">
               <FadeUp>
-                <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--muted)' }}>
-                  {service.num}
-                </p>
-                <h2 className="font-playfair text-white text-4xl mb-4">{service.title}</h2>
-                <p className="font-mono text-[0.75rem] tracking-[0.08em] mb-8" style={{ color: 'var(--profit)' }}>
+                <div className="inline-flex items-center mb-6">
+                  <span
+                    className="font-mono text-[0.65rem] font-bold px-2 py-1"
+                    style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+                  >
+                    {service.num}
+                  </span>
+                </div>
+                <h2
+                  className="font-bebas mb-4"
+                  style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.05, color: 'var(--white)', letterSpacing: '0.02em' }}
+                >
+                  {service.title}
+                </h2>
+                <p
+                  className="font-mono text-[0.75rem] tracking-[0.08em] font-bold mb-8"
+                  style={{ color: 'var(--profit)' }}
+                >
                   ↗ {service.outcome}
                 </p>
-                <p className="font-sans leading-[1.9] mb-8" style={{ color: 'var(--muted)', fontSize: '0.9375rem' }}>
+                <p className="font-sans leading-[1.8] mb-8 font-medium" style={{ color: 'var(--muted)', fontSize: '0.9375rem' }}>
                   {service.description}
                 </p>
-                <p className="font-mono text-[0.65rem] tracking-[0.1em]" style={{ color: 'var(--faint)' }}>
+                <p className="font-mono text-[0.65rem] tracking-[0.1em] font-medium" style={{ color: 'var(--faint)' }}>
                   {service.standards}
                 </p>
               </FadeUp>
 
               <FadeUp delay={0.1}>
                 <div
-                  className="rounded-[1px] p-8"
-                  style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+                  style={{
+                    backgroundColor: 'var(--carbon)',
+                    border: '2px solid var(--white)',
+                    boxShadow: 'var(--neo-shadow)',
+                  }}
                 >
-                  <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--muted)' }}>
-                    What&apos;s Included
-                  </p>
-                  <ul className="flex flex-col gap-0">
-                    {service.what.map((item, j) => (
-                      <li
-                        key={j}
-                        className="flex items-start gap-3 py-3"
-                        style={{ borderBottom: j < service.what.length - 1 ? '1px solid var(--rule)' : 'none' }}
+                  <div
+                    className="px-8 py-4"
+                    style={{ borderBottom: '2px solid var(--white)', backgroundColor: 'var(--graphite)' }}
+                  >
+                    <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent)' }}>
+                      What&apos;s Included
+                    </p>
+                  </div>
+                  <div className="p-8">
+                    <ul className="flex flex-col gap-0">
+                      {service.what.map((item, j) => (
+                        <li
+                          key={j}
+                          className="flex items-start gap-3 py-3"
+                          style={{ borderBottom: j < service.what.length - 1 ? '1px solid var(--rule-mid)' : 'none' }}
+                        >
+                          <span className="font-mono text-xs mt-0.5 font-bold" style={{ color: 'var(--profit)' }}>✓</span>
+                          <span className="font-sans text-sm font-medium" style={{ color: 'var(--off-white)' }}>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8 pt-6" style={{ borderTop: '2px solid var(--rule-mid)' }}>
+                      <a
+                        href={tenant.calendly_url ?? '/contact'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="neo-btn-primary flex items-center justify-center w-full h-12 font-sans text-sm"
                       >
-                        <span className="font-mono text-xs mt-0.5" style={{ color: 'var(--profit)' }}>✓</span>
-                        <span className="font-sans text-sm" style={{ color: 'var(--off-white)' }}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--rule)' }}>
-                    <a
-                      href={tenant.calendly_url ?? '/contact'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-center w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors duration-200 flex items-center justify-center"
-                    >
-                      Enquire About This Service
-                    </a>
+                        Enquire About This Service →
+                      </a>
+                    </div>
                   </div>
                 </div>
               </FadeUp>

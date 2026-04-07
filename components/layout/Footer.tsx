@@ -7,8 +7,10 @@ export function Footer() {
 
   return (
     <footer
-      className="border-t"
-      style={{ borderColor: 'var(--rule)', backgroundColor: 'var(--obsidian)' }}
+      style={{
+        backgroundColor: 'var(--obsidian)',
+        borderTop: '3px solid var(--white)',
+      }}
     >
       <div className="container-main py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -16,24 +18,34 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div
-                className="flex items-center justify-center border rounded-[1px] font-mono text-[0.6rem] tracking-[0.18em] uppercase"
-                style={{ width: '36px', height: '32px', borderColor: 'var(--rule-mid)', color: 'var(--white)' }}
+                className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
+                style={{
+                  width: '44px',
+                  height: '40px',
+                  backgroundColor: 'var(--accent)',
+                  color: '#0A0A08',
+                  border: '2px solid #0A0A08',
+                }}
               >
                 ALC
               </div>
-              <span className="font-mono text-[0.7rem] tracking-[0.12em] uppercase" style={{ color: 'var(--muted)' }}>
+              <span className="font-mono text-[0.75rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
                 {tenant.firm_name}
               </span>
             </div>
-            <p className="font-sans text-sm leading-loose max-w-xs" style={{ color: 'var(--muted)' }}>
+            <p className="font-sans text-sm leading-loose max-w-xs font-medium" style={{ color: 'var(--muted)' }}>
               SAICA-registered chartered accountants and auditors supporting South African businesses with precision and integrity.
             </p>
             <div className="flex flex-wrap gap-2 mt-6">
               {['SAICA Registered', 'IRBA Approved', 'CIPC Accredited', 'POPIA Compliant'].map(badge => (
                 <span
                   key={badge}
-                  className="font-mono text-[0.6rem] tracking-[0.14em] uppercase px-2 py-1 border rounded-[1px]"
-                  style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                  className="font-mono text-[0.6rem] tracking-[0.14em] uppercase px-2.5 py-1 font-bold"
+                  style={{
+                    border: '2px solid var(--white)',
+                    color: 'var(--white)',
+                    backgroundColor: 'var(--carbon)',
+                  }}
                 >
                   {badge}
                 </span>
@@ -43,7 +55,7 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--faint)' }}>
+            <p className="font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-6 font-bold" style={{ color: 'var(--accent)' }}>
               Navigation
             </p>
             <nav className="flex flex-col gap-3">
@@ -57,10 +69,10 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-sans text-sm transition-colors duration-200 hover:text-white"
+                  className="font-sans text-sm font-bold transition-colors duration-100 hover:text-[var(--accent)]"
                   style={{ color: 'var(--muted)' }}
                 >
-                  {link.label}
+                  → {link.label}
                 </Link>
               ))}
             </nav>
@@ -68,26 +80,33 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase mb-6" style={{ color: 'var(--faint)' }}>
+            <p className="font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-6 font-bold" style={{ color: 'var(--accent)' }}>
               Get in Touch
             </p>
             <div className="flex flex-col gap-4">
               <div>
-                <p className="font-mono text-[0.6rem] tracking-[0.1em] uppercase mb-1" style={{ color: 'var(--faint)' }}>Location</p>
-                <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>{tenant.address}</p>
-                <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>{tenant.city}</p>
+                <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Location</p>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>{tenant.address}</p>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>{tenant.city}</p>
               </div>
               <div>
-                <p className="font-mono text-[0.6rem] tracking-[0.1em] uppercase mb-1" style={{ color: 'var(--faint)' }}>Hours</p>
-                <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>Mon – Fri: 08:30 – 17:00</p>
+                <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Hours</p>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>Mon – Fri: 08:30 – 17:00</p>
               </div>
               <div>
-                <p className="font-mono text-[0.6rem] tracking-[0.1em] uppercase mb-1" style={{ color: 'var(--faint)' }}>Contact</p>
-                <a href={`tel:${tenant.phone}`} className="font-mono text-sm hover:text-white transition-colors" style={{ color: 'var(--muted)' }}>
+                <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Contact</p>
+                <a
+                  href={`tel:${tenant.phone}`}
+                  className="block font-mono text-sm font-bold hover:text-[var(--accent)] transition-colors duration-100"
+                  style={{ color: 'var(--muted)' }}
+                >
                   WhatsApp: {tenant.phone}
                 </a>
-                <br />
-                <a href={`mailto:${tenant.email}`} className="font-mono text-sm hover:text-white transition-colors" style={{ color: 'var(--muted)' }}>
+                <a
+                  href={`mailto:${tenant.email}`}
+                  className="block font-mono text-sm font-bold hover:text-[var(--accent)] transition-colors duration-100"
+                  style={{ color: 'var(--muted)' }}
+                >
                   {tenant.email}
                 </a>
               </div>
@@ -98,13 +117,13 @@ export function Footer() {
         {/* Bottom bar */}
         <div
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-16 pt-8"
-          style={{ borderTop: '1px solid var(--rule)' }}
+          style={{ borderTop: '2px solid var(--rule-mid)' }}
         >
-          <p className="font-mono text-[0.65rem] tracking-[0.1em] uppercase" style={{ color: 'var(--faint)' }}>
+          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
             © {year} {tenant.firm_name}. All rights reserved.
           </p>
-          <p className="font-mono text-[0.65rem] tracking-[0.1em] uppercase" style={{ color: 'var(--faint)' }}>
-            · SAICA Registered · IRBA Approved · POPIA Compliant · Fully Confidential
+          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
+            · SAICA · IRBA · POPIA · Fully Confidential
           </p>
         </div>
       </div>

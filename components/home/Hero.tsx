@@ -8,11 +8,11 @@ import { defaultTenant } from '@/types/tenant'
 const headlineLines = ['The Numbers', "Don't Lie.", 'Ours Never Do.']
 
 const ledgerRows = [
-  { label: 'Revenue Recognised',  value: 'R  4,820,000', color: 'var(--off-white)' },
-  { label: 'Deductible Expenses', value: 'R  1,640,000', color: 'var(--off-white)' },
-  { label: 'Taxable Income',      value: 'R  3,180,000', color: 'var(--off-white)' },
+  { label: 'Revenue Recognised',  value: 'R  4,820,000', color: 'var(--white)' },
+  { label: 'Deductible Expenses', value: 'R  1,640,000', color: 'var(--white)' },
+  { label: 'Taxable Income',      value: 'R  3,180,000', color: 'var(--white)' },
   { label: 'Tax Provision',       value: 'R    861,300', color: 'var(--pending)' },
-  { label: 'Effective Rate',      value: '       27.1%', color: 'var(--off-white)' },
+  { label: 'Effective Rate',      value: '       27.1%', color: 'var(--white)' },
   { label: 'SARS Status',         value: '● COMPLIANT',  color: 'var(--profit)' },
 ]
 
@@ -55,45 +55,70 @@ export function Hero() {
       style={{ backgroundColor: 'var(--ink)' }}
       aria-label="Hero"
     >
-      {/* Subtle grid overlay */}
+      {/* Neobrutalism grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Accent corner block */}
+      <div
+        className="absolute top-0 right-0 pointer-events-none"
+        style={{
+          width: '160px',
+          height: '160px',
+          backgroundColor: 'var(--accent)',
+          opacity: 0.15,
         }}
       />
 
       <div className="container-main relative z-10 w-full py-24 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-[52%_48%] gap-12 lg:gap-0 items-center min-h-[100dvh]">
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-12 lg:gap-8 items-center min-h-[100dvh]">
 
           {/* ── LEFT COLUMN ── */}
-          <div className="flex flex-col justify-center lg:pr-16">
-            {/* Overline */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.05, duration: 0.6 }}
-              className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-8"
-              style={{ color: 'var(--muted)' }}
+          <div className="flex flex-col justify-center lg:pr-12">
+            {/* Overline badge */}
+            <motion.div
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.05, duration: 0.4 }}
+              className="inline-flex items-center gap-2 mb-8 self-start"
             >
-              Chartered Accountants · SAICA Members · IRBA Registered
-            </motion.p>
+              <span
+                className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+                style={{
+                  backgroundColor: 'var(--accent)',
+                  color: '#0A0A08',
+                  border: '2px solid #0A0A08',
+                }}
+              >
+                Chartered Accountants · SAICA · IRBA
+              </span>
+            </motion.div>
 
             {/* Headline */}
             <h1
-              className="font-playfair text-white leading-[1.08] mb-8"
-              style={{ fontSize: 'clamp(3.25rem, 6vw, 6.5rem)' }}
+              className="font-bebas leading-[1.0] mb-8"
+              style={{
+                fontSize: 'clamp(4rem, 8vw, 8rem)',
+                color: 'var(--white)',
+                letterSpacing: '0.02em',
+              }}
             >
               {headlineLines.map((line, i) => (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.09, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
                   style={{ display: 'block' }}
                 >
-                  {line}
+                  {i === 1 ? (
+                    <span style={{ color: 'var(--accent)' }}>{line}</span>
+                  ) : line}
                 </motion.span>
               ))}
             </h1>
@@ -102,8 +127,8 @@ export function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.42, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="font-sans leading-[1.8] max-w-[440px] mb-10"
+              transition={{ delay: 0.36, duration: 0.4 }}
+              className="font-sans leading-[1.7] max-w-[440px] mb-10 font-medium"
               style={{ fontSize: '1.0625rem', color: 'var(--muted)' }}
             >
               Audit, accounting, and tax compliance for South African businesses
@@ -114,92 +139,96 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.56, duration: 0.5 }}
+              transition={{ delay: 0.48, duration: 0.4 }}
               className="flex flex-wrap items-center gap-4"
             >
               <a
                 href={tenant.calendly_url ?? '/contact'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center h-12 px-7 bg-white text-ink font-sans text-sm tracking-wide rounded-[2px] hover:bg-off-white transition-colors duration-200"
+                className="neo-btn-primary inline-flex items-center justify-center h-12 px-7 font-sans text-sm"
               >
-                Schedule a Consultation
+                Schedule a Consultation →
               </a>
               <Link
                 href="/services"
-                className="group inline-flex items-center gap-1 font-sans text-sm text-white relative pb-0.5 hover:text-off-white transition-colors duration-200"
+                className="neo-btn-outline inline-flex items-center justify-center h-12 px-7 font-sans text-sm"
               >
-                Our Services →
-                <span
-                  className="absolute bottom-0 right-0 w-0 group-hover:w-full h-px bg-white transition-all duration-300"
-                  style={{ transformOrigin: 'right' }}
-                />
+                Our Services
               </Link>
             </motion.div>
           </div>
 
           {/* ── RIGHT COLUMN — Ledger panel ── */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
             className="hidden lg:block"
           >
             <div
-              className="rounded-[1px] p-6"
               style={{
                 backgroundColor: 'var(--carbon)',
-                border: '1px solid var(--rule)',
+                border: '2px solid var(--white)',
+                boxShadow: 'var(--neo-shadow-lg)',
               }}
             >
               {/* Header row */}
-              <div className="flex justify-between items-center pb-4" style={{ borderBottom: '1px solid var(--rule)' }}>
-                <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+              <div
+                className="flex justify-between items-center px-6 py-4"
+                style={{
+                  borderBottom: '2px solid var(--white)',
+                  backgroundColor: 'var(--accent)',
+                }}
+              >
+                <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: '#0A0A08' }}>
                   Financial Review Summary
                 </span>
-                <span className="font-mono text-[0.65rem] tracking-[0.18em]" style={{ color: 'var(--muted)' }}>
+                <span className="font-mono text-[0.65rem] tracking-[0.18em] font-bold" style={{ color: '#0A0A08' }}>
                   FY 2025
                 </span>
               </div>
 
               {/* Animated ledger rows */}
-              <div className="py-4 flex flex-col gap-1">
+              <div className="flex flex-col">
                 {ledgerRows.map((row, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: 10 }}
+                    initial={{ opacity: 0, x: 12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + i * 0.12, duration: 0.4 }}
-                    className="flex justify-between items-center py-2.5 px-1"
-                    style={{ borderBottom: i < ledgerRows.length - 1 ? '1px solid var(--rule)' : 'none' }}
+                    transition={{ delay: 0.7 + i * 0.1, duration: 0.3 }}
+                    className="flex justify-between items-center px-6 py-3"
+                    style={{
+                      borderBottom: i < ledgerRows.length - 1 ? '1px solid var(--rule-mid)' : 'none',
+                    }}
                   >
-                    <span className="font-sans text-[0.875rem]" style={{ color: 'var(--muted)' }}>
+                    <span className="font-sans text-[0.875rem] font-medium" style={{ color: 'var(--muted)' }}>
                       {row.label}
                     </span>
-                    <span className="font-mono text-[0.9rem]" style={{ color: row.color }}>
+                    <span className="font-mono text-[0.9rem] font-bold" style={{ color: row.color }}>
                       {row.value}
                     </span>
                   </motion.div>
                 ))}
               </div>
 
-              {/* Divider */}
-              <div style={{ borderTop: '1px solid var(--rule)' }} className="pt-6">
-                {/* Big stat */}
+              {/* Big stat */}
+              <div style={{ borderTop: '2px solid var(--white)' }}>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.7, duration: 0.5 }}
-                  className="text-center mb-6"
+                  className="text-center py-6 px-6"
+                  style={{ borderBottom: '2px solid var(--white)' }}
                 >
                   <p
-                    className="font-bebas text-white leading-none"
-                    style={{ fontSize: '4.5rem' }}
+                    className="font-bebas leading-none"
+                    style={{ fontSize: '5rem', color: 'var(--accent)' }}
                   >
                     R{count}M+
                   </p>
-                  <p className="font-mono text-[0.7rem] tracking-[0.1em] mt-1" style={{ color: 'var(--muted)' }}>
-                    audit value certified · 2025
+                  <p className="font-mono text-[0.7rem] tracking-[0.12em] mt-1 font-bold uppercase" style={{ color: 'var(--muted)' }}>
+                    Audit Value Certified · 2025
                   </p>
                 </motion.div>
 
@@ -207,14 +236,18 @@ export function Hero() {
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.9, duration: 0.4 }}
-                  className="flex justify-center gap-2 flex-wrap"
+                  transition={{ delay: 1.9, duration: 0.3 }}
+                  className="flex justify-center gap-0 flex-wrap p-4"
                 >
-                  {['SAICA Member', 'IRBA Registered', 'CIPC Accredited'].map(badge => (
+                  {['SAICA Member', 'IRBA Registered', 'CIPC Accredited'].map((badge, i, arr) => (
                     <span
                       key={badge}
-                      className="font-mono text-[0.65rem] tracking-[0.1em] px-2 py-1 border rounded-[1px]"
-                      style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                      className="font-mono text-[0.6rem] tracking-[0.1em] px-3 py-1.5 font-bold uppercase"
+                      style={{
+                        border: '2px solid var(--white)',
+                        color: 'var(--white)',
+                        marginLeft: i > 0 ? '-2px' : 0,
+                      }}
                     >
                       {badge}
                     </span>
@@ -230,13 +263,19 @@ export function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-1"
+        transition={{ delay: 1.5, duration: 0.5 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
         aria-hidden="true"
         style={{ animation: 'pulseDown 2s ease-in-out infinite' }}
       >
-        <div className="w-px h-12" style={{ backgroundColor: 'var(--muted)' }} />
-        <div className="w-px h-12" style={{ backgroundColor: 'var(--muted)' }} />
+        <div className="w-[2px] h-10" style={{ backgroundColor: 'var(--accent)' }} />
+        <div
+          className="w-2 h-2"
+          style={{
+            backgroundColor: 'var(--accent)',
+            clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
+          }}
+        />
       </motion.div>
     </section>
   )

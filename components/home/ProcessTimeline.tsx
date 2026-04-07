@@ -34,46 +34,85 @@ export function ProcessTimeline() {
   return (
     <section
       className="section-pad"
-      style={{ backgroundColor: 'var(--ink)' }}
+      style={{ backgroundColor: 'var(--ink)', borderTop: '2px solid var(--white)' }}
       aria-labelledby="process-heading"
     >
       <div className="container-main">
         <FadeUp>
-          <p className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5" style={{ color: 'var(--muted)' }}>
-            The Process
-          </p>
+          <div className="inline-flex items-center mb-6">
+            <span
+              className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: '#0A0A08',
+                border: '2px solid #0A0A08',
+              }}
+            >
+              The Process
+            </span>
+          </div>
           <h2
             id="process-heading"
-            className="font-playfair text-white mb-16"
-            style={{ fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', lineHeight: 1.12 }}
+            className="font-bebas mb-16"
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 5rem)',
+              lineHeight: 1.05,
+              color: 'var(--white)',
+              letterSpacing: '0.02em',
+            }}
           >
-            Structured. Systematic. Signed Off.
+            Structured.{' '}
+            <span style={{ color: 'var(--accent)' }}>Systematic.</span>{' '}
+            Signed Off.
           </h2>
         </FadeUp>
 
         {/* Desktop timeline */}
         <div className="hidden md:block">
           {/* Connecting line */}
-          <div ref={lineRef} className="relative mb-8">
-            <div className="h-px w-full" style={{ backgroundColor: 'var(--graphite)' }} />
+          <div ref={lineRef} className="relative mb-10">
+            <div className="h-[3px] w-full" style={{ backgroundColor: 'var(--graphite)' }} />
             <motion.div
-              className="absolute top-0 left-0 h-px bg-white"
+              className="absolute top-0 left-0 h-[3px]"
+              style={{ backgroundColor: 'var(--accent)', transformOrigin: 'left', width: '100%' }}
               initial={{ scaleX: 0 }}
               animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              style={{ transformOrigin: 'left', width: '100%' }}
+              transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
 
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <FadeUp key={step.num} delay={i * 0.1}>
-                <div className="pt-6">
-                  <p className="font-mono text-[0.65rem] tracking-[0.18em] mb-4" style={{ color: 'var(--muted)' }}>
+                <div
+                  className="p-6"
+                  style={{
+                    border: '2px solid var(--white)',
+                    backgroundColor: 'var(--carbon)',
+                    boxShadow: 'var(--neo-shadow)',
+                  }}
+                >
+                  <div
+                    className="inline-flex items-center justify-center font-mono text-[0.65rem] font-bold mb-5 px-2 py-1"
+                    style={{
+                      backgroundColor: 'var(--accent)',
+                      color: '#0A0A08',
+                      border: '2px solid #0A0A08',
+                    }}
+                  >
                     {step.num}
-                  </p>
-                  <h3 className="font-sans font-semibold text-white text-base mb-3">{step.title}</h3>
-                  <p className="font-sans text-sm leading-[1.8]" style={{ color: 'var(--muted)' }}>
+                  </div>
+                  <h3
+                    className="font-bebas mb-3"
+                    style={{
+                      fontSize: '1.3rem',
+                      color: 'var(--white)',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="font-sans text-sm leading-[1.7] font-medium" style={{ color: 'var(--muted)' }}>
                     {step.body}
                   </p>
                 </div>
@@ -83,28 +122,37 @@ export function ProcessTimeline() {
         </div>
 
         {/* Mobile timeline */}
-        <div className="md:hidden flex flex-col gap-0">
+        <div className="md:hidden flex flex-col gap-4">
           {steps.map((step, i) => (
             <FadeUp key={step.num} delay={i * 0.08}>
-              <div className="flex gap-6 pb-10">
-                <div className="flex flex-col items-center">
-                  <div
-                    className="w-px flex-1"
-                    style={{ backgroundColor: i > 0 ? 'var(--graphite)' : 'transparent', minHeight: '24px' }}
-                  />
-                  <div
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[0.65rem] border rounded-[1px] shrink-0 my-2"
-                    style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
-                  >
-                    {step.num}
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div className="w-px flex-1" style={{ backgroundColor: 'var(--graphite)', minHeight: '24px' }} />
-                  )}
+              <div
+                className="flex gap-5 p-6"
+                style={{
+                  border: '2px solid var(--white)',
+                  backgroundColor: 'var(--carbon)',
+                  boxShadow: 'var(--neo-shadow-sm)',
+                }}
+              >
+                <div
+                  className="flex items-center justify-center font-mono text-[0.65rem] font-bold shrink-0 self-start mt-0.5"
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    backgroundColor: 'var(--accent)',
+                    color: '#0A0A08',
+                    border: '2px solid #0A0A08',
+                  }}
+                >
+                  {step.num}
                 </div>
-                <div className="pt-1">
-                  <h3 className="font-sans font-semibold text-white text-base mb-2">{step.title}</h3>
-                  <p className="font-sans text-sm leading-[1.8]" style={{ color: 'var(--muted)' }}>
+                <div>
+                  <h3
+                    className="font-bebas mb-2"
+                    style={{ fontSize: '1.25rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="font-sans text-sm leading-[1.7] font-medium" style={{ color: 'var(--muted)' }}>
                     {step.body}
                   </p>
                 </div>

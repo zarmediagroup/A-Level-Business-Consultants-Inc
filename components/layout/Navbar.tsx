@@ -28,10 +28,11 @@ export function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-[280ms] ease-in-out"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-150"
         style={{
-          backgroundColor: scrolled ? 'var(--ink)' : 'transparent',
-          borderBottom: scrolled ? '1px solid var(--rule)' : '1px solid transparent',
+          backgroundColor: 'var(--ink)',
+          borderBottom: scrolled ? '2px solid var(--white)' : '2px solid transparent',
+          boxShadow: scrolled ? 'var(--neo-shadow-sm)' : 'none',
         }}
       >
         <div
@@ -41,19 +42,20 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label={tenant.firm_name}>
             <div
-              className="flex items-center justify-center border rounded-[1px] font-mono text-[0.6rem] tracking-[0.18em] uppercase"
+              className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
               style={{
-                width: '36px',
-                height: '32px',
-                borderColor: 'var(--rule-mid)',
-                color: 'var(--white)',
+                width: '40px',
+                height: '36px',
+                backgroundColor: 'var(--accent)',
+                color: '#0A0A08',
+                border: '2px solid #0A0A08',
               }}
             >
               ALC
             </div>
             <span
-              className="hidden sm:block font-mono text-[0.7rem] tracking-[0.12em] uppercase"
-              style={{ color: 'var(--muted)' }}
+              className="hidden sm:block font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold"
+              style={{ color: 'var(--white)' }}
             >
               {tenant.firm_name}
             </span>
@@ -65,10 +67,8 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-sans text-[13px] tracking-[0.02em] transition-colors duration-[240ms]"
+                className="font-sans text-[13px] font-bold tracking-[0.04em] uppercase transition-colors duration-100 hover:text-[var(--accent)]"
                 style={{ color: 'var(--muted)' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--white)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
               >
                 {link.label}
               </Link>
@@ -81,8 +81,8 @@ export function Navbar() {
 
             <Link
               href="/portal"
-              className="hidden md:flex items-center gap-1 font-sans text-[13px] tracking-[0.02em] text-white border border-white rounded-[2px] px-4 transition-all duration-200 hover:bg-white hover:text-ink"
-              style={{ height: '32px' }}
+              className="hidden md:flex items-center gap-1 font-sans text-[13px] font-bold tracking-[0.04em] uppercase neo-btn-primary px-4"
+              style={{ height: '36px' }}
             >
               Client Portal →
             </Link>
@@ -95,19 +95,22 @@ export function Navbar() {
               aria-expanded={menuOpen}
             >
               <motion.span
-                className="block w-5 h-px bg-white origin-center"
-                animate={menuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2 }}
+                className="block w-6 h-[3px] origin-center"
+                style={{ backgroundColor: 'var(--white)' }}
+                animate={menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.15 }}
               />
               <motion.span
-                className="block w-5 h-px bg-white"
+                className="block w-6 h-[3px]"
+                style={{ backgroundColor: 'var(--white)' }}
                 animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.15 }}
               />
               <motion.span
-                className="block w-5 h-px bg-white origin-center"
-                animate={menuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2 }}
+                className="block w-6 h-[3px] origin-center"
+                style={{ backgroundColor: 'var(--white)' }}
+                animate={menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.15 }}
               />
             </button>
           </div>
@@ -118,39 +121,55 @@ export function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center"
-            style={{ backgroundColor: 'var(--ink)' }}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className="fixed inset-0 z-40 flex flex-col"
+            style={{ backgroundColor: 'var(--ink)', borderLeft: '3px solid var(--accent)' }}
           >
-            <nav className="flex flex-col items-center gap-8" aria-label="Mobile navigation">
+            {/* Mobile logo */}
+            <div className="flex items-center gap-3 px-8 py-6" style={{ borderBottom: '2px solid var(--white)' }}>
+              <div
+                className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
+                style={{ width: '40px', height: '36px', backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+              >
+                ALC
+              </div>
+              <span className="font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
+                {tenant.firm_name}
+              </span>
+            </div>
+
+            <nav className="flex flex-col flex-1 px-8 py-10 gap-2" aria-label="Mobile navigation">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3 }}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05, duration: 0.2 }}
+                  style={{ borderBottom: '2px solid var(--rule-mid)' }}
                 >
                   <Link
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className="font-playfair text-3xl text-white hover:text-off-white transition-colors"
+                    className="block font-bebas py-5 hover:text-[var(--accent)] transition-colors duration-100"
+                    style={{ fontSize: '2.5rem', color: 'var(--white)', letterSpacing: '0.05em' }}
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navLinks.length * 0.06, duration: 0.3 }}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.05, duration: 0.2 }}
+                className="mt-8"
               >
                 <Link
                   href="/portal"
                   onClick={() => setMenuOpen(false)}
-                  className="font-mono text-sm tracking-[0.1em] text-white border border-white px-6 py-3 rounded-[1px] hover:bg-white hover:text-ink transition-all"
+                  className="inline-flex items-center neo-btn-primary px-8 py-4 font-mono text-sm tracking-[0.1em] uppercase"
                 >
                   CLIENT PORTAL →
                 </Link>

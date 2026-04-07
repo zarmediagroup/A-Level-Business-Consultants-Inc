@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { DashboardWidget } from '@/components/portal/DashboardWidget'
 import { UploadZone } from '@/components/portal/UploadZone'
 import { DocumentComments } from '@/components/portal/DocumentComments'
+import { EditDocumentForm } from '@/components/portal/EditDocumentForm'
 import { StatusBadge } from '@/components/portal/StatusBadge'
 import { useAuth } from '@/contexts/AuthContext'
 import type { Document, DocumentCategory, DocumentStatus } from '@/types/database'
@@ -32,6 +33,7 @@ export default function DocumentsPage() {
   const [drawerOpen,     setDrawerOpen]     = useState(false)
   const [selectedDoc,    setSelectedDoc]    = useState<Document | null>(null)
   const [deleteId,       setDeleteId]       = useState<string | null>(null)
+  const [editDoc,        setEditDoc]        = useState<Document | null>(null)
   const [statusUpdating, setStatusUpdating] = useState<string | null>(null)
   const [uploadKey,      setUploadKey]      = useState(0)
 
@@ -211,13 +213,28 @@ export default function DocumentsPage() {
                           onClick={() => handleDownload(doc)}
                           className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-2 py-1 border rounded-[1px] transition-colors hover:border-white hover:text-white"
                           style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                          title="Download"
                         >
                           ↓
                         </button>
+                        {!isAdmin && (
+                          <button
+                            onClick={() => setEditDoc(doc)}
+                            className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-2 py-1 border rounded-[1px] transition-colors hover:border-white hover:text-white"
+                            style={{
+                              borderColor: doc.status === 'Requires Action' ? 'var(--pending)' : 'var(--rule-mid)',
+                              color:       doc.status === 'Requires Action' ? 'var(--pending)' : 'var(--muted)',
+                            }}
+                            title="Edit document"
+                          >
+                            ✏
+                          </button>
+                        )}
                         <button
                           onClick={() => setSelectedDoc(doc)}
                           className="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-2 py-1 border rounded-[1px] transition-colors hover:border-white hover:text-white"
                           style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                          title="Comments"
                         >
                           💬
                         </button>
@@ -293,6 +310,41 @@ export default function DocumentsPage() {
               </div>
               <div className="flex-1 overflow-y-auto p-8">
                 <UploadZone onSuccess={() => { setDrawerOpen(false); setUploadKey(k => k + 1) }} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Document Drawer */}
+      <AnimatePresence>
+        {editDoc && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+              onClick={() => setEditDoc(null)}
+            />
+            <motion.div
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="fixed top-0 right-0 bottom-0 z-50 flex flex-col"
+              style={{ width: 'min(480px, 100vw)', backgroundColor: 'var(--carbon)', borderLeft: '1px solid var(--rule)' }}
+            >
+              <div className="flex items-center justify-between px-8 py-5" style={{ borderBottom: '1px solid var(--rule)' }}>
+                <div>
+                  <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+                    Edit Document
+                  </p>
+                  <p className="font-sans text-sm text-white mt-1 truncate max-w-[320px]">{editDoc.name}</p>
+                </div>
+                <button onClick={() => setEditDoc(null)} className="font-mono text-lg text-white" aria-label="Close">×</button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-8">
+                <EditDocumentForm
+                  document={editDoc}
+                  onSuccess={() => { setEditDoc(null); setUploadKey(k => k + 1) }}
+                />
               </div>
             </motion.div>
           </>

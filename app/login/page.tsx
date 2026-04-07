@@ -3,6 +3,8 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 function LoginForm() {
   const router       = useRouter()
@@ -10,11 +12,11 @@ function LoginForm() {
   const redirect     = searchParams.get('redirect') ?? '/portal'
   const supabase     = getSupabaseBrowser()
 
-  const [email,   setEmail]   = useState('')
+  const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error,   setError]   = useState('')
-  const [mode,    setMode]    = useState<'login' | 'forgot'>('login')
+  const [loading,  setLoading]  = useState(false)
+  const [error,    setError]    = useState('')
+  const [mode,     setMode]     = useState<'login' | 'forgot'>('login')
   const [forgotSent, setForgotSent] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -32,7 +34,6 @@ function LoginForm() {
       return
     }
 
-    // Determine correct portal based on role
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
       const { data: profile } = await supabase
@@ -65,39 +66,82 @@ function LoginForm() {
     setForgotSent(true)
   }
 
-  const inputClass = 'w-full h-12 px-4 font-sans text-sm rounded-[1px] border text-white placeholder-faint focus:outline-none focus:border-white transition-colors duration-200'
+  const fieldStyle: React.CSSProperties = {
+    width: '100%',
+    height: '48px',
+    padding: '0 1rem',
+    fontFamily: 'var(--font-dm-sans)',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    border: '2px solid var(--white)',
+    backgroundColor: 'var(--ink)',
+    color: 'var(--white)',
+    outline: 'none',
+    transition: 'box-shadow 80ms ease',
+  }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row" style={{ backgroundColor: 'var(--ink)' }}>
-
+    <div
+      className="min-h-screen flex flex-col lg:flex-row"
+      style={{ backgroundColor: 'var(--ink)' }}
+    >
       {/* Left panel */}
       <div
         className="hidden lg:flex flex-col justify-center items-center lg:w-[55%] p-16 relative"
-        style={{ backgroundColor: 'var(--ink)', borderRight: '1px solid var(--rule)' }}
+        style={{
+          backgroundColor: 'var(--obsidian)',
+          borderRight: '2px solid var(--white)',
+        }}
       >
+        {/* Accent block decoration */}
+        <div
+          className="absolute top-0 left-0"
+          style={{
+            width: '80px',
+            height: '80px',
+            backgroundColor: 'var(--accent)',
+            borderBottom: '2px solid var(--white)',
+            borderRight: '2px solid var(--white)',
+          }}
+        >
+          <Link href="/" className="absolute inset-0" aria-label="A Level Business Consultants Home">
+          <ArrowLeft className='mt-6 ml-6'/></Link>
+        </div>
+
         <div className="max-w-lg w-full">
           <div
-            className="font-playfair leading-none mb-4 select-none"
-            style={{ fontSize: '8rem', color: 'var(--rule)', lineHeight: 1 }}
+            className="font-bebas leading-none mb-6 select-none"
+            style={{ fontSize: '6rem', color: 'var(--accent)', lineHeight: 1 }}
             aria-hidden="true"
           >
-            "
+            &ldquo;
           </div>
           <blockquote
-            className="font-playfair italic leading-[1.7]"
-            style={{ fontSize: '1.5rem', color: 'var(--off-white)' }}
+            className="font-sans font-medium leading-[1.75]"
+            style={{ fontSize: '1.25rem', color: 'var(--off-white)' }}
           >
             Your financial records are only as good as the people who maintain them.
           </blockquote>
-          <p className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mt-8" style={{ color: 'var(--faint)' }}>
+          <div
+            className="mt-2 h-[3px] w-16"
+            style={{ backgroundColor: 'var(--accent)' }}
+          />
+          <p
+            className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mt-6 font-bold"
+            style={{ color: 'var(--faint)' }}
+          >
             Adrian Quina CA(SA) · A Level Business Consultants Inc
           </p>
-          <div className="flex flex-wrap gap-2 mt-12">
+          <div className="flex flex-wrap gap-2 mt-10">
             {['SAICA Registered', 'IRBA Approved', 'POPIA Compliant'].map(badge => (
               <span
                 key={badge}
-                className="font-mono text-[0.62rem] tracking-[0.1em] uppercase px-3 py-1.5 border rounded-[1px]"
-                style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+                className="font-mono text-[0.62rem] tracking-[0.1em] uppercase px-2.5 py-1 font-bold"
+                style={{
+                  border: '2px solid var(--white)',
+                  color: 'var(--white)',
+                  backgroundColor: 'var(--carbon)',
+                }}
               >
                 {badge}
               </span>
@@ -109,35 +153,69 @@ function LoginForm() {
       {/* Right panel */}
       <div
         className="flex-1 lg:w-[45%] flex flex-col justify-center items-center p-8 lg:p-16"
-        style={{ backgroundColor: 'var(--obsidian)' }}
+        style={{ backgroundColor: 'var(--ink)' }}
       >
         <div className="w-full max-w-[400px]">
+          {/* Logo */}
           <div className="flex items-center gap-3 mb-10">
             <div
-              className="flex items-center justify-center border rounded-[1px] font-mono text-[0.6rem] tracking-[0.18em] uppercase"
-              style={{ width: '36px', height: '32px', borderColor: 'var(--rule-mid)', color: 'var(--white)' }}
+              className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold"
+              style={{
+                width: '40px',
+                height: '36px',
+                backgroundColor: 'var(--accent)',
+                color: '#0A0A08',
+                border: '2px solid #0A0A08',
+              }}
             >
               ALC
             </div>
-            <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase" style={{ color: 'var(--muted)' }}>
+            <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
               A Level Business Consultants
             </span>
           </div>
 
-          <p className="font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-8" style={{ color: 'var(--muted)' }}>
-            Client Portal
-          </p>
-
-          <div
-            className="rounded-[1px] p-8"
-            style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+          <span
+            className="inline-block font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-8 font-bold px-3 py-1.5"
+            style={{
+              backgroundColor: 'var(--accent)',
+              color: '#0A0A08',
+              border: '2px solid #0A0A08',
+            }}
           >
-            {mode === 'login' ? (
-              <>
-                <h1 className="font-playfair text-white text-2xl mb-8">Sign In</h1>
+            Client Portal
+          </span>
+
+          {/* Card */}
+          <div
+            style={{
+              backgroundColor: 'var(--carbon)',
+              border: '2px solid var(--white)',
+              boxShadow: 'var(--neo-shadow)',
+            }}
+          >
+            {/* Card header */}
+            <div
+              className="px-8 py-4"
+              style={{ borderBottom: '2px solid var(--white)', backgroundColor: 'var(--graphite)' }}
+            >
+              <h1
+                className="font-bebas"
+                style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+              >
+                {mode === 'login' ? 'Sign In' : 'Reset Password'}
+              </h1>
+            </div>
+
+            <div className="p-8">
+              {mode === 'login' ? (
                 <form onSubmit={handleLogin} className="flex flex-col gap-5">
                   <div>
-                    <label htmlFor="email" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
+                    <label
+                      htmlFor="email"
+                      className="block font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold mb-2"
+                      style={{ color: 'var(--white)' }}
+                    >
                       Email Address
                     </label>
                     <input
@@ -145,14 +223,20 @@ function LoginForm() {
                       type="email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className={inputClass}
-                      style={{ backgroundColor: 'var(--ink)', borderColor: 'var(--graphite)' }}
+                      style={fieldStyle}
                       required
                       autoComplete="email"
+                      placeholder="you@company.co.za"
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
                     />
                   </div>
                   <div>
-                    <label htmlFor="password" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
+                    <label
+                      htmlFor="password"
+                      className="block font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold mb-2"
+                      style={{ color: 'var(--white)' }}
+                    >
                       Password
                     </label>
                     <input
@@ -160,102 +244,111 @@ function LoginForm() {
                       type="password"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
-                      className={inputClass}
-                      style={{ backgroundColor: 'var(--ink)', borderColor: 'var(--graphite)' }}
+                      style={fieldStyle}
                       required
                       autoComplete="current-password"
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
                     />
                   </div>
 
                   {error && (
-                    <p className="font-mono text-[0.65rem] tracking-[0.08em]" style={{ color: 'var(--loss)' }}>
-                      {error}
+                    <p className="font-mono text-[0.7rem] tracking-[0.06em] font-bold" style={{ color: 'var(--loss)' }}>
+                      ✕ {error}
                     </p>
                   )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full h-12 neo-btn-primary font-sans text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {loading ? 'Signing in...' : 'Sign In'}
+                    {loading ? 'Signing in...' : 'Sign In →'}
                   </button>
 
                   <div className="text-center">
                     <button
                       type="button"
                       onClick={() => { setMode('forgot'); setError('') }}
-                      className="font-sans text-sm transition-colors duration-200 hover:text-white"
+                      className="font-mono text-[0.65rem] tracking-[0.1em] uppercase font-bold transition-colors duration-100 hover:text-[var(--accent)] underline underline-offset-4"
                       style={{ color: 'var(--muted)' }}
                     >
                       Forgot password?
                     </button>
                   </div>
                 </form>
-              </>
-            ) : (
-              <>
-                <h1 className="font-playfair text-white text-2xl mb-3">Reset Password</h1>
-                {forgotSent ? (
-                  <div>
-                    <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)' }}>
-                      If an account exists for <strong className="text-white">{email}</strong>, a password reset link has been sent.
-                    </p>
-                    <button
-                      onClick={() => { setMode('login'); setForgotSent(false) }}
-                      className="font-sans text-sm transition-colors hover:text-white"
-                      style={{ color: 'var(--muted)' }}
-                    >
-                      ← Back to sign in
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleForgot} className="flex flex-col gap-5 mt-6">
-                    <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                      Enter your email address and we&apos;ll send you a reset link.
-                    </p>
+              ) : (
+                <>
+                  {forgotSent ? (
                     <div>
-                      <label htmlFor="reset-email" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
-                        Email Address
-                      </label>
-                      <input
-                        id="reset-email"
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className={inputClass}
-                        style={{ backgroundColor: 'var(--ink)', borderColor: 'var(--graphite)' }}
-                        required
-                      />
+                      <p className="font-sans text-sm font-medium mb-6" style={{ color: 'var(--muted)' }}>
+                        If an account exists for{' '}
+                        <strong className="font-bold" style={{ color: 'var(--accent)' }}>{email}</strong>,
+                        a password reset link has been sent.
+                      </p>
+                      <button
+                        onClick={() => { setMode('login'); setForgotSent(false) }}
+                        className="font-mono text-[0.65rem] tracking-[0.1em] uppercase font-bold transition-colors hover:text-[var(--accent)]"
+                        style={{ color: 'var(--muted)' }}
+                      >
+                        ← Back to sign in
+                      </button>
                     </div>
+                  ) : (
+                    <form onSubmit={handleForgot} className="flex flex-col gap-5">
+                      <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                        Enter your email and we&apos;ll send you a reset link.
+                      </p>
+                      <div>
+                        <label
+                          htmlFor="reset-email"
+                          className="block font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold mb-2"
+                          style={{ color: 'var(--white)' }}
+                        >
+                          Email Address
+                        </label>
+                        <input
+                          id="reset-email"
+                          type="email"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          style={fieldStyle}
+                          required
+                          onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                          onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
+                        />
+                      </div>
 
-                    {error && (
-                      <p className="font-mono text-[0.65rem]" style={{ color: 'var(--loss)' }}>{error}</p>
-                    )}
+                      {error && (
+                        <p className="font-mono text-[0.7rem] font-bold" style={{ color: 'var(--loss)' }}>
+                          ✕ {error}
+                        </p>
+                      )}
 
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors disabled:opacity-60"
-                    >
-                      {loading ? 'Sending...' : 'Send Reset Link'}
-                    </button>
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full h-12 neo-btn-primary font-sans text-sm disabled:opacity-60"
+                      >
+                        {loading ? 'Sending...' : 'Send Reset Link →'}
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => { setMode('login'); setError('') }}
-                      className="font-sans text-sm transition-colors hover:text-white"
-                      style={{ color: 'var(--muted)' }}
-                    >
-                      ← Back to sign in
-                    </button>
-                  </form>
-                )}
-              </>
-            )}
+                      <button
+                        type="button"
+                        onClick={() => { setMode('login'); setError('') }}
+                        className="font-mono text-[0.65rem] tracking-[0.1em] uppercase font-bold transition-colors hover:text-[var(--accent)]"
+                        style={{ color: 'var(--muted)' }}
+                      >
+                        ← Back to sign in
+                      </button>
+                    </form>
+                  )}
+                </>
+              )}
+            </div>
           </div>
 
-          <p className="font-mono text-[0.65rem] tracking-[0.08em] text-center mt-6" style={{ color: 'var(--faint)' }}>
+          <p className="font-mono text-[0.6rem] tracking-[0.08em] text-center mt-6 font-bold" style={{ color: 'var(--faint)' }}>
             256-bit encrypted · POPIA compliant · SAICA professional standards
           </p>
         </div>

@@ -10,14 +10,21 @@ interface DashboardWidgetProps {
 export function DashboardWidget({ label, action, children, className }: DashboardWidgetProps) {
   return (
     <div
-      className={`rounded-[1px] ${className ?? ''}`}
-      style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}
+      className={`${className ?? ''}`}
+      style={{
+        backgroundColor: 'var(--carbon)',
+        border: '2px solid var(--white)',
+        boxShadow: 'var(--neo-shadow)',
+      }}
     >
       <div
         className="flex items-center justify-between px-6 py-4"
-        style={{ borderBottom: '1px solid var(--rule)' }}
+        style={{
+          borderBottom: '2px solid var(--white)',
+          backgroundColor: 'var(--graphite)',
+        }}
       >
-        <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+        <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent)' }}>
           {label}
         </p>
         {action && <div>{action}</div>}

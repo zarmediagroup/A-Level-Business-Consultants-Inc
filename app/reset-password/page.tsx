@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
 
@@ -34,6 +34,17 @@ export default function ResetPasswordPage() {
 
     setLoading(true)
     setError('')
+
+    // Verify a valid session exists before attempting the update.
+    // This guards against the edge-case where the invite token was not
+    // properly exchanged and we would be operating on the wrong user.
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+    if (sessionError || !session) {
+      setLoading(false)
+      setError('Your session has expired or is invalid. Please use the invite link from your email again.')
+      return
+    }
+
     const { error: updateError } = await supabase.auth.updateUser({ password })
     setLoading(false)
 
@@ -42,89 +53,136 @@ export default function ResetPasswordPage() {
     setTimeout(() => router.push('/portal'), 2000)
   }
 
-  const inputClass = 'w-full h-12 px-4 font-sans text-sm rounded-[1px] border text-white placeholder-faint focus:outline-none focus:border-white transition-colors duration-200'
+  const fieldStyle: CSSProperties = {
+    width: '100%',
+    height: '48px',
+    padding: '0 1rem',
+    fontFamily: 'var(--font-dm-sans)',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    border: '2px solid var(--white)',
+    backgroundColor: 'var(--ink)',
+    color: 'var(--white)',
+    outline: 'none',
+  }
+
+  const labelStyle: CSSProperties = {
+    fontFamily: 'var(--font-ibm-mono)',
+    fontSize: '0.65rem',
+    letterSpacing: '0.18em',
+    textTransform: 'uppercase',
+    fontWeight: '700',
+    color: 'var(--white)',
+    display: 'block',
+    marginBottom: '8px',
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8" style={{ backgroundColor: 'var(--ink)' }}>
       <div className="w-full max-w-[400px]">
+        {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
           <div
-            className="flex items-center justify-center border rounded-[1px] font-mono text-[0.6rem] tracking-[0.18em] uppercase"
-            style={{ width: '36px', height: '32px', borderColor: 'var(--rule-mid)', color: 'var(--white)' }}
+            className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold"
+            style={{ width: '40px', height: '36px', backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
           >
             ALC
           </div>
-          <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase" style={{ color: 'var(--muted)' }}>
+          <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
             A Level Business Consultants
           </span>
         </div>
 
-        <div className="rounded-[1px] p-8" style={{ backgroundColor: 'var(--carbon)', border: '1px solid var(--rule)' }}>
-          {done ? (
-            <div>
-              <h1 className="font-playfair text-white text-2xl mb-4">
-                {isFirstTime ? 'Welcome Aboard' : 'Password Updated'}
-              </h1>
-              <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>
-                {isFirstTime
-                  ? 'Your account is active. Redirecting you to the portal…'
-                  : 'Your password has been updated. Redirecting you to the portal…'}
-              </p>
-            </div>
-          ) : (
-            <>
-              <h1 className="font-playfair text-white text-2xl mb-3">
-                {isFirstTime ? 'Welcome — Set Your Password' : 'Set New Password'}
-              </h1>
-              {isFirstTime && (
-                <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)' }}>
-                  Your email has been verified. Choose a password to activate your account.
-                </p>
-              )}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div>
-                  <label htmlFor="new-password" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
-                    New Password
-                  </label>
-                  <input
-                    id="new-password"
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className={inputClass}
-                    style={{ backgroundColor: 'var(--ink)', borderColor: 'var(--graphite)' }}
-                    required minLength={8}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="confirm-password" className="font-mono text-[0.65rem] tracking-[0.14em] uppercase block mb-2" style={{ color: 'var(--muted)' }}>
-                    Confirm Password
-                  </label>
-                  <input
-                    id="confirm-password"
-                    type="password"
-                    value={confirm}
-                    onChange={e => setConfirm(e.target.value)}
-                    className={inputClass}
-                    style={{ backgroundColor: 'var(--ink)', borderColor: 'var(--graphite)' }}
-                    required
-                  />
-                </div>
+        <div
+          style={{
+            backgroundColor: 'var(--carbon)',
+            border: '2px solid var(--white)',
+            boxShadow: 'var(--neo-shadow)',
+          }}
+        >
+          {/* Card header */}
+          <div
+            className="px-8 py-4"
+            style={{ borderBottom: '2px solid var(--white)', backgroundColor: 'var(--graphite)' }}
+          >
+            <h1
+              className="font-bebas"
+              style={{ fontSize: '1.75rem', color: 'var(--white)', letterSpacing: '0.04em' }}
+            >
+              {done
+                ? (isFirstTime ? 'Welcome Aboard' : 'Password Updated')
+                : (isFirstTime ? 'Set Your Password' : 'Set New Password')}
+            </h1>
+          </div>
 
-                {error && (
-                  <p className="font-mono text-[0.65rem]" style={{ color: 'var(--loss)' }}>{error}</p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 bg-white text-ink font-sans text-sm rounded-[1px] hover:bg-off-white transition-colors disabled:opacity-60"
+          <div className="p-8">
+            {done ? (
+              <div>
+                <div
+                  className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.14em] uppercase font-bold px-3 py-1.5 mb-4"
+                  style={{ backgroundColor: 'var(--profit)', color: '#0A0A08', border: '2px solid #0A0A08' }}
                 >
-                  {loading ? 'Saving…' : isFirstTime ? 'Activate Account' : 'Update Password'}
-                </button>
-              </form>
-            </>
-          )}
+                  ✓ Success
+                </div>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  {isFirstTime
+                    ? 'Your account is active. Redirecting you to the portal…'
+                    : 'Your password has been updated. Redirecting you to the portal…'}
+                </p>
+              </div>
+            ) : (
+              <>
+                {isFirstTime && (
+                  <p className="font-sans text-sm mb-6 font-medium" style={{ color: 'var(--muted)' }}>
+                    Your email has been verified. Choose a password to activate your account.
+                  </p>
+                )}
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <div>
+                    <label htmlFor="new-password" style={labelStyle}>New Password</label>
+                    <input
+                      id="new-password"
+                      type="password"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      style={fieldStyle}
+                      required
+                      minLength={8}
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="confirm-password" style={labelStyle}>Confirm Password</label>
+                    <input
+                      id="confirm-password"
+                      type="password"
+                      value={confirm}
+                      onChange={e => setConfirm(e.target.value)}
+                      style={fieldStyle}
+                      required
+                      onFocus={e => (e.currentTarget.style.boxShadow = 'var(--neo-shadow-sm)')}
+                      onBlur={e => (e.currentTarget.style.boxShadow = 'none')}
+                    />
+                  </div>
+
+                  {error && (
+                    <p className="font-mono text-[0.7rem] font-bold" style={{ color: 'var(--loss)' }}>
+                      ✕ {error}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full h-12 neo-btn-primary font-sans text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loading ? 'Saving…' : isFirstTime ? 'Activate Account →' : 'Update Password →'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

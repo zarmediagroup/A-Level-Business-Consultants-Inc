@@ -17,17 +17,17 @@ export function MarqueeTrustBar() {
     'POPIA Compliant',
   ]
 
-  const text = items.map(item => `· ${item}  `).join('')
+  const text = items.map(item => `→ ${item}  `).join('')
   const doubled = text + text
 
   return (
     <div
       className="relative overflow-hidden"
       style={{
-        backgroundColor: 'var(--obsidian)',
-        borderTop: '1px solid var(--rule)',
-        borderBottom: '1px solid var(--rule)',
-        height: '48px',
+        backgroundColor: 'var(--accent)',
+        borderTop: '2px solid #0A0A08',
+        borderBottom: '2px solid #0A0A08',
+        height: '52px',
       }}
       aria-label="Trust credentials"
     >
@@ -37,8 +37,8 @@ export function MarqueeTrustBar() {
           aria-hidden="true"
         >
           <span
-            className="font-mono text-[0.7rem] tracking-[0.12em]"
-            style={{ color: 'var(--muted)' }}
+            className="font-mono text-[0.7rem] tracking-[0.14em] font-bold uppercase"
+            style={{ color: '#0A0A08' }}
           >
             {doubled}
           </span>

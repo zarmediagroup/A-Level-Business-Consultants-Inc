@@ -30,19 +30,36 @@ export function PortalHeader() {
     <header
       className="flex items-center justify-between px-6 lg:px-8"
       style={{
-        height: '64px', backgroundColor: 'var(--obsidian)',
-        borderBottom: '1px solid var(--rule)', position: 'sticky', top: 0, zIndex: 20,
+        height: '64px',
+        backgroundColor: 'var(--obsidian)',
+        borderBottom: '2px solid var(--white)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 20,
       }}
     >
-      <h1 className="font-playfair text-white text-xl">{title}</h1>
+      <h1
+        className="font-bebas"
+        style={{
+          fontSize: '1.5rem',
+          color: 'var(--white)',
+          letterSpacing: '0.06em',
+        }}
+      >
+        {title}
+      </h1>
 
       <div className="flex items-center gap-3">
         {isAdmin && (
           <span
-            className="hidden sm:flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.1em] uppercase px-3 py-1.5 border rounded-[1px]"
-            style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+            className="hidden sm:flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.1em] uppercase px-2.5 py-1 font-bold"
+            style={{
+              border: '2px solid var(--accent)',
+              color: 'var(--accent)',
+              backgroundColor: 'var(--graphite)',
+            }}
           >
-            Admin Mode
+            Admin
           </span>
         )}
 
@@ -51,13 +68,30 @@ export function PortalHeader() {
         <Link
           href="/portal/notifications"
           aria-label={`Notifications${unread > 0 ? ` (${unread} unread)` : ''}`}
-          className="relative w-8 h-8 flex items-center justify-center rounded-[1px] border transition-colors hover:border-white"
-          style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+          className="relative w-9 h-9 flex items-center justify-center transition-all duration-80"
+          style={{
+            border: '2px solid var(--white)',
+            color: 'var(--muted)',
+            boxShadow: 'var(--neo-shadow-sm)',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'none'
+            ;(e.currentTarget as HTMLElement).style.transform = 'translate(2px, 2px)'
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--neo-shadow-sm)'
+            ;(e.currentTarget as HTMLElement).style.transform = 'translate(0, 0)'
+          }}
         >
           🔔
           {unread > 0 && (
             <span
-              className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center font-mono text-[0.55rem] bg-white text-ink"
+              className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center font-mono text-[0.55rem] font-bold"
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: '#0A0A08',
+                border: '2px solid #0A0A08',
+              }}
             >
               {unread > 9 ? '9+' : unread}
             </span>
@@ -67,11 +101,15 @@ export function PortalHeader() {
         {/* Mobile menu toggle */}
         <button
           onClick={() => setShowMobileMenu(v => !v)}
-          className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[1px] border transition-colors"
-          style={{ borderColor: 'var(--rule-mid)', color: 'var(--muted)' }}
+          className="lg:hidden w-9 h-9 flex items-center justify-center font-bold"
+          style={{
+            border: '2px solid var(--white)',
+            color: 'var(--white)',
+            backgroundColor: showMobileMenu ? 'var(--accent)' : 'transparent',
+          }}
           aria-label="Toggle menu"
         >
-          ☰
+          {showMobileMenu ? '✕' : '☰'}
         </button>
       </div>
 
@@ -79,7 +117,11 @@ export function PortalHeader() {
       {showMobileMenu && (
         <div
           className="lg:hidden fixed inset-0 z-50 flex flex-col"
-          style={{ backgroundColor: 'var(--ink)', top: '64px' }}
+          style={{
+            backgroundColor: 'var(--ink)',
+            top: '64px',
+            borderTop: '2px solid var(--white)',
+          }}
         >
           <nav className="flex flex-col p-6 gap-2">
             {(isAdmin ? [
@@ -99,8 +141,13 @@ export function PortalHeader() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setShowMobileMenu(false)}
-                className="font-sans text-lg text-white py-3 border-b"
-                style={{ borderColor: 'var(--rule)' }}
+                className="font-bebas py-4 transition-colors duration-100 hover:text-[var(--accent)]"
+                style={{
+                  fontSize: '1.75rem',
+                  color: 'var(--white)',
+                  letterSpacing: '0.04em',
+                  borderBottom: '2px solid var(--rule-mid)',
+                }}
               >
                 {item.label}
               </Link>

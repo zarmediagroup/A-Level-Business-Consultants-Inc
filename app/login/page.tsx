@@ -4,7 +4,25 @@ import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+
+function ArrowLeftIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
+  )
+}
 
 function LoginForm() {
   const router       = useRouter()
@@ -104,8 +122,9 @@ function LoginForm() {
             borderRight: '2px solid var(--white)',
           }}
         >
-          <Link href="/" className="absolute inset-0" aria-label="A Level Business Consultants Home">
-          <ArrowLeft className='mt-6 ml-6'/></Link>
+          <Link href="/" className="absolute inset-0 flex items-start justify-start p-5" aria-label="Back to website">
+            <ArrowLeftIcon className="w-5 h-5 shrink-0 text-[#0A0A08]" />
+          </Link>
         </div>
 
         <div className="max-w-lg w-full">
@@ -156,6 +175,15 @@ function LoginForm() {
         style={{ backgroundColor: 'var(--ink)' }}
       >
         <div className="w-full max-w-[400px]">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold mb-8 transition-colors hover:text-[var(--accent)]"
+            style={{ color: 'var(--muted)' }}
+          >
+            <ArrowLeftIcon className="w-4 h-4 shrink-0" />
+            Back to website
+          </Link>
+
           {/* Logo */}
           <div className="flex items-center gap-3 mb-10">
             <div

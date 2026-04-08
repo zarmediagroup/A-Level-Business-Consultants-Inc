@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   async function signOut() {
-    await fetch('/api/auth/signout', { method: 'POST' })
+    await supabase.auth.signOut()
     window.location.href = '/login'
   }
 

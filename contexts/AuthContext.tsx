@@ -56,7 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   async function signOut() {
-    await supabase.auth.signOut()
+    try {
+      await supabase.auth.signOut()
+    } catch {
+      // Session may already be invalid — proceed to redirect regardless
+    }
     window.location.href = '/login'
   }
 

@@ -22,6 +22,17 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Helper: build a redirect that carries any cookie mutations Supabase wrote
+  // (e.g. clearing a stale refresh token). Without this, Set-Cookie headers
+  // on supabaseResponse are dropped whenever we redirect.
+  function redirect(url: URL) {
+    const res = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach(cookie =>
+      res.cookies.set(cookie.name, cookie.value, cookie as Parameters<typeof res.cookies.set>[2])
+    )
+    return res
+  }
+
   // Refresh session — must NOT call supabase.auth.getSession() here
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -33,7 +44,7 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
       url.searchParams.set('redirect', pathname)
-      return NextResponse.redirect(url)
+      return redirect(url)
     }
 
     // Protect admin sub-routes
@@ -47,18 +58,31 @@ export async function middleware(request: NextRequest) {
       if (!profile || profile.role !== 'admin') {
         const url = request.nextUrl.clone()
         url.pathname = '/portal'
-        return NextResponse.redirect(url)
+        return redirect(url)
       }
     }
   }
 
   // Redirect already-authenticated users away from login
   if (pathname === '/login' && user) {
-    const redirect = request.nextUrl.searchParams.get('redirect') ?? '/portal'
+    const redirectParam = request.nextUrl.searchParams.get('redirect')
+    if (redirectParam) {
+      const url = request.nextUrl.clone()
+      url.pathname = redirectParam
+      url.searchParams.delete('redirect')
+      return redirect(url)
+    }
+
+    // No explicit redirect — send admins to admin portal, others to client portal
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
     const url = request.nextUrl.clone()
-    url.pathname = redirect
-    url.searchParams.delete('redirect')
-    return NextResponse.redirect(url)
+    url.pathname = profile?.role === 'admin' ? '/portal/admin' : '/portal'
+    return redirect(url)
   }
 
   return supabaseResponse

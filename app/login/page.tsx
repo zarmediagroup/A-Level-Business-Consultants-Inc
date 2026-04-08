@@ -49,7 +49,6 @@ function LoginForm() {
     } else {
       router.push(redirect)
     }
-    router.refresh()
   }
 
   const handleForgot = async (e: React.FormEvent) => {

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { defaultTenant } from '@/types/tenant'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { BrandLogo } from '@/components/branding/BrandLogo'
 
 const navLinks = [
   { href: '/',          label: 'Home' },
@@ -41,18 +42,7 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label={tenant.firm_name}>
-            <div
-              className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
-              style={{
-                width: '40px',
-                height: '36px',
-                backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
-                border: '2px solid #0A0A08',
-              }}
-            >
-              ALC
-            </div>
+            <BrandLogo size={44} priority className="shrink-0" />
             <span
               className="hidden sm:block font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold"
               style={{ color: 'var(--white)' }}
@@ -130,12 +120,7 @@ export function Navbar() {
           >
             {/* Mobile logo */}
             <div className="flex items-center gap-3 px-8 py-6" style={{ borderBottom: '2px solid var(--white)' }}>
-              <div
-                className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
-                style={{ width: '40px', height: '36px', backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
-              >
-                ALC
-              </div>
+              <BrandLogo size={44} className="shrink-0" />
               <span className="font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
                 {tenant.firm_name}
               </span>

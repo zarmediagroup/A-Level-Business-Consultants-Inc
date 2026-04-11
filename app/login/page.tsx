@@ -4,6 +4,8 @@ import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
 import Link from 'next/link'
+import { BrandLogo } from '@/components/branding/BrandLogo'
+import { defaultTenant } from '@/types/tenant'
 
 function ArrowLeftIcon({ className }: { className?: string }) {
   return (
@@ -25,6 +27,7 @@ function ArrowLeftIcon({ className }: { className?: string }) {
 }
 
 function LoginForm() {
+  const tenant       = defaultTenant
   const router       = useRouter()
   const searchParams = useSearchParams()
   const redirect     = searchParams.get('redirect') ?? '/portal'
@@ -123,7 +126,7 @@ function LoginForm() {
           }}
         >
           <Link href="/" className="absolute inset-0 flex items-start justify-start p-5" aria-label="Back to website">
-            <ArrowLeftIcon className="w-5 h-5 shrink-0 text-[#0A0A08]" />
+            <ArrowLeftIcon className="w-5 h-5 shrink-0 text-[var(--accent-fg)]" />
           </Link>
         </div>
 
@@ -149,7 +152,7 @@ function LoginForm() {
             className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mt-6 font-bold"
             style={{ color: 'var(--faint)' }}
           >
-            Adrian Quina CA(SA) · A Level Business Consultants Inc
+            Adrian Quina CA(SA) · {tenant.firm_name}
           </p>
           <div className="flex flex-wrap gap-2 mt-10">
             {['SAICA Registered', 'IRBA Approved', 'POPIA Compliant'].map(badge => (
@@ -186,20 +189,9 @@ function LoginForm() {
 
           {/* Logo */}
           <div className="flex items-center gap-3 mb-10">
-            <div
-              className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold"
-              style={{
-                width: '40px',
-                height: '36px',
-                backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
-                border: '2px solid #0A0A08',
-              }}
-            >
-              ALC
-            </div>
+            <BrandLogo size={48} className="shrink-0" />
             <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
-              A Level Business Consultants
+              {tenant.firm_name}
             </span>
           </div>
 
@@ -207,7 +199,7 @@ function LoginForm() {
             className="inline-block font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-8 font-bold px-3 py-1.5"
             style={{
               backgroundColor: 'var(--accent)',
-              color: '#0A0A08',
+              color: 'var(--accent-fg)',
               border: '2px solid #0A0A08',
             }}
           >

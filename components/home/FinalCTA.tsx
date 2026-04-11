@@ -29,7 +29,7 @@ export function FinalCTA() {
                 style={{
                   fontSize: 'clamp(2.5rem, 5vw, 5rem)',
                   lineHeight: 1.0,
-                  color: '#0A0A08',
+                  color: 'var(--accent-fg)',
                   letterSpacing: '0.02em',
                 }}
               >

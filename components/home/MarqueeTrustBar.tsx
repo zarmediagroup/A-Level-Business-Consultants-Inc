@@ -38,7 +38,7 @@ export function MarqueeTrustBar() {
         >
           <span
             className="font-mono text-[0.7rem] tracking-[0.14em] font-bold uppercase"
-            style={{ color: '#0A0A08' }}
+            style={{ color: 'var(--accent-fg)' }}
           >
             {doubled}
           </span>

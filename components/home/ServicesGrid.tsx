@@ -91,7 +91,7 @@ export function ServicesGrid() {
               className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
               style={{
                 backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
+                color: 'var(--accent-fg)',
                 border: '2px solid #0A0A08',
               }}
             >
@@ -126,7 +126,7 @@ export function ServicesGrid() {
                     className="font-mono text-[0.65rem] tracking-[0.18em] font-bold px-2 py-1"
                     style={{
                       backgroundColor: 'var(--accent)',
-                      color: '#0A0A08',
+                      color: 'var(--accent-fg)',
                       border: '2px solid #0A0A08',
                     }}
                   >

@@ -91,7 +91,7 @@ export function Hero() {
                 className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
                 style={{
                   backgroundColor: 'var(--accent)',
-                  color: '#0A0A08',
+                  color: 'var(--accent-fg)',
                   border: '2px solid #0A0A08',
                 }}
               >
@@ -181,10 +181,10 @@ export function Hero() {
                   backgroundColor: 'var(--accent)',
                 }}
               >
-                <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: '#0A0A08' }}>
+                <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent-fg)' }}>
                   Financial Review Summary
                 </span>
-                <span className="font-mono text-[0.65rem] tracking-[0.18em] font-bold" style={{ color: '#0A0A08' }}>
+                <span className="font-mono text-[0.65rem] tracking-[0.18em] font-bold" style={{ color: 'var(--accent-fg)' }}>
                   FY 2025
                 </span>
               </div>

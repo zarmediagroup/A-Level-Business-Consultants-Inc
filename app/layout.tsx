@@ -8,6 +8,7 @@ import {
 import './globals.css'
 import { defaultTenant } from '@/types/tenant'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
+import { absoluteUrl, getSiteUrl } from '@/lib/seo'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -36,8 +37,11 @@ const bebasNeue = Bebas_Neue({
 })
 
 const tenant = defaultTenant
+const siteUrl = getSiteUrl()
+const ogImagePath = tenant.logo_url ?? '/images/brand/abc-inc-chartered-accountant-logo.png'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     template: `%s | ${tenant.firm_name} — Chartered Accountants`,
     default: `${tenant.firm_name} — Chartered Accountants & Auditors`,
@@ -54,42 +58,87 @@ export const metadata: Metadata = {
     'VAT registration',
     'company secretarial',
     'Cape Town accountant',
-    'A Level Business Consultants',
+    'ABC Inc',
+    tenant.city ?? 'Cape Town',
   ],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: `${tenant.firm_name} — Chartered Accountants`,
-    description: 'SAICA-registered accounting, audit and tax compliance for South African businesses.',
+    description:
+      'SAICA-registered accounting, audit and tax compliance for South African businesses.',
     type: 'website',
     locale: 'en_ZA',
+    url: '/',
+    siteName: tenant.firm_name,
+    images: [
+      {
+        url: ogImagePath,
+        width: 1200,
+        height: 630,
+        alt: `${tenant.firm_name} — Chartered Accountants`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${tenant.firm_name} — Chartered Accountants`,
+    description:
+      'SAICA-registered accounting, audit and tax compliance for South African businesses.',
+    images: [ogImagePath],
   },
   robots: { index: true, follow: true },
+  category: 'business',
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'AccountingService',
-  name: tenant.firm_name,
-  description: 'SAICA-registered chartered accountants and auditors in South Africa.',
-  url: 'https://alevelconsultants.co.za',
-  telephone: tenant.phone,
-  email: tenant.email,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: tenant.address,
-    addressLocality: tenant.city,
-    addressCountry: 'ZA',
-  },
-  hasCredential: ['SAICA Member', 'IRBA Registered', 'CIPC Accredited'],
-  serviceType: ['Audit', 'Accounting', 'Tax Compliance', 'Company Secretarial', 'Bookkeeping'],
-  areaServed: 'South Africa',
-  openingHours: 'Mo-Fr 08:30-17:00',
-  priceRange: '$$',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: tenant.firm_name,
+      url: siteUrl,
+      logo: absoluteUrl(ogImagePath),
+      email: tenant.email,
+      telephone: tenant.phone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: tenant.address,
+        addressLocality: tenant.city,
+        addressCountry: 'ZA',
+      },
+    },
+    {
+      '@type': 'AccountingService',
+      '@id': `${siteUrl}/#accounting`,
+      name: tenant.firm_name,
+      description: 'SAICA-registered chartered accountants and auditors in South Africa.',
+      url: siteUrl,
+      image: absoluteUrl(ogImagePath),
+      telephone: tenant.phone,
+      email: tenant.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: tenant.address,
+        addressLocality: tenant.city,
+        addressCountry: 'ZA',
+      },
+      parentOrganization: { '@id': `${siteUrl}/#organization` },
+      hasCredential: ['SAICA Member', 'IRBA Registered', 'CIPC Accredited'],
+      serviceType: ['Audit', 'Accounting', 'Tax Compliance', 'Company Secretarial', 'Bookkeeping'],
+      areaServed: 'South Africa',
+      openingHours: 'Mo-Fr 08:30-17:00',
+      priceRange: '$$',
+    },
+  ],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      lang="en"
+      lang="en-ZA"
       className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable}`}
       suppressHydrationWarning
     >

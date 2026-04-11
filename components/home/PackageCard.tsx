@@ -1,6 +1,7 @@
 'use client'
 
 import { defaultTenant } from '@/types/tenant'
+import { ServiceFeatureIcon, TierIcon } from '@/components/icons/ServiceIcons'
 
 interface Package {
   tier: string
@@ -28,7 +29,7 @@ export function PackageCard({ pkg }: { pkg: Package }) {
           className="absolute -top-4 left-6 font-mono text-[0.65rem] tracking-[0.14em] uppercase font-bold px-3 py-1.5"
           style={{
             backgroundColor: '#0A0A08',
-            color: 'var(--accent)',
+            color: 'var(--accent-fg)',
             border: '2px solid #0A0A08',
           }}
         >
@@ -37,18 +38,23 @@ export function PackageCard({ pkg }: { pkg: Package }) {
       )}
 
       <div className="p-8 flex-1">
-        <div className="flex justify-between items-start mb-3">
-          <p
-            className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold"
-            style={{ color: pkg.highlight ? '#0A0A08' : 'var(--muted)' }}
-          >
-            {pkg.tier}
-          </p>
+        <div className="flex justify-between items-start mb-3 gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <span style={{ color: pkg.highlight ? 'var(--accent-fg)' : 'var(--accent)' }}>
+              <TierIcon tier={pkg.tier} />
+            </span>
+            <p
+              className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold"
+              style={{ color: pkg.highlight ? 'var(--accent-fg)' : 'var(--muted)' }}
+            >
+              {pkg.tier}
+            </p>
+          </div>
           <span
             className="font-mono text-[0.55rem] tracking-[0.1em] uppercase px-2 py-1 font-bold"
             style={{
-              border: pkg.highlight ? '2px solid #0A0A08' : '2px solid var(--white)',
-              color: pkg.highlight ? '#0A0A08' : 'var(--white)',
+              border: pkg.highlight ? '2px solid rgba(232,238,245,0.35)' : '2px solid var(--white)',
+              color: pkg.highlight ? 'var(--accent-fg)' : 'var(--white)',
             }}
           >
             {pkg.vatStatus}
@@ -60,14 +66,14 @@ export function PackageCard({ pkg }: { pkg: Package }) {
             className="font-bebas leading-none"
             style={{
               fontSize: '3.5rem',
-              color: pkg.highlight ? '#0A0A08' : 'var(--white)',
+              color: pkg.highlight ? 'var(--accent-fg)' : 'var(--white)',
             }}
           >
             {pkg.price}
           </span>
           <span
             className="font-mono text-[0.7rem] font-bold"
-            style={{ color: pkg.highlight ? '#3A3A30' : 'var(--muted)' }}
+            style={{ color: pkg.highlight ? 'var(--accent-fg-muted)' : 'var(--muted)' }}
           >
             {pkg.period}
           </span>
@@ -80,19 +86,14 @@ export function PackageCard({ pkg }: { pkg: Package }) {
               className="flex items-start gap-3 py-2.5"
               style={{
                 borderBottom: i < pkg.features.length - 1
-                  ? pkg.highlight ? '1px solid rgba(10,10,8,0.2)' : '1px solid var(--rule-mid)'
+                  ? pkg.highlight ? '1px solid rgba(232,238,245,0.2)' : '1px solid var(--rule-mid)'
                   : 'none',
               }}
             >
-              <span
-                className="font-mono text-xs mt-0.5 shrink-0 font-bold"
-                style={{ color: pkg.highlight ? '#0A0A08' : 'var(--profit)' }}
-              >
-                ✓
-              </span>
+              <ServiceFeatureIcon feature={f} highlight={pkg.highlight} />
               <span
                 className="font-sans text-[0.85rem] font-medium"
-                style={{ color: pkg.highlight ? '#0A0A08' : 'var(--off-white)' }}
+                style={{ color: pkg.highlight ? 'var(--accent-fg)' : 'var(--off-white)' }}
               >
                 {f}
               </span>

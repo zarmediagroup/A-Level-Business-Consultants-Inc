@@ -1,9 +1,15 @@
 export const dynamic = 'force-dynamic'
 
+import type { Metadata } from 'next'
 import { PortalSidebar } from '@/components/layout/PortalSidebar'
 import { PortalHeader } from '@/components/layout/PortalHeader'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { NotificationProvider } from '@/contexts/NotificationContext'
+
+export const metadata: Metadata = {
+  title: 'Client portal',
+  robots: { index: false, follow: false },
+}
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   return (

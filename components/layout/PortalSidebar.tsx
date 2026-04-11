@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import { BrandLogo } from '@/components/branding/BrandLogo'
 
 const clientNav = [
   { href: '/portal',                label: 'Dashboard',    icon: '⊞' },
@@ -49,18 +50,7 @@ export function PortalSidebar() {
         className="flex items-center gap-3 px-5 py-4"
         style={{ borderBottom: '2px solid var(--white)' }}
       >
-        <div
-          className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold shrink-0"
-          style={{
-            width: '34px',
-            height: '30px',
-            backgroundColor: 'var(--accent)',
-            color: '#0A0A08',
-            border: '2px solid #0A0A08',
-          }}
-        >
-          ALC
-        </div>
+        <BrandLogo size={36} className="shrink-0" />
         <span className="font-mono text-[0.6rem] tracking-[0.1em] uppercase font-bold truncate" style={{ color: 'var(--white)' }}>
           {isAdmin ? 'Admin Portal' : 'Client Portal'}
         </span>

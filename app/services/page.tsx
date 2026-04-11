@@ -8,7 +8,7 @@ import { BookkeepingSectionIcon, ServiceFeatureIcon, TaxComplianceIcon } from '@
 export const metadata: Metadata = {
   title: 'Our Services',
   description:
-    'Tax compliance, bookkeeping, payroll, company secretarial, registrations and reporting — ABC Inc supports South African businesses end-to-end.',
+    'Tax compliance, bookkeeping, payroll, company secretarial, registrations and reporting — ABC INC supports South African businesses end-to-end.',
   alternates: { canonical: '/services' },
   openGraph: { url: '/services' },
 }

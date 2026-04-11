@@ -38,7 +38,11 @@ const bebasNeue = Bebas_Neue({
 
 const tenant = defaultTenant
 const siteUrl = getSiteUrl()
-const ogImagePath = tenant.logo_url ?? '/images/brand/abc-inc-chartered-accountant-logo.png'
+const ogImagePath = tenant.logo_url ?? '/images/brand/abc-inc-chartered-accountants-south-africa-logo.png'
+const logoAlt =
+  tenant.logo_alt ?? `${tenant.firm_name} — chartered accountants and auditors, South Africa (official logo)`
+const logoW = tenant.logo_width ?? 502
+const logoH = tenant.logo_height ?? 497
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -58,9 +62,16 @@ export const metadata: Metadata = {
     'VAT registration',
     'company secretarial',
     'Cape Town accountant',
-    'ABC Inc',
+    'chartered accountant Cape Town',
+    'ABC INC',
+    'ABC INC chartered accountants',
+    'abcinc.co.za',
     tenant.city ?? 'Cape Town',
   ],
+  icons: {
+    icon: [{ url: ogImagePath, type: 'image/png' }],
+    apple: ogImagePath,
+  },
   alternates: {
     canonical: '/',
   },
@@ -75,9 +86,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: ogImagePath,
-        width: 1200,
-        height: 630,
-        alt: `${tenant.firm_name} — Chartered Accountants`,
+        width: logoW,
+        height: logoH,
+        alt: logoAlt,
       },
     ],
   },
@@ -86,7 +97,7 @@ export const metadata: Metadata = {
     title: `${tenant.firm_name} — Chartered Accountants`,
     description:
       'SAICA-registered accounting, audit and tax compliance for South African businesses.',
-    images: [ogImagePath],
+    images: [{ url: ogImagePath, alt: logoAlt }],
   },
   robots: { index: true, follow: true },
   category: 'business',
@@ -100,7 +111,13 @@ const jsonLd = {
       '@id': `${siteUrl}/#organization`,
       name: tenant.firm_name,
       url: siteUrl,
-      logo: absoluteUrl(ogImagePath),
+      logo: {
+        '@type': 'ImageObject',
+        url: absoluteUrl(ogImagePath),
+        width: logoW,
+        height: logoH,
+        caption: logoAlt,
+      },
       email: tenant.email,
       telephone: tenant.phone,
       address: {
@@ -111,12 +128,26 @@ const jsonLd = {
       },
     },
     {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: tenant.firm_name,
+      inLanguage: 'en-ZA',
+      publisher: { '@id': `${siteUrl}/#organization` },
+    },
+    {
       '@type': 'AccountingService',
       '@id': `${siteUrl}/#accounting`,
       name: tenant.firm_name,
       description: 'SAICA-registered chartered accountants and auditors in South Africa.',
       url: siteUrl,
-      image: absoluteUrl(ogImagePath),
+      image: {
+        '@type': 'ImageObject',
+        url: absoluteUrl(ogImagePath),
+        width: logoW,
+        height: logoH,
+        caption: logoAlt,
+      },
       telephone: tenant.phone,
       email: tenant.email,
       address: {
@@ -139,12 +170,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-ZA"
-      className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable}`}
+      className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable} light`}
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-flash: apply saved theme before first paint */}
-        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');})();` }} />
+        {/* Anti-flash: default light; respect saved "dark" before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.remove('light');else document.documentElement.classList.add('light');})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

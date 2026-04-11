@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════
-   NEOBRUTALISM — A-Level Business Consultants
-   Corporate navy palette · Dark default · .light cream
+   NEOBRUTALISM — ABC INC
+   Corporate navy palette · Light default (html.light) · dark without .light
 ═══════════════════════════════════════════ */
 
 :root {
-  /* ── Dark Neobrutalism (default) ── */
+  /* ── Dark Neobrutalism (when html has no .light) ── */
   --ink:       #0C0C08;
   --obsidian:  #161610;
   --carbon:    #201E18;

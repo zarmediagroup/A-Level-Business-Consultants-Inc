@@ -3,15 +3,15 @@ import Image from 'next/image'
 const partners = [
   {
     src: '/images/partners/xero-cloud-accounting-software-logo.png',
-    alt: 'Xero cloud accounting software — partner of ABC Inc South Africa',
+    alt: 'Xero cloud accounting software — partner of ABC INC South Africa',
   },
   {
     src: '/images/partners/simplepay-payroll-software-logo.png',
-    alt: 'SimplePay payroll software — ABC Inc accounting partner',
+    alt: 'SimplePay payroll software — ABC INC accounting partner',
   },
   {
     src: '/images/partners/saica-south-africa-chartered-accountants-logo.png',
-    alt: 'SAICA — The South African Institute of Chartered Accountants — ABC Inc',
+    alt: 'SAICA — The South African Institute of Chartered Accountants — ABC INC',
   },
 ]
 

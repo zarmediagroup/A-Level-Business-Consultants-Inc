@@ -10,7 +10,7 @@ import { defaultTenant } from '@/types/tenant'
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'ABC Inc — professional accounting and advisory in South Africa. Led by Adrian Quina CA(SA), supporting individuals and SMEs with clarity, compliance, and long-term partnership.',
+    'ABC INC — professional accounting and advisory in South Africa. Led by Adrian Quina CA(SA), supporting individuals and SMEs with clarity, compliance, and long-term partnership.',
   alternates: { canonical: '/about' },
   openGraph: {
     url: '/about',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         url: '/images/team/adrian-quina-ca-sa-founder.png',
         width: 800,
         height: 800,
-        alt: 'Adrian Quina CA(SA), founder of ABC Inc — chartered accountant',
+        alt: 'Adrian Quina CA(SA), founder of ABC INC — chartered accountant',
       },
     ],
   },
@@ -88,7 +88,7 @@ export default function AboutPage() {
                   partners—invested in your journey and committed to the sustainable growth of your business.
                 </p>
                 <p className="font-sans leading-[1.9] text-base font-medium mb-10" style={{ color: 'var(--muted)' }}>
-                  <strong style={{ color: 'var(--white)' }}>ABC Inc</strong> is led by Adrian Quina, a registered
+                  <strong style={{ color: 'var(--white)' }}>{tenant.firm_name}</strong> is led by Adrian Quina, a registered
                   Chartered Accountant with a strong passion for empowering South Africa&apos;s SME sector. He provides
                   hands-on, tailored solutions to ambitious business owners, equipping them with the financial insights,
                   mentorship, and compliance support they need to grow and succeed.
@@ -152,7 +152,7 @@ export default function AboutPage() {
                   {tenant.principal_image_url ? (
                     <Image
                       src={tenant.principal_image_url}
-                      alt="Adrian Quina CA(SA), founder of ABC Inc — professional portrait, chartered accountant in Cape Town"
+                      alt="Adrian Quina CA(SA), founder of ABC INC — professional portrait, chartered accountant in Cape Town"
                       fill
                       className="object-cover object-[center_20%]"
                       sizes="(max-width: 768px) 100vw, 320px"

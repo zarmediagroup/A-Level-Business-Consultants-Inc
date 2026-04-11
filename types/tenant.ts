@@ -3,6 +3,11 @@ export interface Tenant {
   domain: string
   firm_name: string
   logo_url: string | null
+  /** SEO / rich results: descriptive alt for the logo image */
+  logo_alt?: string
+  /** Intrinsic pixel size of logo asset (Open Graph / JSON-LD ImageObject) */
+  logo_width?: number
+  logo_height?: number
   /** Public path to principal / founder portrait (e.g. About page). */
   principal_image_url?: string | null
   primary_color?: string
@@ -20,8 +25,11 @@ export interface Tenant {
 export const defaultTenant: Tenant = {
   id: 'a-level',
   domain: 'abcinc.co.za',
-  firm_name: 'ABC Inc',
-  logo_url: '/images/brand/abc-inc-chartered-accountant-logo.png',
+  firm_name: 'ABC INC',
+  logo_url: '/images/brand/abc-inc-chartered-accountants-south-africa-logo.png',
+  logo_alt: 'ABC INC — chartered accountants and auditors, Cape Town, South Africa (official logo)',
+  logo_width: 502,
+  logo_height: 497,
   principal_image_url: '/images/team/adrian-quina-ca-sa-founder.png',
   accountant_name: 'Adrian Quina CA(SA)',
   email: 'Adrian@abcinc.co.za',

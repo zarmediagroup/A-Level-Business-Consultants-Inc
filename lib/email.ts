@@ -42,7 +42,7 @@ function baseHtml(body: string) {
     <div class="logo"><strong>ABC</strong> &nbsp;${defaultTenant.firm_name}</div>
   </div>
   <div class="body">${body}</div>
-  <div class="footer"><p>POPIA Compliant · SAICA Registered · IRBA Approved</p></div>
+  <div class="footer"><p>POPIA Compliant · SAICA Registered</p></div>
 </div>
 </body>
 </html>`

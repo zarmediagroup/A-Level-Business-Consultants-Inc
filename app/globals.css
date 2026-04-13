@@ -4,36 +4,36 @@
 
 /* ═══════════════════════════════════════════
    NEOBRUTALISM — ABC INC
-   Corporate navy palette · Light default (html.light) · dark without .light
+   Corporate navy palette · Dark default (no .light) · light with html.light
 ═══════════════════════════════════════════ */
 
 :root {
-  /* ── Dark Neobrutalism (when html has no .light) ── */
-  --ink:       #0C0C08;
-  --obsidian:  #161610;
-  --carbon:    #201E18;
-  --graphite:  #2C2A22;
-  --ash:       #3A3830;
-  --white:     #FAFAE8;
-  --off-white: #D8D8C0;
-  --muted:     #8A8A78;
-  --faint:     #4A4A3C;
-  --rule:      rgba(250,250,232,0.12);
-  --rule-mid:  rgba(250,250,232,0.22);
+  /* ── Dark — lighter cream / ivory text on warm charcoal ── */
+  --ink:       #0C0C0A;
+  --obsidian:  #141412;
+  --carbon:    #1C1C1A;
+  --graphite:  #2A2A28;
+  --ash:       #3A3A36;
+  --white:     #FAF8F5;
+  --off-white: #E0DCD4;
+  --muted:     #D8D4CC;
+  --faint:     #9A9590;
+  --rule:      rgba(252,250,246,0.14);
+  --rule-mid:  rgba(252,250,246,0.24);
 
   /* Status colours (restrained, office-appropriate) */
   --profit:    #0d9f6e;
   --loss:      #dc2626;
   --pending:   #b45309;
-  --neutral:   #7A7A68;
+  --neutral:   #8A847A;
 
   /* Primary accent — deep navy (trust / finance / professional services) */
   --accent:         #1a365d;
   --accent-hover:   #234876;
   --accent-muted:   #5c7a9c;
   --accent-2:       #3d5a80;
-  --accent-fg:      #e8eef5;
-  --accent-fg-muted: #a8b8cc;
+  --accent-fg:      #f4f7fb;
+  --accent-fg-muted: #dbe4f0;
 
   /* Offset shadows (navy on dark) */
   --neo-shadow:    4px 4px 0px var(--accent);
@@ -41,23 +41,26 @@
   --neo-shadow-lg: 6px 6px 0px var(--accent);
 
   --container: min(88vw, 1300px);
+
+  /* Fixed marketing navbar — keep in sync with components/layout/Navbar.tsx */
+  --nav-height: 80px;
 }
 
 html.light {
-  /* ── Cream Neobrutalism ── */
-  --ink:       #FAFAE8;
-  --obsidian:  #F0F0D8;
-  --carbon:    #FFFFFF;
-  --graphite:  #D8D8C0;
-  --ash:       #F0E8C0;
-  --white:     #0A0A08;
-  --off-white: #1A1A12;
-  --muted:     #595950;
-  --faint:     #8A8A78;
-  --rule:      rgba(10,10,8,0.12);
-  --rule-mid:  rgba(10,10,8,0.25);
+  /* ── Light — airy lighter-cream surfaces (warm, not yellow) ── */
+  --ink:       #FDFCF9;
+  --obsidian:  #F9F7F4;
+  --carbon:    #FEFDFB;
+  --graphite:  #E8E4DC;
+  --ash:       #F0EDE6;
+  --white:     #0C0C0A;
+  --off-white: #1A1816;
+  --muted:     #57534E;
+  --faint:     #787268;
+  --rule:      rgba(12,11,9,0.11);
+  --rule-mid:  rgba(12,11,9,0.2);
 
-  /* Offset shadows (black on cream) */
+  /* Offset shadows (ink on cream) */
   --neo-shadow:    4px 4px 0px #0A0A08;
   --neo-shadow-sm: 2px 2px 0px #0A0A08;
   --neo-shadow-lg: 6px 6px 0px #0A0A08;
@@ -72,6 +75,7 @@ html.light {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
   color-scheme: dark;
 }
 
@@ -87,6 +91,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 120ms ease, color 120ms ease;
+}
+
+/* Brand logo: same toggle as theme — use html.light (not data-theme) so hydration can’t desync the mark */
+.brand-logo-dark-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brand-logo-light-wrap {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+html.light .brand-logo-dark-wrap {
+  display: none !important;
+}
+html.light .brand-logo-light-wrap {
+  display: block !important;
 }
 
 /* ── Scrollbar ── */
@@ -218,7 +240,7 @@ body {
   background-color: #0A0A08;
   color: var(--accent-fg);
   border: 2px solid #0A0A08;
-  box-shadow: 4px 4px 0px #3A3A30;
+  box-shadow: 4px 4px 0px #3A3A36;
   font-weight: 700;
   transition: box-shadow 80ms ease, transform 80ms ease;
 }

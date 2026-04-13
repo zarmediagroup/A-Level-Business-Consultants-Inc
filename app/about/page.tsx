@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 }
 
-const credentials = ['SAICA', 'IRBA', 'CIPC', 'POPIA']
+const credentials = ['SAICA', 'CIPC', 'POPIA']
 
 export default function AboutPage() {
   const tenant = defaultTenant

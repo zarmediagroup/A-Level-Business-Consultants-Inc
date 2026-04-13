@@ -85,7 +85,7 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-[400px]">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
-          <BrandLogo size={48} className="shrink-0" />
+          <BrandLogo size={72} className="shrink-0" />
           <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
             {tenant.firm_name}
           </span>

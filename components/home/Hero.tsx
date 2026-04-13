@@ -1,57 +1,25 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { defaultTenant } from '@/types/tenant'
 
 const headlineLines = ['The Numbers', "Don't Lie.", 'Ours Never Do.']
 
-const ledgerRows = [
-  { label: 'Revenue Recognised',  value: 'R  4,820,000', color: 'var(--white)' },
-  { label: 'Deductible Expenses', value: 'R  1,640,000', color: 'var(--white)' },
-  { label: 'Taxable Income',      value: 'R  3,180,000', color: 'var(--white)' },
-  { label: 'Tax Provision',       value: 'R    861,300', color: 'var(--pending)' },
-  { label: 'Effective Rate',      value: '       27.1%', color: 'var(--white)' },
-  { label: 'SARS Status',         value: '● COMPLIANT',  color: 'var(--profit)' },
+/** Realistic engagement snapshot — process wording only (no illustrative financial amounts). */
+const engagementRows = [
+  { label: 'Engagement letter & scope', detail: 'Roles, timelines and fees agreed up front.' },
+  { label: 'Records & information', detail: 'We work from your books, bank feeds and supporting docs.' },
+  { label: 'Reporting & filings', detail: 'Annual financial statements, tax and CIPC — as agreed.' },
+  { label: 'Queries & sign-off', detail: 'Review drafts with you before SARS / CIPC submission.' },
 ]
 
-function useCountUp(target: number, duration: number, start: boolean) {
-  const [value, setValue] = useState(0)
-  const raf = useRef<number | null>(null)
-
-  useEffect(() => {
-    if (!start) return
-    const startTime = performance.now()
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setValue(Math.floor(eased * target))
-      if (progress < 1) raf.current = requestAnimationFrame(tick)
-    }
-
-    raf.current = requestAnimationFrame(tick)
-    return () => { if (raf.current) cancelAnimationFrame(raf.current) }
-  }, [start, target, duration])
-
-  return value
-}
-
 export function Hero() {
-  const [counterStarted, setCounterStarted] = useState(false)
   const tenant = defaultTenant
-  const count = useCountUp(48, 2200, counterStarted)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setCounterStarted(true), 1200)
-    return () => clearTimeout(timer)
-  }, [])
 
   return (
     <section
-      className="relative min-h-[100dvh] flex items-center overflow-hidden"
+      className="relative flex min-h-[100dvh] items-center overflow-hidden pt-[var(--nav-height)]"
       style={{ backgroundColor: 'var(--ink)' }}
       aria-label="Hero"
     >
@@ -75,8 +43,8 @@ export function Hero() {
         }}
       />
 
-      <div className="container-main relative z-10 w-full py-24 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-12 lg:gap-8 items-center min-h-[100dvh]">
+      <div className="container-main relative z-10 w-full py-10 sm:py-14 lg:py-6">
+        <div className="grid min-h-0 grid-cols-1 items-center gap-12 lg:min-h-[calc(100dvh-var(--nav-height))] lg:grid-cols-[55%_45%] lg:gap-8">
 
           {/* ── LEFT COLUMN ── */}
           <div className="flex flex-col justify-center lg:pr-12">
@@ -95,7 +63,7 @@ export function Hero() {
                   border: '2px solid #0A0A08',
                 }}
               >
-                Chartered Accountants · SAICA · IRBA
+                Chartered Accountants · SAICA
               </span>
             </motion.div>
 
@@ -132,7 +100,7 @@ export function Hero() {
               style={{ fontSize: '1.0625rem', color: 'var(--muted)' }}
             >
               Audit, accounting, and tax compliance for South African businesses
-              that demand accuracy. SAICA-registered. IRBA-approved. Zero tolerance for error.
+              that demand accuracy. SAICA-registered practice — professional standards, clearly applied.
             </motion.p>
 
             {/* CTA Group */}
@@ -159,7 +127,7 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* ── RIGHT COLUMN — Ledger panel ── */}
+          {/* ── RIGHT COLUMN — Engagement snapshot (process, not sample financials) ── */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -173,73 +141,74 @@ export function Hero() {
                 boxShadow: 'var(--neo-shadow-lg)',
               }}
             >
-              {/* Header row */}
               <div
-                className="flex justify-between items-center px-6 py-4"
+                className="flex justify-between items-start gap-4 px-6 py-4"
                 style={{
                   borderBottom: '2px solid var(--white)',
                   backgroundColor: 'var(--accent)',
                 }}
               >
-                <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent-fg)' }}>
-                  Financial Review Summary
-                </span>
-                <span className="font-mono text-[0.65rem] tracking-[0.18em] font-bold" style={{ color: 'var(--accent-fg)' }}>
-                  FY 2025
+                <div className="flex flex-col items-start gap-1 min-w-0">
+                  <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent-fg)' }}>
+                    How we work with you
+                  </span>
+                  <span className="font-sans text-[0.8125rem] leading-snug font-medium" style={{ color: 'var(--accent-fg-muted)' }}>
+                    A typical professional relationship — scoped in writing, no placeholder “results” on this page.
+                  </span>
+                </div>
+                <span className="font-mono text-[0.6rem] tracking-[0.12em] font-bold uppercase shrink-0 pt-0.5" style={{ color: 'var(--accent-fg-muted)' }}>
+                  {tenant.city?.split(',')[0] ?? 'Cape Town'}
                 </span>
               </div>
 
-              {/* Animated ledger rows */}
-              <div className="flex flex-col">
-                {ledgerRows.map((row, i) => (
+              <div className="flex flex-col px-6 py-2">
+                {engagementRows.map((row, i) => (
                   <motion.div
-                    key={i}
+                    key={row.label}
                     initial={{ opacity: 0, x: 12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + i * 0.1, duration: 0.3 }}
-                    className="flex justify-between items-center px-6 py-3"
+                    transition={{ delay: 0.55 + i * 0.08, duration: 0.3 }}
+                    className="py-4"
                     style={{
-                      borderBottom: i < ledgerRows.length - 1 ? '1px solid var(--rule-mid)' : 'none',
+                      borderBottom: i < engagementRows.length - 1 ? '1px solid var(--rule-mid)' : 'none',
                     }}
                   >
-                    <span className="font-sans text-[0.875rem] font-medium" style={{ color: 'var(--muted)' }}>
+                    <p className="font-sans text-[0.875rem] font-bold mb-1" style={{ color: 'var(--white)' }}>
                       {row.label}
-                    </span>
-                    <span className="font-mono text-[0.9rem] font-bold" style={{ color: row.color }}>
-                      {row.value}
-                    </span>
+                    </p>
+                    <p className="font-sans text-[0.8125rem] leading-[1.55] font-medium" style={{ color: 'var(--muted)' }}>
+                      {row.detail}
+                    </p>
                   </motion.div>
                 ))}
               </div>
 
-              {/* Big stat */}
               <div style={{ borderTop: '2px solid var(--white)' }}>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1.7, duration: 0.5 }}
-                  className="text-center py-6 px-6"
+                  transition={{ delay: 1.05, duration: 0.45 }}
+                  className="text-center py-5 px-6"
                   style={{ borderBottom: '2px solid var(--white)' }}
                 >
                   <p
-                    className="font-bebas leading-none"
-                    style={{ fontSize: '5rem', color: 'var(--accent)' }}
+                    className="font-bebas leading-tight px-2"
+                    style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', color: 'var(--accent)' }}
                   >
-                    R{count}M+
+                    Annual financial statements · Tax · CIPC
                   </p>
-                  <p className="font-mono text-[0.7rem] tracking-[0.12em] mt-1 font-bold uppercase" style={{ color: 'var(--muted)' }}>
-                    Audit Value Certified · 2025
+                  <p className="font-mono text-[0.65rem] tracking-[0.1em] mt-2 font-bold uppercase" style={{ color: 'var(--muted)' }}>
+                    Clarity, compliance, confidentiality
                   </p>
                 </motion.div>
 
-                {/* Credential badges */}
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.9, duration: 0.3 }}
+                  transition={{ delay: 1.15, duration: 0.3 }}
                   className="flex justify-center gap-0 flex-wrap p-4"
                 >
-                  {['SAICA Member', 'IRBA Registered', 'CIPC Accredited'].map((badge, i, arr) => (
+                  {['SAICA', 'CIPC', 'POPIA'].map((badge, i) => (
                     <span
                       key={badge}
                       className="font-mono text-[0.6rem] tracking-[0.1em] px-3 py-1.5 font-bold uppercase"

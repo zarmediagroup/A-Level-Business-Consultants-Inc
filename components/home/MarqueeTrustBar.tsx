@@ -1,15 +1,13 @@
 export function MarqueeTrustBar() {
   const items = [
     'SAICA Registered',
-    'IRBA Approved',
-    'CIPC Accredited',
+    'CIPC',
     'SARS Compliant',
     'Companies Act 2008',
     'IFRS Standards',
     'King IV Governance',
-    'Independent Audit Services',
-    'Management Accounts',
     'Annual Financial Statements',
+    'Management Accounts',
     'Tax Compliance',
     'Company Secretarial',
     'Provisional Tax',

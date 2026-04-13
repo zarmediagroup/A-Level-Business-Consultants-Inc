@@ -17,19 +17,6 @@ const services = [
   },
   {
     num: '02',
-    title: 'Independent Audit & Review',
-    body: 'IRBA-registered audit services. Statutory audits, voluntary reviews, special purpose engagements.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="8" cy="8" r="5" />
-        <line x1="12" y1="12" x2="16" y2="16" />
-        <line x1="6" y1="8" x2="10" y2="8" />
-        <line x1="8" y1="6" x2="8" y2="10" />
-      </svg>
-    ),
-  },
-  {
-    num: '03',
     title: 'Bookkeeping & Management Accounts',
     body: 'Monthly management accounts, bank reconciliations, payroll processing. Real-time financial visibility.',
     icon: (
@@ -40,7 +27,7 @@ const services = [
     ),
   },
   {
-    num: '04',
+    num: '03',
     title: 'Tax Compliance',
     body: 'Income tax, VAT, PAYE, provisional tax. Every return, on time, every time — compliant with SARS requirements.',
     icon: (
@@ -51,7 +38,7 @@ const services = [
     ),
   },
   {
-    num: '05',
+    num: '04',
     title: 'Company Secretarial',
     body: 'CIPC registrations, annual returns, share register maintenance, director changes — fully managed.',
     icon: (
@@ -64,7 +51,7 @@ const services = [
     ),
   },
   {
-    num: '06',
+    num: '05',
     title: 'Business Advisory',
     body: 'Budgeting, forecasting, cash flow modelling. CFO-level insight without the full-time salary.',
     icon: (

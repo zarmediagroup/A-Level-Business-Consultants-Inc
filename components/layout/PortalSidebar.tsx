@@ -50,7 +50,7 @@ export function PortalSidebar() {
         className="flex items-center gap-3 px-5 py-4"
         style={{ borderBottom: '2px solid var(--white)' }}
       >
-        <BrandLogo size={36} className="shrink-0" />
+        <BrandLogo size={52} className="shrink-0" />
         <span className="font-mono text-[0.6rem] tracking-[0.1em] uppercase font-bold truncate" style={{ color: 'var(--white)' }}>
           {isAdmin ? 'Admin Portal' : 'Client Portal'}
         </span>

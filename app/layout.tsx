@@ -38,7 +38,9 @@ const bebasNeue = Bebas_Neue({
 
 const tenant = defaultTenant
 const siteUrl = getSiteUrl()
-const ogImagePath = tenant.logo_url ?? '/images/brand/abc-inc-chartered-accountants-south-africa-logo.png'
+/** Canonical share / JSON-LD image — dark-theme logo (default site appearance). */
+const ogImagePath =
+  tenant.logo_url_dark ?? tenant.logo_url ?? '/images/brand/abc-inc-chartered-accountants-south-africa-logo.png'
 const logoAlt =
   tenant.logo_alt ?? `${tenant.firm_name} — chartered accountants and auditors, South Africa (official logo)`
 const logoW = tenant.logo_width ?? 502
@@ -56,7 +58,7 @@ export const metadata: Metadata = {
     'SAICA registered accountant',
     'annual financial statements',
     'small business accounting',
-    'IRBA auditor',
+    'professional accountant South Africa',
     'bookkeeping South Africa',
     'management accounts',
     'VAT registration',
@@ -65,7 +67,7 @@ export const metadata: Metadata = {
     'chartered accountant Cape Town',
     'ABC INC',
     'ABC INC chartered accountants',
-    'abcinc.co.za',
+    'alevelbusinessconsultants.co.za',
     tenant.city ?? 'Cape Town',
   ],
   icons: {
@@ -101,6 +103,15 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   category: 'business',
+  referrer: 'origin-when-cross-origin',
+  appleWebApp: { capable: true, title: tenant.firm_name },
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 }
 
 const jsonLd = {
@@ -110,6 +121,7 @@ const jsonLd = {
       '@type': 'Organization',
       '@id': `${siteUrl}/#organization`,
       name: tenant.firm_name,
+      legalName: tenant.firm_name,
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
@@ -157,7 +169,7 @@ const jsonLd = {
         addressCountry: 'ZA',
       },
       parentOrganization: { '@id': `${siteUrl}/#organization` },
-      hasCredential: ['SAICA Member', 'IRBA Registered', 'CIPC Accredited'],
+      hasCredential: ['SAICA Member', 'CIPC', 'POPIA'],
       serviceType: ['Audit', 'Accounting', 'Tax Compliance', 'Company Secretarial', 'Bookkeeping'],
       areaServed: 'South Africa',
       openingHours: 'Mo-Fr 08:30-17:00',
@@ -170,14 +182,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-ZA"
-      className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable} light`}
+      className={`${playfair.variable} ${dmSans.variable} ${ibmMono.variable} ${bebasNeue.variable}`}
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-flash: default light; respect saved "dark" before first paint */}
+        {/* Anti-flash: .light + data-theme from localStorage before paint; ThemeProvider re-syncs after hydration */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.remove('light');else document.documentElement.classList.add('light');})();`,
+            __html: `(function(){var t=localStorage.getItem('theme');var l=t==='light';if(l)document.documentElement.classList.add('light');else document.documentElement.classList.remove('light');document.documentElement.setAttribute('data-theme',l?'light':'dark');})();`,
           }}
         />
         <script

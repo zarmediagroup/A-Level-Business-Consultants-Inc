@@ -2,7 +2,7 @@ import { defaultTenant } from '@/types/tenant'
 
 /**
  * Canonical site origin for metadata, sitemap, and JSON-LD.
- * Set NEXT_PUBLIC_APP_URL in production (e.g. https://abcinc.co.za).
+ * Set NEXT_PUBLIC_APP_URL in production (e.g. https://alevelbusinessconsultants.co.za).
  */
 export function getSiteUrl(): string {
   const raw =

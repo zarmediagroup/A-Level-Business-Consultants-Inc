@@ -18,7 +18,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <BrandLogo size={48} className="shrink-0" />
+              <BrandLogo size={72} className="shrink-0" />
               <span className="font-mono text-[0.75rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
                 {tenant.firm_name}
               </span>
@@ -27,7 +27,7 @@ export function Footer() {
               Professional accounting and advisory for South African businesses — clarity, compliance, and partnership.
             </p>
             <div className="flex flex-wrap gap-2 mt-6">
-              {['SAICA Registered', 'IRBA Approved', 'CIPC Accredited', 'POPIA Compliant'].map(badge => (
+              {['SAICA Registered', 'CIPC', 'POPIA Compliant'].map(badge => (
                 <span
                   key={badge}
                   className="font-mono text-[0.6rem] tracking-[0.14em] uppercase px-2.5 py-1 font-bold"
@@ -107,15 +107,31 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-16 pt-8"
+          className="flex flex-col gap-4 mt-16 pt-8"
           style={{ borderTop: '2px solid var(--rule-mid)' }}
         >
-          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
-            © {year} {tenant.firm_name}. All rights reserved.
-          </p>
-          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
-            · SAICA · IRBA · POPIA · Fully Confidential
-          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
+              © {year} {tenant.firm_name}. All rights reserved.
+            </p>
+            <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
+              · SAICA · POPIA · Fully Confidential
+            </p>
+          </div>
+          {tenant.web_credit && (
+            <p className="font-mono text-[0.6rem] tracking-[0.08em] font-medium" style={{ color: 'var(--faint)' }}>
+              Website by{' '}
+              <a
+                href={tenant.web_credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline-offset-2 hover:underline hover:text-[var(--accent)] transition-colors"
+                style={{ color: 'var(--muted)' }}
+              >
+                {tenant.web_credit.name}
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </footer>

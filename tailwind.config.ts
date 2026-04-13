@@ -26,7 +26,7 @@ const config: Config = {
         profit:    'var(--profit)',
         loss:      'var(--loss)',
         pending:   'var(--pending)',
-        neutral:   '#7A7A68',
+        neutral:   'var(--neutral)',
       },
       fontFamily: {
         playfair: ['var(--font-playfair)', 'Georgia', 'serif'],

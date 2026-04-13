@@ -38,7 +38,7 @@ export function Navbar() {
       >
         <div
           className="container-main flex items-center justify-between"
-          style={{ height: '64px' }}
+          style={{ height: 'var(--nav-height)' }}
         >
           {/* Logo — horizontal mark + optional wordmark on larger breakpoints */}
           <Link
@@ -46,7 +46,7 @@ export function Navbar() {
             className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink"
             aria-label={`${tenant.firm_name} — home`}
           >
-            <span className="relative block h-10 w-10 sm:h-11 sm:w-11 shrink-0">
+            <span className="relative block h-14 w-14 sm:h-16 sm:w-16 shrink-0">
               <BrandLogo
                 width={502}
                 height={497}
@@ -131,7 +131,7 @@ export function Navbar() {
           >
             {/* Mobile menu — logo row */}
             <div className="flex items-center gap-3 px-8 py-6" style={{ borderBottom: '2px solid var(--white)' }}>
-              <span className="relative block h-12 w-12 shrink-0">
+              <span className="relative block h-16 w-16 shrink-0">
                 <BrandLogo width={502} height={497} className="!h-full !w-full object-contain object-center" />
               </span>
               <span className="font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>

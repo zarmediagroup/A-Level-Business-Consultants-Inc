@@ -20,10 +20,9 @@ const individualPackages = [
     period: '/month',
     highlight: false,
     features: [
-      'Income Tax Return (ITR14)',
+      'Income Tax Return (ITR12)',
       'Provisional Tax Return (IRP6)',
       'Tax audit assistance and advisory',
-      'Bank reconciliations',
     ],
   },
   {
@@ -33,7 +32,7 @@ const individualPackages = [
     period: '/month',
     highlight: true,
     features: [
-      'Income Tax Return (ITR14)',
+      'Income Tax Return (ITR12)',
       'Provisional Tax Return (IRP6)',
       'Tax audit assistance and advisory',
       'Bank reconciliations',
@@ -46,7 +45,7 @@ const individualPackages = [
     period: '/month',
     highlight: false,
     features: [
-      'Income Tax Return (ITR14)',
+      'Income Tax Return (ITR12)',
       'Provisional Tax Return (IRP6)',
       'File VAT 201',
       'Tax audit assistance and advisory',
@@ -234,7 +233,7 @@ export default function PackagesPage() {
           <FadeUp>
             <p
               className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5 font-bold"
-              style={{ color: '#3A3A30' }}
+              style={{ color: 'var(--accent-fg-muted)' }}
             >
               Not sure which package?
             </p>
@@ -244,7 +243,7 @@ export default function PackagesPage() {
             >
               Let Adrian Help You Choose
             </h2>
-            <p className="font-sans mb-8 max-w-sm mx-auto font-medium" style={{ color: '#3A3A30' }}>
+            <p className="font-sans mb-8 max-w-sm mx-auto font-medium" style={{ color: 'var(--accent-fg-muted)' }}>
               Book a free 30-minute consultation. No obligation.
             </p>
             <a

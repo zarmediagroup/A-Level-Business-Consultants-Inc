@@ -5,8 +5,11 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect, CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
+import { BrandLogo } from '@/components/branding/BrandLogo'
+import { defaultTenant } from '@/types/tenant'
 
 export default function ResetPasswordPage() {
+  const tenant   = defaultTenant
   const router   = useRouter()
   const supabase = getSupabaseBrowser()
   const [isFirstTime, setIsFirstTime] = useState(false)
@@ -82,14 +85,9 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-[400px]">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
-          <div
-            className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold"
-            style={{ width: '40px', height: '36px', backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
-          >
-            ALC
-          </div>
+          <BrandLogo size={72} className="shrink-0" />
           <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
-            A Level Business Consultants
+            {tenant.firm_name}
           </span>
         </div>
 

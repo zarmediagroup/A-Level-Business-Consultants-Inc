@@ -1,15 +1,13 @@
 export function MarqueeTrustBar() {
   const items = [
     'SAICA Registered',
-    'IRBA Approved',
-    'CIPC Accredited',
+    'CIPC',
     'SARS Compliant',
     'Companies Act 2008',
     'IFRS Standards',
     'King IV Governance',
-    'Independent Audit Services',
-    'Management Accounts',
     'Annual Financial Statements',
+    'Management Accounts',
     'Tax Compliance',
     'Company Secretarial',
     'Provisional Tax',
@@ -38,7 +36,7 @@ export function MarqueeTrustBar() {
         >
           <span
             className="font-mono text-[0.7rem] tracking-[0.14em] font-bold uppercase"
-            style={{ color: '#0A0A08' }}
+            style={{ color: 'var(--accent-fg)' }}
           >
             {doubled}
           </span>

@@ -13,15 +13,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark')
 
   useEffect(() => {
-    // Sync React state with the class already applied by the inline script
-    const isDark = !document.documentElement.classList.contains('light')
-    setTheme(isDark ? 'dark' : 'light')
+    // Re-apply theme after hydration — React can reset <html> attributes; localStorage is source of truth
+    const stored = localStorage.getItem('theme')
+    const light = stored === 'light'
+    document.documentElement.classList.toggle('light', light)
+    document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark')
+    setTheme(light ? 'light' : 'dark')
   }, [])
 
   const toggle = () => {
     setTheme(prev => {
       const next = prev === 'dark' ? 'light' : 'dark'
       document.documentElement.classList.toggle('light', next === 'light')
+      document.documentElement.setAttribute('data-theme', next)
       localStorage.setItem('theme', next)
       return next
     })

@@ -1,4 +1,5 @@
 import { DashboardWidget } from '@/components/portal/DashboardWidget'
+import { defaultTenant } from '@/types/tenant'
 
 const messages = [
   {
@@ -37,7 +38,7 @@ const messages = [
     monogram: 'AQ',
     sender: 'Adrian Quina CA(SA)',
     subject: 'Onboarding Complete',
-    preview: 'Welcome to the A Level Business Consultants client portal. You can now access all your documents here.',
+    preview: `Welcome to the ${defaultTenant.firm_name} client portal. You can now access all your documents here.`,
     time: '10 Jan 2025',
     unread: false,
   },

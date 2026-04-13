@@ -19,7 +19,7 @@ export function FinalCTA() {
             <div>
               <p
                 className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-4 font-bold"
-                style={{ color: '#3A3A30' }}
+                style={{ color: 'var(--accent-fg-muted)' }}
               >
                 Get Started
               </p>
@@ -29,7 +29,7 @@ export function FinalCTA() {
                 style={{
                   fontSize: 'clamp(2.5rem, 5vw, 5rem)',
                   lineHeight: 1.0,
-                  color: '#0A0A08',
+                  color: 'var(--accent-fg)',
                   letterSpacing: '0.02em',
                 }}
               >
@@ -37,7 +37,7 @@ export function FinalCTA() {
               </h2>
               <p
                 className="font-sans font-medium mb-0 max-w-sm"
-                style={{ color: '#3A3A30', fontSize: '1.0625rem' }}
+                style={{ color: 'var(--accent-fg-muted)', fontSize: '1.0625rem' }}
               >
                 Free 30-minute review. No paperwork required.
               </p>
@@ -56,9 +56,9 @@ export function FinalCTA() {
               </a>
               <p
                 className="font-mono text-[0.65rem] tracking-[0.14em] font-bold uppercase"
-                style={{ color: '#3A3A30' }}
+                style={{ color: 'var(--accent-fg-muted)' }}
               >
-                · SAICA · IRBA · POPIA · Fully Confidential
+                · SAICA · POPIA · Fully Confidential
               </p>
             </div>
           </div>

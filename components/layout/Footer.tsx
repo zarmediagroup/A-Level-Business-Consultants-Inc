@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { defaultTenant } from '@/types/tenant'
+import { BrandLogo } from '@/components/branding/BrandLogo'
 
 export function Footer() {
   const tenant = defaultTenant
@@ -17,27 +18,16 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div
-                className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
-                style={{
-                  width: '44px',
-                  height: '40px',
-                  backgroundColor: 'var(--accent)',
-                  color: '#0A0A08',
-                  border: '2px solid #0A0A08',
-                }}
-              >
-                ALC
-              </div>
+              <BrandLogo size={72} className="shrink-0" />
               <span className="font-mono text-[0.75rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
                 {tenant.firm_name}
               </span>
             </div>
             <p className="font-sans text-sm leading-loose max-w-xs font-medium" style={{ color: 'var(--muted)' }}>
-              SAICA-registered chartered accountants and auditors supporting South African businesses with precision and integrity.
+              Professional accounting and advisory for South African businesses — clarity, compliance, and partnership.
             </p>
             <div className="flex flex-wrap gap-2 mt-6">
-              {['SAICA Registered', 'IRBA Approved', 'CIPC Accredited', 'POPIA Compliant'].map(badge => (
+              {['SAICA Registered', 'CIPC', 'POPIA Compliant'].map(badge => (
                 <span
                   key={badge}
                   className="font-mono text-[0.6rem] tracking-[0.14em] uppercase px-2.5 py-1 font-bold"
@@ -86,12 +76,13 @@ export function Footer() {
             <div className="flex flex-col gap-4">
               <div>
                 <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Location</p>
-                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>{tenant.address}</p>
-                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>{tenant.city}</p>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  {tenant.address}, {tenant.city}
+                </p>
               </div>
               <div>
-                <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Hours</p>
-                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>Mon – Fri: 08:30 – 17:00</p>
+                <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Our hours</p>
+                <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>08:30 – 17:00 Monday – Friday</p>
               </div>
               <div>
                 <p className="font-mono text-[0.6rem] tracking-[0.12em] uppercase mb-1 font-bold" style={{ color: 'var(--faint)' }}>Contact</p>
@@ -116,15 +107,31 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-16 pt-8"
+          className="flex flex-col gap-4 mt-16 pt-8"
           style={{ borderTop: '2px solid var(--rule-mid)' }}
         >
-          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
-            © {year} {tenant.firm_name}. All rights reserved.
-          </p>
-          <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
-            · SAICA · IRBA · POPIA · Fully Confidential
-          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
+              © {year} {tenant.firm_name}. All rights reserved.
+            </p>
+            <p className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--faint)' }}>
+              · SAICA · POPIA · Fully Confidential
+            </p>
+          </div>
+          {tenant.web_credit && (
+            <p className="font-mono text-[0.6rem] tracking-[0.08em] font-medium" style={{ color: 'var(--faint)' }}>
+              Website by{' '}
+              <a
+                href={tenant.web_credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline-offset-2 hover:underline hover:text-[var(--accent)] transition-colors"
+                style={{ color: 'var(--muted)' }}
+              >
+                {tenant.web_credit.name}
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </footer>

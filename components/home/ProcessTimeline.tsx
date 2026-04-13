@@ -44,7 +44,7 @@ export function ProcessTimeline() {
               className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
               style={{
                 backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
+                color: 'var(--accent-fg)',
                 border: '2px solid #0A0A08',
               }}
             >
@@ -96,7 +96,7 @@ export function ProcessTimeline() {
                     className="inline-flex items-center justify-center font-mono text-[0.65rem] font-bold mb-5 px-2 py-1"
                     style={{
                       backgroundColor: 'var(--accent)',
-                      color: '#0A0A08',
+                      color: 'var(--accent-fg)',
                       border: '2px solid #0A0A08',
                     }}
                   >
@@ -139,7 +139,7 @@ export function ProcessTimeline() {
                     width: '36px',
                     height: '36px',
                     backgroundColor: 'var(--accent)',
-                    color: '#0A0A08',
+                    color: 'var(--accent-fg)',
                     border: '2px solid #0A0A08',
                   }}
                 >

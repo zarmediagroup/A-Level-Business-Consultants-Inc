@@ -89,7 +89,7 @@ export function PortalHeader() {
               className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center font-mono text-[0.55rem] font-bold"
               style={{
                 backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
+                color: 'var(--accent-fg)',
                 border: '2px solid #0A0A08',
               }}
             >

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { defaultTenant } from '@/types/tenant'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { BrandLogo } from '@/components/branding/BrandLogo'
 
 const navLinks = [
   { href: '/',          label: 'Home' },
@@ -37,24 +38,24 @@ export function Navbar() {
       >
         <div
           className="container-main flex items-center justify-between"
-          style={{ height: '64px' }}
+          style={{ height: 'var(--nav-height)' }}
         >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group" aria-label={tenant.firm_name}>
-            <div
-              className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
-              style={{
-                width: '40px',
-                height: '36px',
-                backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
-                border: '2px solid #0A0A08',
-              }}
-            >
-              ALC
-            </div>
+          {/* Logo — horizontal mark + optional wordmark on larger breakpoints */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink"
+            aria-label={`${tenant.firm_name} — home`}
+          >
+            <span className="relative block h-14 w-14 sm:h-16 sm:w-16 shrink-0">
+              <BrandLogo
+                width={502}
+                height={497}
+                priority
+                className="!h-full !w-full object-contain object-center"
+              />
+            </span>
             <span
-              className="hidden sm:block font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold"
+              className="hidden sm:block font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold truncate"
               style={{ color: 'var(--white)' }}
             >
               {tenant.firm_name}
@@ -128,14 +129,11 @@ export function Navbar() {
             className="fixed inset-0 z-40 flex flex-col"
             style={{ backgroundColor: 'var(--ink)', borderLeft: '3px solid var(--accent)' }}
           >
-            {/* Mobile logo */}
+            {/* Mobile menu — logo row */}
             <div className="flex items-center gap-3 px-8 py-6" style={{ borderBottom: '2px solid var(--white)' }}>
-              <div
-                className="flex items-center justify-center font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold"
-                style={{ width: '40px', height: '36px', backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
-              >
-                ALC
-              </div>
+              <span className="relative block h-16 w-16 shrink-0">
+                <BrandLogo width={502} height={497} className="!h-full !w-full object-contain object-center" />
+              </span>
               <span className="font-mono text-[0.7rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
                 {tenant.firm_name}
               </span>

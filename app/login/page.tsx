@@ -4,9 +4,30 @@ import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getSupabaseBrowser } from '@/lib/supabase-browser'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { BrandLogo } from '@/components/branding/BrandLogo'
+import { defaultTenant } from '@/types/tenant'
+
+function ArrowLeftIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
+  )
+}
 
 function LoginForm() {
+  const tenant       = defaultTenant
   const router       = useRouter()
   const searchParams = useSearchParams()
   const redirect     = searchParams.get('redirect') ?? '/portal'
@@ -103,8 +124,9 @@ function LoginForm() {
             borderRight: '2px solid var(--white)',
           }}
         >
-          <Link href="/" className="absolute inset-0" aria-label="A Level Business Consultants Home">
-          <ArrowLeft className='mt-6 ml-6'/></Link>
+          <Link href="/" className="absolute inset-0 flex items-start justify-start p-5" aria-label="Back to website">
+            <ArrowLeftIcon className="w-5 h-5 shrink-0 text-[var(--accent-fg)]" />
+          </Link>
         </div>
 
         <div className="max-w-lg w-full">
@@ -129,10 +151,10 @@ function LoginForm() {
             className="font-mono text-[0.65rem] tracking-[0.14em] uppercase mt-6 font-bold"
             style={{ color: 'var(--faint)' }}
           >
-            Adrian Quina CA(SA) · A Level Business Consultants Inc
+            Adrian Quina CA(SA) · {tenant.firm_name}
           </p>
           <div className="flex flex-wrap gap-2 mt-10">
-            {['SAICA Registered', 'IRBA Approved', 'POPIA Compliant'].map(badge => (
+            {['SAICA Registered', 'POPIA Compliant'].map(badge => (
               <span
                 key={badge}
                 className="font-mono text-[0.62rem] tracking-[0.1em] uppercase px-2.5 py-1 font-bold"
@@ -155,22 +177,20 @@ function LoginForm() {
         style={{ backgroundColor: 'var(--ink)' }}
       >
         <div className="w-full max-w-[400px]">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold mb-8 transition-colors hover:text-[var(--accent)]"
+            style={{ color: 'var(--muted)' }}
+          >
+            <ArrowLeftIcon className="w-4 h-4 shrink-0" />
+            Back to website
+          </Link>
+
           {/* Logo */}
           <div className="flex items-center gap-3 mb-10">
-            <div
-              className="flex items-center justify-center font-mono text-[0.6rem] tracking-[0.18em] uppercase font-bold"
-              style={{
-                width: '40px',
-                height: '36px',
-                backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
-                border: '2px solid #0A0A08',
-              }}
-            >
-              ALC
-            </div>
+            <BrandLogo size={72} className="shrink-0" />
             <span className="font-mono text-[0.65rem] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--white)' }}>
-              A Level Business Consultants
+              {tenant.firm_name}
             </span>
           </div>
 
@@ -178,7 +198,7 @@ function LoginForm() {
             className="inline-block font-mono text-[0.65rem] tracking-[0.2em] uppercase mb-8 font-bold px-3 py-1.5"
             style={{
               backgroundColor: 'var(--accent)',
-              color: '#0A0A08',
+              color: 'var(--accent-fg)',
               border: '2px solid #0A0A08',
             }}
           >

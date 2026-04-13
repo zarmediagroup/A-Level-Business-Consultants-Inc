@@ -3,18 +3,18 @@ import { FadeUp } from '@/components/ui/FadeUp'
 const results = [
   {
     region: 'Retail — Western Cape',
-    stats: 'R2.1M audit value certified',
-    detail: '3-year compliance backlog cleared in 6 weeks',
+    headline: 'Compliance & reporting',
+    detail: 'Annual financial statements and tax filings brought current — illustrative scenario, anonymised.',
   },
   {
     region: 'Construction — Gauteng',
-    stats: 'R8.4M turnover reconciled',
-    detail: 'SARS audit successfully defended',
+    headline: 'Records & reconciliations',
+    detail: 'Bookkeeping and documentation organised for year-end and SARS engagement — illustrative scenario, anonymised.',
   },
   {
-    region: 'Professional Services — KZN',
-    stats: '62% reduction in accounting costs',
-    detail: 'Xero migration completed',
+    region: 'Professional services — KZN',
+    headline: 'Systems & efficiency',
+    detail: 'Cloud accounting migration and payroll alignment — illustrative scenario, anonymised.',
   },
 ]
 
@@ -32,11 +32,11 @@ export function ResultsCards() {
               className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
               style={{
                 backgroundColor: 'var(--accent)',
-                color: '#0A0A08',
+                color: 'var(--accent-fg)',
                 border: '2px solid #0A0A08',
               }}
             >
-              Client Results
+              How we help
             </span>
           </div>
           <h2
@@ -49,10 +49,10 @@ export function ResultsCards() {
               letterSpacing: '0.02em',
             }}
           >
-            The Work Speaks in Numbers
+            Illustrative engagement types
           </h2>
           <p className="font-mono text-[0.75rem] mb-16 font-medium" style={{ color: 'var(--muted)' }}>
-            Anonymised in compliance with professional standards.
+            Anonymised scenarios — not verified results or performance claims.
           </p>
         </FadeUp>
 
@@ -87,7 +87,7 @@ export function ResultsCards() {
                       letterSpacing: '0.03em',
                     }}
                   >
-                    {r.stats}
+                    {r.headline}
                   </p>
                   <p className="font-sans text-sm font-medium" style={{ color: 'var(--muted)' }}>
                     {r.detail}

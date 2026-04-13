@@ -10,7 +10,7 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 const variantStyles: Record<BadgeVariant, string> = {
   default:  'border-2 border-[var(--white)] text-[var(--white)] bg-[var(--carbon)]',
   outline:  'border-2 border-[var(--white)] text-[var(--white)]',
-  accent:   'border-2 border-[#0A0A08] text-[#0A0A08] bg-[var(--accent)]',
+  accent:   'border-2 border-[#0A0A08] text-[var(--accent-fg)] bg-[var(--accent)]',
   profit:   'border-2 border-profit text-profit bg-[var(--carbon)]',
   loss:     'border-2 border-loss text-loss bg-[var(--carbon)]',
   pending:  'border-2 border-pending text-pending bg-[var(--carbon)]',

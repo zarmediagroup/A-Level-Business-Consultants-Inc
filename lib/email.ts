@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { defaultTenant } from '@/types/tenant'
 
 const transporter = nodemailer.createTransport({
   host:   process.env.SMTP_HOST   ?? 'smtp.gmail.com',
@@ -10,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-const FROM = process.env.SMTP_FROM ?? '"A Level Business Consultants" <noreply@abcinc.co.za>'
+const FROM = process.env.SMTP_FROM ?? `"${defaultTenant.firm_name}" <noreply@abcinc.co.za>`
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 function baseHtml(body: string) {
@@ -19,7 +20,7 @@ function baseHtml(body: string) {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>A Level Business Consultants</title>
+<title>${defaultTenant.firm_name}</title>
 <style>
   body { margin:0; padding:0; background:#080808; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:#ffffff; }
   .wrap { max-width:560px; margin:40px auto; background:#181818; border:1px solid rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
@@ -38,10 +39,10 @@ function baseHtml(body: string) {
 <body>
 <div class="wrap">
   <div class="header">
-    <div class="logo"><strong>ALC</strong> &nbsp;A Level Business Consultants Inc</div>
+    <div class="logo"><strong>ABC</strong> &nbsp;${defaultTenant.firm_name}</div>
   </div>
   <div class="body">${body}</div>
-  <div class="footer"><p>POPIA Compliant · SAICA Registered · IRBA Approved</p></div>
+  <div class="footer"><p>POPIA Compliant · SAICA Registered</p></div>
 </div>
 </body>
 </html>`
@@ -55,10 +56,10 @@ export async function sendInvitationEmail(opts: {
   await transporter.sendMail({
     from: FROM,
     to: opts.clientEmail,
-    subject: 'You have been invited to the A Level Business Consultants portal',
+    subject: `You have been invited to the ${defaultTenant.firm_name} portal`,
     html: baseHtml(`
       <h2>Welcome, ${opts.clientName}</h2>
-      <p>Adrian Quina CA(SA) has invited you to access the A Level Business Consultants client portal.</p>
+      <p>Adrian Quina CA(SA) has invited you to access the ${defaultTenant.firm_name} client portal.</p>
       <p>Click the button below to verify your email and set your password. This link expires in 24 hours.</p>
       <br/>
       <a class="btn" href="${opts.inviteUrl}">Accept Invitation →</a>
@@ -100,7 +101,7 @@ export async function sendUploadConfirmationEmail(opts: {
   await transporter.sendMail({
     from: FROM,
     to: opts.clientEmail,
-    subject: 'Document received — A Level Business Consultants',
+    subject: `Document received — ${defaultTenant.firm_name}`,
     html: baseHtml(`
       <h2>Document Received</h2>
       <p>Hi ${opts.clientName},</p>

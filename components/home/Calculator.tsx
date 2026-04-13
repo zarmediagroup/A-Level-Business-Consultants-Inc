@@ -78,7 +78,7 @@ export function Calculator() {
                 className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
                 style={{
                   backgroundColor: 'var(--accent)',
-                  color: '#0A0A08',
+                  color: 'var(--accent-fg)',
                   border: '2px solid #0A0A08',
                 }}
               >
@@ -98,27 +98,9 @@ export function Calculator() {
               Is Your Bookkeeping Costing You Money?
             </h2>
             <p className="font-sans leading-[1.7] mb-8 font-medium" style={{ color: 'var(--muted)', fontSize: '0.9375rem' }}>
-              Most SMEs in South Africa spend 40% more on their annual audit than necessary
-              due to disorganised records and missed reconciliations.
+              Disorganised records and missed reconciliations often increase professional time and compliance risk.
+              The calculator below gives an illustrative cost comparison from your inputs — not a quote or assurance.
             </p>
-            <div
-              className="p-6"
-              style={{
-                border: '2px solid var(--accent)',
-                boxShadow: 'var(--neo-shadow)',
-                backgroundColor: 'var(--carbon)',
-              }}
-            >
-              <p
-                className="font-bebas leading-none"
-                style={{ fontSize: '5rem', color: 'var(--accent)' }}
-              >
-                40%
-              </p>
-              <p className="font-mono text-[0.75rem] tracking-[0.12em] uppercase mt-1 font-bold" style={{ color: 'var(--muted)' }}>
-                average bookkeeping inefficiency
-              </p>
-            </div>
           </FadeUp>
 
           {/* Right — Calculator */}
@@ -138,7 +120,7 @@ export function Calculator() {
                   backgroundColor: 'var(--graphite)',
                 }}
               >
-                <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent)' }}>
+                <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase font-bold" style={{ color: 'var(--accent-fg)' }}>
                   Estimate Your Accounting Costs
                 </p>
               </div>
@@ -254,7 +236,7 @@ export function Calculator() {
                           </span>
                         </div>
                         <p className="font-mono text-[0.6rem] tracking-[0.08em] mb-5 font-medium" style={{ color: 'var(--faint)' }}>
-                          Based on SAICA benchmarks for your turnover bracket and transaction volume.
+                          Illustrative estimate from your inputs — not a binding quote or professional assurance.
                         </p>
                         <a
                           href={tenant.calendly_url ?? '/contact'}

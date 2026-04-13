@@ -3,10 +3,13 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { FadeUp } from '@/components/ui/FadeUp'
 import { PackageCard } from '@/components/home/PackageCard'
+import { CompanyPackagesIcon, IndividualPackagesIcon } from '@/components/icons/ServiceIcons'
 
 export const metadata: Metadata = {
   title: 'Packages & Pricing',
   description: 'Transparent monthly pricing packages for individuals, sole proprietors and companies. From R295/month for personal tax to full company accounting.',
+  alternates: { canonical: '/packages' },
+  openGraph: { url: '/packages' },
 }
 
 const individualPackages = [
@@ -20,7 +23,6 @@ const individualPackages = [
       'Income Tax Return (ITR12)',
       'Provisional Tax Return (IRP6)',
       'Tax audit assistance and advisory',
-      'Bank reconciliations',
     ],
   },
   {
@@ -38,7 +40,7 @@ const individualPackages = [
   },
   {
     tier: 'Growth',
-    vatStatus: 'VAT vendor',
+    vatStatus: 'VAT Vendor',
     price: 'R1,250',
     period: '/month',
     highlight: false,
@@ -88,7 +90,7 @@ const companyPackages = [
   },
   {
     tier: 'Growth',
-    vatStatus: 'VAT vendor',
+    vatStatus: 'VAT Vendor',
     price: 'R2,500',
     period: '/month',
     highlight: true,
@@ -98,7 +100,7 @@ const companyPackages = [
       'Annual financial statements',
       'Income Tax Return (ITR14)',
       'Provisional Tax Return (IRP6)',
-      'VAT 201 filing',
+      'VAT 201',
       'CIPC Beneficial Ownership',
       'CIPC Annual Return submission',
       'Tax audit assistance and advisory',
@@ -106,7 +108,7 @@ const companyPackages = [
   },
   {
     tier: 'Scale',
-    vatStatus: 'VAT vendor',
+    vatStatus: 'VAT Vendor',
     price: 'R4,495',
     period: '/month',
     highlight: false,
@@ -116,7 +118,7 @@ const companyPackages = [
       'Annual financial statements',
       'Income Tax Return (ITR14)',
       'Provisional Tax Return (IRP6)',
-      'VAT 201 filing',
+      'VAT 201',
       'CIPC Beneficial Ownership',
       'CIPC Annual Return submission',
       'Tax audit assistance and advisory',
@@ -139,7 +141,7 @@ export default function PackagesPage() {
             <div className="inline-flex items-center mb-6">
               <span
                 className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
-                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+                style={{ backgroundColor: 'var(--accent)', color: 'var(--accent-fg)', border: '2px solid #0A0A08' }}
               >
                 Packages &amp; Pricing
               </span>
@@ -165,17 +167,20 @@ export default function PackagesPage() {
             <div className="inline-flex items-center mb-4">
               <span
                 className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
-                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+                style={{ backgroundColor: 'var(--accent)', color: 'var(--accent-fg)', border: '2px solid #0A0A08' }}
               >
                 Individual / Sole Proprietor
               </span>
             </div>
-            <h2
-              className="font-bebas mb-16"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
-            >
-              Personal Tax Packages
-            </h2>
+            <div className="flex items-center gap-4 mb-16">
+              <IndividualPackagesIcon />
+              <h2
+                className="font-bebas"
+                style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
+              >
+                Personal Tax Packages
+              </h2>
+            </div>
           </FadeUp>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {individualPackages.map((pkg, i) => (
@@ -194,17 +199,20 @@ export default function PackagesPage() {
             <div className="inline-flex items-center mb-4">
               <span
                 className="font-mono text-[0.65rem] tracking-[0.2em] uppercase font-bold px-3 py-1.5"
-                style={{ backgroundColor: 'var(--accent)', color: '#0A0A08', border: '2px solid #0A0A08' }}
+                style={{ backgroundColor: 'var(--accent)', color: 'var(--accent-fg)', border: '2px solid #0A0A08' }}
               >
                 Company
               </span>
             </div>
-            <h2
-              className="font-bebas mb-16"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
-            >
-              Business Accounting Packages
-            </h2>
+            <div className="flex items-center gap-4 mb-16">
+              <CompanyPackagesIcon />
+              <h2
+                className="font-bebas"
+                style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--white)', letterSpacing: '0.02em' }}
+              >
+                Business Accounting Packages
+              </h2>
+            </div>
           </FadeUp>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {companyPackages.map((pkg, i) => (
@@ -225,21 +233,21 @@ export default function PackagesPage() {
           <FadeUp>
             <p
               className="font-mono text-[0.7rem] tracking-[0.2em] uppercase mb-5 font-bold"
-              style={{ color: '#3A3A30' }}
+              style={{ color: 'var(--accent-fg-muted)' }}
             >
               Not sure which package?
             </p>
             <h2
               className="font-bebas mb-5"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: '#0A0A08', letterSpacing: '0.02em', lineHeight: 1.0 }}
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: 'var(--accent-fg)', letterSpacing: '0.02em', lineHeight: 1.0 }}
             >
               Let Adrian Help You Choose
             </h2>
-            <p className="font-sans mb-8 max-w-sm mx-auto font-medium" style={{ color: '#3A3A30' }}>
+            <p className="font-sans mb-8 max-w-sm mx-auto font-medium" style={{ color: 'var(--accent-fg-muted)' }}>
               Book a free 30-minute consultation. No obligation.
             </p>
             <a
-              href="https://calendly.com/adrian-abcinc/30min"
+              href="https://calendly.com/adrian-abcinc/30min?month=2026-04"
               target="_blank"
               rel="noopener noreferrer"
               className="neo-btn-dark inline-flex items-center justify-center h-14 px-10 font-sans text-sm min-w-[240px]"

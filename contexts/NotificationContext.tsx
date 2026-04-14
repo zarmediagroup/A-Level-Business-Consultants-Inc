@@ -1,6 +1,8 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { getSupabaseBrowser } from '@/lib/supabase-browser'
+import { useAuth } from '@/contexts/AuthContext'
 import type { Notification } from '@/types/database'
 
 interface NotificationContextValue {
@@ -17,6 +19,7 @@ const NotificationContext = createContext<NotificationContextValue>({
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([])
+  const { user } = useAuth()
 
   const refresh = useCallback(async () => {
     const res = await fetch('/api/notifications')
@@ -24,10 +27,22 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   }, [])
 
   useEffect(() => {
+    if (!user) return
+
     refresh()
-    const interval = setInterval(refresh, 60_000)
-    return () => clearInterval(interval)
-  }, [refresh])
+
+    const supabase = getSupabaseBrowser()
+    const channel = supabase
+      .channel(`notifications:${user.id}`)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` },
+        () => refresh()
+      )
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [user, refresh])
 
   return (
     <NotificationContext.Provider value={{

@@ -1,19 +1,29 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { FadeUp } from '@/components/ui/FadeUp'
 import { PartnersSection } from '@/components/about/PartnersSection'
 import { AboutTestimonials } from '@/components/about/AboutTestimonials'
+import { breadcrumbListJsonLd } from '@/lib/schema'
 import { defaultTenant } from '@/types/tenant'
+
+const tenant = defaultTenant
+const ogDescription =
+  'ABC INC — professional accounting and advisory in South Africa. Led by Adrian Quina CA(SA), supporting individuals and SMEs with clarity, compliance, and long-term partnership.'
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description:
-    'ABC INC — professional accounting and advisory in South Africa. Led by Adrian Quina CA(SA), supporting individuals and SMEs with clarity, compliance, and long-term partnership.',
-  alternates: { canonical: '/about' },
+  description: ogDescription,
+  alternates: { canonical: '/about', languages: { 'en-ZA': '/about' } },
   openGraph: {
+    title: 'About Us',
+    description: ogDescription,
     url: '/about',
+    type: 'website',
+    locale: 'en_ZA',
+    siteName: tenant.firm_name,
     images: [
       {
         url: '/images/team/adrian-quina-ca-sa-founder.png',
@@ -22,6 +32,23 @@ export const metadata: Metadata = {
         alt: 'Adrian Quina CA(SA), founder of ABC INC — chartered accountant',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `About Us | ${tenant.firm_name}`,
+    description: ogDescription,
+    images: ['/images/team/adrian-quina-ca-sa-founder.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
 }
 
@@ -32,6 +59,12 @@ export default function AboutPage() {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbListJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'About Us', path: '/about' },
+        ])}
+      />
       <Navbar />
 
       {/* Hero */}

@@ -1,15 +1,54 @@
 import type { Metadata } from 'next'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { FadeUp } from '@/components/ui/FadeUp'
 import { PackageCard } from '@/components/home/PackageCard'
 import { CompanyPackagesIcon, IndividualPackagesIcon } from '@/components/icons/ServiceIcons'
+import { breadcrumbListJsonLd } from '@/lib/schema'
+import { defaultTenant } from '@/types/tenant'
+
+const tenant = defaultTenant
+const ogDescription =
+  'Transparent monthly pricing packages for individuals, sole proprietors and companies. From R295/month for personal tax to full company accounting.'
 
 export const metadata: Metadata = {
   title: 'Packages & Pricing',
-  description: 'Transparent monthly pricing packages for individuals, sole proprietors and companies. From R295/month for personal tax to full company accounting.',
-  alternates: { canonical: '/packages' },
-  openGraph: { url: '/packages' },
+  description: ogDescription,
+  alternates: { canonical: '/packages', languages: { 'en-ZA': '/packages' } },
+  openGraph: {
+    title: 'Packages & Pricing',
+    description: ogDescription,
+    url: '/packages',
+    type: 'website',
+    locale: 'en_ZA',
+    siteName: tenant.firm_name,
+    images: [
+      {
+        url: tenant.logo_url_dark ?? tenant.logo_url ?? '/images/brand/abc-inc-logo-dark.png',
+        width: tenant.logo_width ?? 502,
+        height: tenant.logo_height ?? 497,
+        alt: tenant.logo_alt ?? `${tenant.firm_name} logo`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Packages & Pricing | ${tenant.firm_name}`,
+    description: ogDescription,
+    images: [tenant.logo_url_dark ?? tenant.logo_url ?? '/images/brand/abc-inc-logo-dark.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
 }
 
 const individualPackages = [
@@ -129,6 +168,12 @@ const companyPackages = [
 export default function PackagesPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbListJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Packages & Pricing', path: '/packages' },
+        ])}
+      />
       <Navbar />
 
       {/* Hero */}

@@ -1,16 +1,53 @@
 import type { Metadata } from 'next'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { FadeUp } from '@/components/ui/FadeUp'
 import { defaultTenant } from '@/types/tenant'
 import { BookkeepingSectionIcon, ServiceFeatureIcon, TaxComplianceIcon } from '@/components/icons/ServiceIcons'
+import { breadcrumbListJsonLd, servicesItemListJsonLd } from '@/lib/schema'
+
+const tenant = defaultTenant
+const ogDescription =
+  'Tax compliance, bookkeeping, payroll, company secretarial, registrations and reporting — ABC INC supports South African businesses end-to-end.'
 
 export const metadata: Metadata = {
   title: 'Our Services',
-  description:
-    'Tax compliance, bookkeeping, payroll, company secretarial, registrations and reporting — ABC INC supports South African businesses end-to-end.',
-  alternates: { canonical: '/services' },
-  openGraph: { url: '/services' },
+  description: ogDescription,
+  alternates: { canonical: '/services', languages: { 'en-ZA': '/services' } },
+  openGraph: {
+    title: 'Our Services',
+    description: ogDescription,
+    url: '/services',
+    type: 'website',
+    locale: 'en_ZA',
+    siteName: tenant.firm_name,
+    images: [
+      {
+        url: tenant.logo_url_dark ?? tenant.logo_url ?? '/images/brand/abc-inc-logo-dark.png',
+        width: tenant.logo_width ?? 502,
+        height: tenant.logo_height ?? 497,
+        alt: tenant.logo_alt ?? `${tenant.firm_name} logo`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Our Services | ${tenant.firm_name}`,
+    description: ogDescription,
+    images: [tenant.logo_url_dark ?? tenant.logo_url ?? '/images/brand/abc-inc-logo-dark.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
 }
 
 const taxCompliance = [
@@ -65,6 +102,13 @@ export default function ServicesPage() {
   const tenant = defaultTenant
   return (
     <>
+      <JsonLd
+        data={breadcrumbListJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Our Services', path: '/services' },
+        ])}
+      />
+      <JsonLd data={servicesItemListJsonLd()} />
       <Navbar />
 
       <section

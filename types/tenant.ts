@@ -22,6 +22,8 @@ export interface Tenant {
   irba_registered?: boolean
   cipc_accredited?: boolean
   calendly_url?: string
+  /** Optional profile URLs for Organization `sameAs` (e.g. LinkedIn company or principal `/in/…` profile). */
+  same_as?: string[]
   /** Optional “site by” credit (footer backlink). */
   web_credit?: { name: string; url: string }
 }
@@ -46,5 +48,6 @@ export const defaultTenant: Tenant = {
   irba_registered: false,
   cipc_accredited: true,
   calendly_url: 'https://calendly.com/adrian-abcinc/30min?month=2026-04',
+  same_as: ['https://www.linkedin.com/in/adrian-quina-25020b319/'],
   web_credit: { name: 'ZAR Media Group', url: 'https://zarmediagroup.com' },
 }

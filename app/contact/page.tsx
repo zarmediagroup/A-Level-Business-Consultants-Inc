@@ -6,29 +6,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { FadeUp } from '@/components/ui/FadeUp'
 import { defaultTenant } from '@/types/tenant'
-
-const faqs = [
-  {
-    q: 'How quickly can you take on a new client?',
-    a: 'We can typically onboard within 5 business days. For urgent matters like SARS audits or overdue returns, we prioritise accordingly.',
-  },
-  {
-    q: 'Do you work with businesses outside Cape Town?',
-    a: 'Yes. We work with clients across South Africa. Our cloud-based systems (Xero, SARS eFiling) allow us to serve clients remotely without compromise.',
-  },
-  {
-    q: 'What happens to my current accountant\'s work?',
-    a: 'We conduct a full handover review, identify any outstanding matters, and take structured ownership. No work is lost in transition.',
-  },
-  {
-    q: 'Is my financial information kept confidential?',
-    a: 'Absolutely. All information is protected under POPIA and our professional confidentiality obligations as SAICA members. We never share client data.',
-  },
-  {
-    q: 'What accounting software do you use?',
-    a: 'We primarily use Xero — a cloud-based system that gives you real-time visibility. We also work with Sage, QuickBooks and manual systems, and can migrate you to Xero.',
-  },
-]
+import { CONTACT_FAQS } from '@/data/contact-faqs'
 
 export default function ContactPage() {
   const tenant = defaultTenant
@@ -339,11 +317,11 @@ export default function ContactPage() {
                     Frequently Asked Questions
                   </p>
                   <div style={{ border: '2px solid var(--white)' }}>
-                    {faqs.map((faq, i) => (
+                    {CONTACT_FAQS.map((faq, i) => (
                       <details
                         key={i}
                         className="group"
-                        style={{ borderBottom: i < faqs.length - 1 ? '2px solid var(--rule-mid)' : 'none' }}
+                        style={{ borderBottom: i < CONTACT_FAQS.length - 1 ? '2px solid var(--rule-mid)' : 'none' }}
                         open={openFaq === i}
                         onToggle={e => {
                           if ((e.target as HTMLDetailsElement).open) setOpenFaq(i)

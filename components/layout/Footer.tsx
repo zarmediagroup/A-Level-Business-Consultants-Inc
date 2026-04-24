@@ -100,6 +100,20 @@ export function Footer() {
                 >
                   {tenant.email}
                 </a>
+                {tenant.same_as
+                  ?.filter(url => /linkedin\.com/i.test(url))
+                  .map(url => (
+                    <a
+                      key={url}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block font-mono text-sm font-bold hover:text-[var(--accent)] transition-colors duration-100 mt-2"
+                      style={{ color: 'var(--muted)' }}
+                    >
+                      LinkedIn →
+                    </a>
+                  ))}
               </div>
             </div>
           </div>

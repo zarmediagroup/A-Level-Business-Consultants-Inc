@@ -7,9 +7,14 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 // must never cache a client there.
 let browserClient: SupabaseClient | null = null
 
+function envTrim(name: string): string {
+  const v = process.env[name]
+  return typeof v === 'string' ? v.trim() : ''
+}
+
 export function getSupabaseBrowser(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+  const url = envTrim('NEXT_PUBLIC_SUPABASE_URL')
+  const key = envTrim('NEXT_PUBLIC_SUPABASE_ANON_KEY')
 
   if (!url || !key) {
     // No-op stub during build/prerender — never reaches real Supabase

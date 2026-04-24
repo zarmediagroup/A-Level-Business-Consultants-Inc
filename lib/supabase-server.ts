@@ -1,12 +1,18 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+/** Vercel/UI paste can add stray spaces or newlines around secrets and break JWT parsing. */
+function envTrim(name: string): string {
+  const v = process.env[name]
+  return typeof v === 'string' ? v.trim() : ''
+}
+
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies()
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    envTrim('NEXT_PUBLIC_SUPABASE_URL'),
+    envTrim('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
     {
       cookies: {
         getAll() {
@@ -30,8 +36,8 @@ export async function createSupabaseServerClient() {
 export function createSupabaseAdmin() {
   const { createClient } = require('@supabase/supabase-js')
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    envTrim('NEXT_PUBLIC_SUPABASE_URL'),
+    envTrim('SUPABASE_SERVICE_ROLE_KEY'),
     { auth: { autoRefreshToken: false, persistSession: false } }
   )
 }

@@ -2,12 +2,17 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+function envTrim(name: string): string {
+  const v = process.env[name]
+  return typeof v === 'string' ? v.trim() : ''
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    envTrim('NEXT_PUBLIC_SUPABASE_URL'),
+    envTrim('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
     {
       cookies: {
         getAll() { return request.cookies.getAll() },

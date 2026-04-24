@@ -5,8 +5,10 @@ import {
   IBM_Plex_Mono,
   Bebas_Neue,
 } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { defaultTenant } from '@/types/tenant'
+import { GtagPageView } from '@/components/analytics/GtagPageView'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 import { absoluteUrl, getSiteUrl } from '@/lib/seo'
 
@@ -178,6 +180,9 @@ const jsonLd = {
   ],
 }
 
+const gaMeasurementId =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-HSLD9HLRL7'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -198,6 +203,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-ink text-white font-sans antialiased">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gaMeasurementId}');
+          `}
+        </Script>
+        <GtagPageView gaId={gaMeasurementId} />
         <ThemeProvider>
           <a href="#main-content" className="skip-link">Skip to main content</a>
           <main id="main-content">{children}</main>
